@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListFacturaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListFacturaEmpty}" rendered="#{facturaController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{facturaController.items.rowCount > 0}">
+                    <h:outputText value="#{facturaController.pagination.pageFirstItem + 1}..#{facturaController.pagination.pageLastItem + 1}/#{facturaController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{facturaController.previous}" value="#{bundle.Previous} #{facturaController.pagination.pageSize}" rendered="#{facturaController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{facturaController.next}" value="#{bundle.Next} #{facturaController.pagination.pageSize}" rendered="#{facturaController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{facturaController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFacturaTitle_idFactura}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idFactura}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFacturaTitle_costo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.costo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListFacturaTitle_citaIdCita}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.citaIdCita}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{facturaController.prepareView}" value="#{bundle.ListFacturaViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{facturaController.prepareEdit}" value="#{bundle.ListFacturaEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{facturaController.destroy}" value="#{bundle.ListFacturaDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{facturaController.prepareCreate}" value="#{bundle.ListFacturaCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListFacturaIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

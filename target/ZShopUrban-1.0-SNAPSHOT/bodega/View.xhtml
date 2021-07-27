@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewBodegaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewBodegaLabel_idBodega}"/>
+                    <h:outputText value="#{bodegaController.selected.idBodega}" title="#{bundle.ViewBodegaTitle_idBodega}"/>
+                    <h:outputText value="#{bundle.ViewBodegaLabel_nombre}"/>
+                    <h:outputText value="#{bodegaController.selected.nombre}" title="#{bundle.ViewBodegaTitle_nombre}"/>
+                    <h:outputText value="#{bundle.ViewBodegaLabel_existencias}"/>
+                    <h:outputText value="#{bodegaController.selected.existencias}" title="#{bundle.ViewBodegaTitle_existencias}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{bodegaController.destroyAndView}" value="#{bundle.ViewBodegaDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewBodegaEditLink}"/>
+                <br />
+                <h:commandLink action="#{bodegaController.prepareCreate}" value="#{bundle.ViewBodegaCreateLink}" />
+                <br />
+                <h:commandLink action="#{bodegaController.prepareList}" value="#{bundle.ViewBodegaShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewBodegaIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

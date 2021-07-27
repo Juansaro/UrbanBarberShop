@@ -1,0 +1,36 @@
+<ul class="list-unstyled components"> <!--Elemento <u> padre--> <!--La clase de <ul> "list-unstyled components" le quita los elementos por defecto de <a>-->
+    <li>
+        <a href="BarberInicio.html" class="list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="home"></ion-icon>Inicio</a>
+    </li>
+    <li>
+        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="checkmark-circle"></ion-icon>Disponibilidad</a>
+        <!--Primero un <a> del título del elemento padre y luego el <ul> con los elementos hijos-->
+        <!--Se debe enlazar el href del padre con el <ul> (ID)-->
+        <ul class="collapse list-unstyled" id="homeSubmenu">
+            <li>
+                <a href="BarberDisponibilidadEstadodisponibilidad.html" class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Estado disponibilidad</a>
+            </li>
+            <li>
+                <a href="BarberDisponibilidadCitasasignadas.html" class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Citas asignadas</a>
+            </li>
+        </ul>
+    </li>
+    <!--Elemento-->
+    <li>
+        <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="checkmark-circle"></ion-icon>Fidelización</a>
+        <ul class="collapse list-unstyled" id="pageSubmenu3">
+            <li>
+                <a href="BarberFidelizacionConsultar.html" class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar calificaciones</a>
+            </li>
+        </ul>
+    </li>
+    <!--Elemento-->
+    <li>
+        <a href="#pageSubmenu4"  data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="person"></ion-icon>Usuario</a>
+        <ul class="collapse list-unstyled" id="pageSubmenu4">
+        <li>
+            <a href="BarberUsuarioConsultar.html" class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar datos</a>
+        </li>
+        </ul>
+    </li>
+</ul>

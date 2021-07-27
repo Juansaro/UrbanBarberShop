@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Reportes</title>
+    <link rel="stylesheet" href="CSS/style.css" media="all" />
+</head>
+
+<body>
+    <header class="clearfix">
+        <div id="logo">
+            <img src="img/logo.png" width="100" height="100">
+        </div>
+        <h1>Reportes productos vendidos:</h1>
+        <div id="company" class="clearfix">
+            <div>Urban Barber Shop</div>
+            <div>Avenida Siempreviva 742<br />Bogota, Colombia</div>
+            <div>+57 321456987</div>
+            <div><a href="mailto:company@example.com">Contacto@Urbanbarbershop.com</a></div>
+        </div>
+        <div id="project">
+            <div><label>FECHA:</label> <br>
+                <input type="date" name="date">
+            </div>
+            <br>
+            <div><label>SOLICITADO POR:</label> <br>
+                <a>Fernando Gomez</a>
+            </div>
+            <div>
+                <br> <label>CORREO:</label> <br>
+                <a href="mailto:john@example.com">john@example.com</a>
+            </div>
+        </div>
+    </header>
+    <main>
+        <table>
+            <thead>
+                <tr>
+                    <th class="producto">PRODUCTO</th>
+                    <th class="descripcion">DESCRIPCION</th>
+                    <th>PRECIO</th>
+                    <th>CANTIDAD</th>
+                    <th>TOTAL</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="service">Post-afeitado</td>
+                    <td class="desc">Crea para peinar</td>
+                    <td class="unit">$10.000</td>
+                    <td class="qty">1</td>
+                    <td class="total">$10.000</td>
+                </tr>
+                <tr>
+                    <td class="service">Post-afeitado</td>
+                    <td class="desc">Gel para peinar</td>
+                    <td class="unit">$10.000</td>
+                    <td class="qty">1</td>
+                    <td class="total">$10.000</td>
+                </tr>
+                <tr>
+                    <td class="service">Aseo</td>
+                    <td class="desc">Aceite para barba</td>
+                    <td class="unit">$15.000</td>
+                    <td class="qty">1</td>
+                    <td class="total">$15.000</td>
+                </tr>
+                <tr>
+                    <td class="service">Pre-afeitado</td>
+                    <td class="desc">Cuchilla</td>
+                    <td class="unit">$12.000</td>
+                    <td class="qty">2</td>
+                    <td class="total">$24.000</td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="grand total">TOTAL</td>
+                    <td class="grand total">$59.000</td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="notices">
+            <div>ADVERTENCIA:</div>
+            <div class="notice">Este reporte es solo para uso informativo e interno</div>
+        </div>
+    </main>
+    <footer>
+        URBAN BARBER SHOP 2021
+    </footer>
+</body>
+
+</html>

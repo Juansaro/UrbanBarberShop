@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title class="lang" key="iniciar">Registrarse</title>
+    <link rel="stylesheet" type="text/css" href="css/iniciarsesion.css">
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.6/examples/blog/">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900" rel="stylesheet">
+</head>
+<body style="
+    background-image: url(img/banner1.jpg);
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;">
+    <div class="page">
+        <div class="container">
+            <div class="left">
+            <div class="login">Registrarse</div>
+            <button class="translate" id ="es">Español</button>
+                <button class="translate" id ="en"> English</button>
+            <div class="lang eula" key="ingresarElNombre...">Registrate en Urban Barber Shop</div>
+            </div>
+            <div class="cuadroRegistrarse">
+            <svg viewBox="0 0 340 300">
+                <defs>
+                <linearGradient
+                                inkscape:collect="always"ko
+                                id="linearGradient"
+                                x1="13"
+                                y1="193.49992"
+                                x2="307"
+                                y2="193.49992"
+                                gradientUnits="userSpaceOnUse">
+                    <stop
+                        style="stop-color:#ff00ff;"
+                        offset="0"
+                        id="stop876" />
+                    <stop
+                        style="stop-color:#ff0000;"
+                        offset="1"
+                        id="stop878" />
+                </linearGradient>
+                </defs>
+                <path d="m 40,120.00016 239.99984,-3.2e-4 c 0,0 24.99263,0.79932 25.00016,35.00016 0.008,34.20084 -25.00016,35 -25.00016,35 h -239.99984 c 0,-0.0205 -25,4.01348 -25,38.5 0,34.48652 25,38.5 25,38.5 h 215 c 0,0 20,-0.99604 20,-25 0,-24.00396 -20,-25 -20,-25 h -190 c 0,0 -20,1.71033 -20,25 0,24.00396 20,25 20,25 h 168.57143" />
+            </svg>
+                <div class="form">
+                    <form name="form" action="RecepInicio.html">
+                            <div class="row">
+                                <div class="col">
+                                    <label for="" class="lang font-weight-bold" key="nombreDeUsuario">Registra tu correo:</label>
+                                        <input type="text" name="login" placeholder="Escribe un correo">
+                                    <label for="" class="font-weight-bold" >Escribe tu nombre:</label>
+                                        <input type="text" placeholder="Escribe un nombre">
+                                    <label for="tipoDocumento" class="font-weight-bold">Elige tu documento:</label>
+                                        <select name="tipoDocumento" id="tipoDocumento" class="form-control">
+                                            <option value="">Cédula</option>
+                                            <option value="">Documento de identidad</option>
+                                            <option value="">Documento de extranjería</option>
+                                        </select>
+                                    <label for="tipoNumeroTelefono" class="font-weight-bold">Elige el tipo de teléfono:</label>
+                                        <select name="tipoNumeroTelefono" id="tipoNumeroTelefono" class="form-control">
+                                            <option value="">Móvil</option>
+                                            <option value="">Teléfono</option>
+                                        </select>
+                                    <label for="ciudad" class="lang font-weight-bold">Elige tu ciudad de residencía</label>
+                                        <select name="ciudad" id="ciudad" class="form-control">
+                                            <option value="">Bogotá</option>
+                                            <option value="">Medellin</option>
+                                        </select>
+                                </div>
+                                <div class="col">
+                                    <label class="lang font-weight-bold" key="contrasena" for="">Escribe la contraseña:</label>
+                                        <input type="password" name="password" placeholder="Escribe una Contrasena">
+                                    <label for="" class="lang font-weight-bold">Escribe tu apellido:</label>
+                                        <input type="text" placeholjder="Escribe un apellido">
+                                    <label for="" class="lang font-weight-bold">Escribe el número del documento:</label>
+                                        <input type="text" placeholder="Escribe tu documento">
+                                    <label for="" class="font-weight-bold">Escribe tu número de télefono:</label>
+                                        <input type="text" name="numeroTelefono" placeholder="Escribe un número">
+                                </div>
+                            </div>
+                            <br>
+                            <input class="form-check-input" type="checkbox" id="check" value="option1">
+                                <label class="form-check-label" for="check">Acepto terminos y condiciones</label>
+                            <br><br>
+                        <a onclick=acceder() class="lang btn btn-primary  btn-block" key="acceder" type=button value=Acceder id="boton">Acceder</a>
+                        <a onclick=registrarse() class="lang btn btn-success  btn-block" key="registrarse" type=button value=registrarse id="boton">Registrarse</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="JS/idiomas.js"></script>
+</body>
+<script type="text/javascript" src="js/acceder.js"></script>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title class="lang" >Registrarse</title>
+        <h:outputStylesheet library="CSS" name="bootstrap.min.css"></h:outputStylesheet>
+        <h:outputStylesheet library="CSS" name="iniciarsesion.css"></h:outputStylesheet>
+
+        <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900" rel="stylesheet"/>
+    </h:head>
+    <h:body>
+        <div class="page">
+            <div class="container">
+                <div class="left">
+                    <div class="login">Registrarse</div>
+                    <div class="lang eula" key="ingresarElNombre...">Registrate en Urban Barber Shop</div>
+                </div>
+                <div class="cuadroRegistrarse">
+                    <div class="form">
+                        <h:form>
+
+                            <h:outputLabel value="#{bundle.CreateUsuarioLabel_nombre}" for="nombre" />
+                            <h:inputText id="nombre" value="#{usuarioController.selected.nombre}" title="#{bundle.CreateUsuarioTitle_nombre}" />
+                            <br />
+                            <h:outputLabel value="#{bundle.CreateUsuarioLabel_apellido}" for="apellido" />
+                            <h:inputText id="apellido" value="#{usuarioController.selected.apellido}" title="#{bundle.CreateUsuarioTitle_apellido}" />
+                            <br />
+                            <h:outputLabel value="#{bundle.CreateUsuarioLabel_contrasena}" for="contrasena" />
+                            <h:inputText id="contrasena" value="#{usuarioController.selected.contrasena}" title="#{bundle.CreateUsuarioTitle_contrasena}" />
+                            <br />
+                            <h:outputLabel value="#{bundle.CreateUsuarioLabel_correo}" for="correo" />
+                            <h:inputText id="correo" value="#{usuarioController.selected.correo}" title="#{bundle.CreateUsuarioTitle_correo}" />
+                            <br />
+                            <h:outputLabel value="#{bundle.CreateUsuarioLabel_numeroDocumento}" for="numeroDocumento" />
+                            <h:inputText id="numeroDocumento" value="#{usuarioController.selected.numeroDocumento}" title="#{bundle.CreateUsuarioTitle_numeroDocumento}" />
+                            <br />
+                            <h:outputLabel value="#{bundle.CreateUsuarioLabel_numeroTelefono}" for="numeroTelefono" />
+                            <h:inputText id="numeroTelefono" value="#{usuarioController.selected.numeroTelefono}" title="#{bundle.CreateUsuarioTitle_numeroTelefono}" />
+                            <br />
+                            <h:outputLabel value="#{bundle.CreateUsuarioLabel_ciudadNumeroCiudad}" for="ciudadNumeroCiudad" />
+                            <h:selectOneMenu id="ciudadNumeroCiudad" value="#{usuarioController.selected.ciudadNumeroCiudad}" title="#{bundle.CreateUsuarioTitle_ciudadNumeroCiudad}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_ciudadNumeroCiudad}">
+                                <f:selectItems value="#{ciudadController.itemsAvailableSelectOne}"/>
+                            </h:selectOneMenu>
+                            <br />
+                            <h:outputLabel value="#{bundle.CreateUsuarioLabel_tipoIdentificacionIdTipoIdentificacion}" for="tipoIdentificacionIdTipoIdentificacion" />
+                            <h:selectOneMenu id="tipoIdentificacionIdTipoIdentificacion" value="#{usuarioController.selected.tipoIdentificacionIdTipoIdentificacion}" title="#{bundle.CreateUsuarioTitle_tipoIdentificacionIdTipoIdentificacion}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_tipoIdentificacionIdTipoIdentificacion}">
+                                <f:selectItems value="#{tipoIdentificacionController.itemsAvailableSelectOne}"/>
+                            </h:selectOneMenu>
+                            <br />
+                            <h:outputLabel value="#{bundle.CreateUsuarioLabel_tipoRolNumeroRol}" for="tipoRolNumeroRol" />
+                            <h:selectOneMenu id="tipoRolNumeroRol" value="#{usuarioController.selected.tipoRolNumeroRol}" title="#{bundle.CreateUsuarioTitle_tipoRolNumeroRol}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_tipoRolNumeroRol}">
+                                <f:selectItems value="#{tipoRolController.itemsAvailableSelectOne}"/>
+                            </h:selectOneMenu>
+                            <br />
+                            <h:outputLabel value="#{bundle.CreateUsuarioLabel_tipoTelefonoNumeroTipoTelefono}" for="tipoTelefonoNumeroTipoTelefono" />
+                            <h:selectOneMenu id="tipoTelefonoNumeroTipoTelefono" value="#{usuarioController.selected.tipoTelefonoNumeroTipoTelefono}" title="#{bundle.CreateUsuarioTitle_tipoTelefonoNumeroTipoTelefono}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_tipoTelefonoNumeroTipoTelefono}">
+                                <f:selectItems value="#{tipoTelefonoController.itemsAvailableSelectOne}"/>
+                            </h:selectOneMenu>
+                            <br />
+                            <h:commandLink class="btn btn-success btn-lg btn-block text-white rounded-pill" action="#{usuarioController.create}" value="Registrarse" />
+                            <br />
+                        </h:form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="JS/idiomas.js"></script>
+        <script type="text/javascript" src="js/acceder.js"></script>
+    </h:body>
+</html>

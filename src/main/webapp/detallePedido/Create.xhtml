@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateDetallePedidoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateDetallePedidoLabel_numeroDetalle}" for="numeroDetalle" />
+                    <h:inputText id="numeroDetalle" value="#{detallePedidoController.selected.numeroDetalle}" title="#{bundle.CreateDetallePedidoTitle_numeroDetalle}" required="true" requiredMessage="#{bundle.CreateDetallePedidoRequiredMessage_numeroDetalle}"/>
+                    <h:outputLabel value="#{bundle.CreateDetallePedidoLabel_cantidadSolicitada}" for="cantidadSolicitada" />
+                    <h:inputText id="cantidadSolicitada" value="#{detallePedidoController.selected.cantidadSolicitada}" title="#{bundle.CreateDetallePedidoTitle_cantidadSolicitada}" />
+                    <h:outputLabel value="#{bundle.CreateDetallePedidoLabel_fechaSolicitud}" for="fechaSolicitud" />
+                    <h:inputText id="fechaSolicitud" value="#{detallePedidoController.selected.fechaSolicitud}" title="#{bundle.CreateDetallePedidoTitle_fechaSolicitud}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateDetallePedidoLabel_costoTotal}" for="costoTotal" />
+                    <h:inputText id="costoTotal" value="#{detallePedidoController.selected.costoTotal}" title="#{bundle.CreateDetallePedidoTitle_costoTotal}" />
+                    <h:outputLabel value="#{bundle.CreateDetallePedidoLabel_productoIdProducto}" for="productoIdProducto" />
+                    <h:selectOneMenu id="productoIdProducto" value="#{detallePedidoController.selected.productoIdProducto}" title="#{bundle.CreateDetallePedidoTitle_productoIdProducto}" required="true" requiredMessage="#{bundle.CreateDetallePedidoRequiredMessage_productoIdProducto}">
+                        <f:selectItems value="#{productoController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateDetallePedidoLabel_proveedorNumeroProveedor}" for="proveedorNumeroProveedor" />
+                    <h:selectOneMenu id="proveedorNumeroProveedor" value="#{detallePedidoController.selected.proveedorNumeroProveedor}" title="#{bundle.CreateDetallePedidoTitle_proveedorNumeroProveedor}" required="true" requiredMessage="#{bundle.CreateDetallePedidoRequiredMessage_proveedorNumeroProveedor}">
+                        <f:selectItems value="#{proveedorController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{detallePedidoController.create}" value="#{bundle.CreateDetallePedidoSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{detallePedidoController.prepareList}" value="#{bundle.CreateDetallePedidoShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateDetallePedidoIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

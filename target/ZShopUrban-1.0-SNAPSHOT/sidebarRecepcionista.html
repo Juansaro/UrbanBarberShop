@@ -1,0 +1,128 @@
+<ul class="list-unstyled components"> <!--Elemento <u> padre--> <!--La clase de <ul> "list-unstyled components" le quita los elementos por defecto de <a>-->
+    <li class="active">
+        <li>
+        <h:link outcome="RecepInicio.xhtml">
+            <p class="list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="home"></ion-icon>Inicio</a>
+        </h:link> 
+        </li>
+        <a href="#pageSubmenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="file-tray-stacked"></ion-icon>Bodegas</a>
+        <!--Primero un <a> del título del elemento padre y luego el <ul> con los elementos hijos-->
+        <!--Se debe enlazar el href del padre con el <ul> (ID)-->
+        <ul class="collapse list-unstyled" id="pageSubmenu1">
+            <li>
+                <a href="RecepBodegasRegistrarbodega.html" class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Registrar bodega</a>
+            </li>
+            <li>
+                <a href="RecepBodegasModificar.html" class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Modificar bodega</a>
+            </li>
+            <li>
+                <a href="RecepBodegasConsultarbodegas.html" class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar bodegas</a>
+            </li>
+        </ul>
+    </li>
+    <!--Elemento-->
+    <li>
+        <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="file-tray"></ion-icon>Productos</a>
+        <ul class="collapse list-unstyled" id="pageSubmenu2">
+            <li>
+                <a href="RecepProductosRegistrarproducto.html" class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Registrar producto</a>
+            </li>
+            <li>
+                <a href="RecepProductosModificarproducto.html" class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Modificar producto</a>
+            </li>
+            <li>
+                <a href="RecepProductoActualizar.html" class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Actualizar producto</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="create"></ion-icon>Servicios</a>
+        <ul class="collapse list-unstyled" id="pageSubmenu3">
+            <li>
+                <a href="RecepServiciosRegistrar.html" class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Registrar servicio</a>
+            </li>
+            <li>
+                <a href="RecepServiciosModificar.html" class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Modificar servicio</a>
+            </li>
+            <li>
+                <a href="RecepServicioConsultar.html" class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar servicio</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="#pageSubmenu4" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="people"></ion-icon>Proveedores</a>
+        <ul class="collapse list-unstyled" id="pageSubmenu4">
+            <li>
+                <a href="RecepProveedoresRegistrar.html" class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Registrar proveedor</a>
+            </li>
+            <li>
+                <a href="RecepProveedoresModificar.html" class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Modificar proveedor</a>
+            </li>
+            <li>
+                <a href="RecepProveedoresConsultar.html" class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar proveedores</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="#pageSubmenu5" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="bag-check"></ion-icon>Pedidos</a>
+        <ul class="collapse list-unstyled" id="pageSubmenu5">
+            <li>
+                <a href="RecepPedidosRegistrar.html" class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Registrar pedido</a>
+            </li>
+            <li>
+                <a href="RecepProductosModificarproducto.html" class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar pedido</a>
+            </li>
+        </ul>
+    </li>
+    <!--Elemento-->
+    <li>
+        <a href="#pageSubmenu6" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="id-card"></ion-icon>Asignaciones</a>
+        <ul class="collapse list-unstyled" id="pageSubmenu6">
+            <li>
+                <a href="RecepAsignacionesAsignarbarbero.html" class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Asignar barberos</a>
+            </li>
+            <li>
+                <a href="RecepAsignacionesDespacharproducto.html" class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Despachar producto</a>
+            </li>
+            <li>
+                <a href="RecepAsignacionesRegistrarBarbero.html" class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Registrar barbero</a>
+            </li>
+            <li>
+                <a href="RecepAsignacionesModificarBarbero.html" class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Modificar barbero</a>
+            </li>
+            <li>
+                <a href="RecepAsignacionesConsultarBarberos.html" class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar barberos</a>
+            </li>
+        </ul>
+    </li>
+    <!--Elemento-->
+    <li>
+        <a href="#pageSubmenu7" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="receipt"></ion-icon>Facturas</a>
+        <ul class="collapse list-unstyled" id="pageSubmenu7">
+            <li>
+                <a href="RecepFacturasConsultarfacturas.html" class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar facturas</a>
+            </li>
+        </ul>
+    </li>
+    <!--Elemento-->
+    <li>
+        <a href="#pageSubmenu8" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="checkmark-circle"></ion-icon>Fidelización</a>
+        <ul class="collapse list-unstyled" id="pageSubmenu8">
+            <li>
+                <a href="RecepFidelizacionConsultar.html" class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar calificaciones</a>
+            </li>
+        </ul>
+    </li>
+    <!--Elemento-->
+    <li>
+        <a href="#pageSubmenu9"  data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="person"></ion-icon>Usuario</a>
+        <ul class="collapse list-unstyled" id="pageSubmenu9">
+            <li>
+                <a href="RecepUsuarioConsultar.html" class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar datos</a>
+            </li>
+            <li>
+                <a href="RecepUsuarioModificar.html" class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Modificar datos</a>
+            </li>
+        </ul>
+    </li>
+</ul>

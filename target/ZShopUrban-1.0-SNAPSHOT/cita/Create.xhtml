@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateCitaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateCitaLabel_idCita}" for="idCita" />
+                    <h:inputText id="idCita" value="#{citaController.selected.idCita}" title="#{bundle.CreateCitaTitle_idCita}" required="true" requiredMessage="#{bundle.CreateCitaRequiredMessage_idCita}"/>
+                    <h:outputLabel value="#{bundle.CreateCitaLabel_fechaCita}" for="fechaCita" />
+                    <h:inputText id="fechaCita" value="#{citaController.selected.fechaCita}" title="#{bundle.CreateCitaTitle_fechaCita}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateCitaLabel_estadoAsignacionIdEstadoAsignacion}" for="estadoAsignacionIdEstadoAsignacion" />
+                    <h:selectOneMenu id="estadoAsignacionIdEstadoAsignacion" value="#{citaController.selected.estadoAsignacionIdEstadoAsignacion}" title="#{bundle.CreateCitaTitle_estadoAsignacionIdEstadoAsignacion}" required="true" requiredMessage="#{bundle.CreateCitaRequiredMessage_estadoAsignacionIdEstadoAsignacion}">
+                        <f:selectItems value="#{estadoAsignacionController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateCitaLabel_servicioIdServicio}" for="servicioIdServicio" />
+                    <h:selectOneMenu id="servicioIdServicio" value="#{citaController.selected.servicioIdServicio}" title="#{bundle.CreateCitaTitle_servicioIdServicio}" required="true" requiredMessage="#{bundle.CreateCitaRequiredMessage_servicioIdServicio}">
+                        <f:selectItems value="#{servicioController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateCitaLabel_usuarioIdUsuario}" for="usuarioIdUsuario" />
+                    <h:selectOneMenu id="usuarioIdUsuario" value="#{citaController.selected.usuarioIdUsuario}" title="#{bundle.CreateCitaTitle_usuarioIdUsuario}" required="true" requiredMessage="#{bundle.CreateCitaRequiredMessage_usuarioIdUsuario}">
+                        <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{citaController.create}" value="#{bundle.CreateCitaSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{citaController.prepareList}" value="#{bundle.CreateCitaShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateCitaIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

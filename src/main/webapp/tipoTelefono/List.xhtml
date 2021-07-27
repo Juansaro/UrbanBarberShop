@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListTipoTelefonoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListTipoTelefonoEmpty}" rendered="#{tipoTelefonoController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{tipoTelefonoController.items.rowCount > 0}">
+                    <h:outputText value="#{tipoTelefonoController.pagination.pageFirstItem + 1}..#{tipoTelefonoController.pagination.pageLastItem + 1}/#{tipoTelefonoController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{tipoTelefonoController.previous}" value="#{bundle.Previous} #{tipoTelefonoController.pagination.pageSize}" rendered="#{tipoTelefonoController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{tipoTelefonoController.next}" value="#{bundle.Next} #{tipoTelefonoController.pagination.pageSize}" rendered="#{tipoTelefonoController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{tipoTelefonoController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTipoTelefonoTitle_numeroTipoTelefono}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.numeroTipoTelefono}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTipoTelefonoTitle_descripcion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.descripcion}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{tipoTelefonoController.prepareView}" value="#{bundle.ListTipoTelefonoViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{tipoTelefonoController.prepareEdit}" value="#{bundle.ListTipoTelefonoEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{tipoTelefonoController.destroy}" value="#{bundle.ListTipoTelefonoDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{tipoTelefonoController.prepareCreate}" value="#{bundle.ListTipoTelefonoCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListTipoTelefonoIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

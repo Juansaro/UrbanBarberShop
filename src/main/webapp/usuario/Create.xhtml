@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateUsuarioTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:outputLabel value="#{bundle.CreateUsuarioLabel_nombre}" for="nombre" />
+                <h:inputText id="nombre" value="#{usuarioController.selected.nombre}" title="#{bundle.CreateUsuarioTitle_nombre}" />
+                <h:outputLabel value="#{bundle.CreateUsuarioLabel_apellido}" for="apellido" />
+                <h:inputText id="apellido" value="#{usuarioController.selected.apellido}" title="#{bundle.CreateUsuarioTitle_apellido}" />
+                <h:outputLabel value="#{bundle.CreateUsuarioLabel_contrasena}" for="contrasena" />
+                <h:inputText id="contrasena" value="#{usuarioController.selected.contrasena}" title="#{bundle.CreateUsuarioTitle_contrasena}" />
+                <h:outputLabel value="#{bundle.CreateUsuarioLabel_correo}" for="correo" />
+                <h:inputText id="correo" value="#{usuarioController.selected.correo}" title="#{bundle.CreateUsuarioTitle_correo}" />
+                <h:outputLabel value="#{bundle.CreateUsuarioLabel_numeroDocumento}" for="numeroDocumento" />
+                <h:inputText id="numeroDocumento" value="#{usuarioController.selected.numeroDocumento}" title="#{bundle.CreateUsuarioTitle_numeroDocumento}" />
+                <h:outputLabel value="#{bundle.CreateUsuarioLabel_numeroTelefono}" for="numeroTelefono" />
+                <h:inputText id="numeroTelefono" value="#{usuarioController.selected.numeroTelefono}" title="#{bundle.CreateUsuarioTitle_numeroTelefono}" />
+                <h:outputLabel value="#{bundle.CreateUsuarioLabel_ciudadNumeroCiudad}" for="ciudadNumeroCiudad" />
+                <h:selectOneMenu id="ciudadNumeroCiudad" value="#{usuarioController.selected.ciudadNumeroCiudad}" title="#{bundle.CreateUsuarioTitle_ciudadNumeroCiudad}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_ciudadNumeroCiudad}">
+                    <f:selectItems value="#{ciudadController.itemsAvailableSelectOne}"/>
+                </h:selectOneMenu>
+                <h:outputLabel value="#{bundle.CreateUsuarioLabel_tipoIdentificacionIdTipoIdentificacion}" for="tipoIdentificacionIdTipoIdentificacion" />
+                <h:selectOneMenu id="tipoIdentificacionIdTipoIdentificacion" value="#{usuarioController.selected.tipoIdentificacionIdTipoIdentificacion}" title="#{bundle.CreateUsuarioTitle_tipoIdentificacionIdTipoIdentificacion}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_tipoIdentificacionIdTipoIdentificacion}">
+                    <f:selectItems value="#{tipoIdentificacionController.itemsAvailableSelectOne}"/>
+                </h:selectOneMenu>
+                <h:outputLabel value="#{bundle.CreateUsuarioLabel_tipoRolNumeroRol}" for="tipoRolNumeroRol" />
+                <h:selectOneMenu id="tipoRolNumeroRol" value="#{usuarioController.selected.tipoRolNumeroRol}" title="#{bundle.CreateUsuarioTitle_tipoRolNumeroRol}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_tipoRolNumeroRol}">
+                    <f:selectItems value="#{tipoRolController.itemsAvailableSelectOne}"/>
+                </h:selectOneMenu>
+                <h:outputLabel value="#{bundle.CreateUsuarioLabel_tipoTelefonoNumeroTipoTelefono}" for="tipoTelefonoNumeroTipoTelefono" />
+                <h:selectOneMenu id="tipoTelefonoNumeroTipoTelefono" value="#{usuarioController.selected.tipoTelefonoNumeroTipoTelefono}" title="#{bundle.CreateUsuarioTitle_tipoTelefonoNumeroTipoTelefono}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_tipoTelefonoNumeroTipoTelefono}">
+                    <f:selectItems value="#{tipoTelefonoController.itemsAvailableSelectOne}"/>
+                </h:selectOneMenu>
+                <br />
+                <h:commandLink action="#{usuarioController.create}" value="#{bundle.CreateUsuarioSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{usuarioController.prepareList}" value="#{bundle.CreateUsuarioShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateUsuarioIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

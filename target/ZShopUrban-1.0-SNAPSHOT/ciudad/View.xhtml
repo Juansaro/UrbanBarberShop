@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewCiudadTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewCiudadLabel_numeroCiudad}"/>
+                    <h:outputText value="#{ciudadController.selected.numeroCiudad}" title="#{bundle.ViewCiudadTitle_numeroCiudad}"/>
+                    <h:outputText value="#{bundle.ViewCiudadLabel_nombreCiudad}"/>
+                    <h:outputText value="#{ciudadController.selected.nombreCiudad}" title="#{bundle.ViewCiudadTitle_nombreCiudad}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{ciudadController.destroyAndView}" value="#{bundle.ViewCiudadDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewCiudadEditLink}"/>
+                <br />
+                <h:commandLink action="#{ciudadController.prepareCreate}" value="#{bundle.ViewCiudadCreateLink}" />
+                <br />
+                <h:commandLink action="#{ciudadController.prepareList}" value="#{bundle.ViewCiudadShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewCiudadIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

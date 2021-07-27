@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListDespachoProductoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListDespachoProductoEmpty}" rendered="#{despachoProductoController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{despachoProductoController.items.rowCount > 0}">
+                    <h:outputText value="#{despachoProductoController.pagination.pageFirstItem + 1}..#{despachoProductoController.pagination.pageLastItem + 1}/#{despachoProductoController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{despachoProductoController.previous}" value="#{bundle.Previous} #{despachoProductoController.pagination.pageSize}" rendered="#{despachoProductoController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{despachoProductoController.next}" value="#{bundle.Next} #{despachoProductoController.pagination.pageSize}" rendered="#{despachoProductoController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{despachoProductoController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDespachoProductoTitle_numeroDespachoProducto}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.numeroDespachoProducto}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDespachoProductoTitle_fechaSolicitud}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fechaSolicitud}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDespachoProductoTitle_cantidadSolicitada}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cantidadSolicitada}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDespachoProductoTitle_costoTotal}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.costoTotal}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDespachoProductoTitle_usuarioIdUsuario}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.usuarioIdUsuario}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListDespachoProductoTitle_productoIdProducto}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.productoIdProducto}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{despachoProductoController.prepareView}" value="#{bundle.ListDespachoProductoViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{despachoProductoController.prepareEdit}" value="#{bundle.ListDespachoProductoEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{despachoProductoController.destroy}" value="#{bundle.ListDespachoProductoDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{despachoProductoController.prepareCreate}" value="#{bundle.ListDespachoProductoCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListDespachoProductoIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

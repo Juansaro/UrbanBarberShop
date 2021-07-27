@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateServicioTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateServicioLabel_idServicio}" for="idServicio" />
+                    <h:inputText id="idServicio" value="#{servicioController.selected.idServicio}" title="#{bundle.CreateServicioTitle_idServicio}" required="true" requiredMessage="#{bundle.CreateServicioRequiredMessage_idServicio}"/>
+                    <h:outputLabel value="#{bundle.CreateServicioLabel_nombre}" for="nombre" />
+                    <h:inputText id="nombre" value="#{servicioController.selected.nombre}" title="#{bundle.CreateServicioTitle_nombre}" />
+                    <h:outputLabel value="#{bundle.CreateServicioLabel_descripcion}" for="descripcion" />
+                    <h:inputText id="descripcion" value="#{servicioController.selected.descripcion}" title="#{bundle.CreateServicioTitle_descripcion}" />
+                    <h:outputLabel value="#{bundle.CreateServicioLabel_costo}" for="costo" />
+                    <h:inputText id="costo" value="#{servicioController.selected.costo}" title="#{bundle.CreateServicioTitle_costo}" />
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{servicioController.create}" value="#{bundle.CreateServicioSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{servicioController.prepareList}" value="#{bundle.CreateServicioShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateServicioIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

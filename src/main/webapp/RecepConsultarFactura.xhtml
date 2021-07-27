@@ -1,0 +1,261 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <h:outputStylesheet library="CSS" name="recepcionista.css"/>
+
+        <!-- Bootstrap CSS -->
+
+        <h:outputStylesheet library="CSS" name="bootstrap.min.css"></h:outputStylesheet>
+        <!--Iconos-->
+
+        <h:outputStylesheet library="CSS" name="agendamiento.css"/>
+        <title>Registrar servicio</title>
+    </h:head>
+    <h:body>
+        <!--wrapper-->
+        <div class="d-flex" id="wrapper">
+            <!-- Sidebar -->
+            <div class="bg-dark" id="sidebar-wrapper">
+                <div class="sidebar-heading text-white font-weight-bold mb-3 pt-4">Recepcionista</div>
+                <div class="list-group list-group-flush">
+                    <!--Los elementos padre e hijos deben estar dentro de un super ul y los elementos padre primero se abren con in <i> y luego un sub- <ul>-->
+                    <ul class="list-unstyled components"> <!--Elemento <u> padre--> <!--La clase de <ul> "list-unstyled components" le quita los elementos por defecto de <a>-->
+                        <li class="active">
+                            <li>
+                                <h:link outcome="RecepInicio">
+                                    <b class="list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="home"></ion-icon>Inicio</b>
+                                </h:link> 
+                            </li>
+                            <a href="#pageSubmenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="file-tray-stacked"></ion-icon>Bodegas</a>
+                            <!--Primero un <a> del título del elemento padre y luego el <ul> con los elementos hijos-->
+                            <!--Se debe enlazar el href del padre con el <ul> (ID)-->
+                            <ul class="collapse list-unstyled" id="pageSubmenu1">
+                                <li>
+                                    <h:link outcome="RecepBodegasRegistrarbodega">
+                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Registrar bodega</b>
+                                    </h:link>
+                                </li>
+                                <li>
+                                    <h:link outcome="RecepBodegaConsultarEliminar">
+                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar bodegas</b>
+                                    </h:link>
+                                </li>
+                            </ul>
+                        </li>
+                        <!--Elemento-->
+                        <li>
+                            <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="file-tray"></ion-icon>Productos</a>
+                            <ul class="collapse list-unstyled" id="pageSubmenu2">
+                                <li>
+                                    <h:link outcome="RecepProductosRegistrar">
+                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Registrar producto</b>
+                                    </h:link>
+                                </li>
+                                <li>
+                                    <h:link outcome="RecepProductosConsultarEliminar">
+                                        <b href="RecepProductoActualizar.html" class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Actualizar producto</b>
+                                    </h:link>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="create"></ion-icon>Servicios</a>
+                            <ul class="collapse list-unstyled" id="pageSubmenu3">
+                                <li>
+                                    <h:link outcome="RecepServicioRegistrar">
+                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Registrar servicio</b>   
+                                    </h:link>
+                                </li>
+                                <li>
+                                    <h:link outcome="RecepServicioConsultarEliminar">
+                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar servicio</b>
+                                    </h:link>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#pageSubmenu4" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="people"></ion-icon>Proveedores</a>
+                            <ul class="collapse list-unstyled" id="pageSubmenu4">
+                                <li>
+                                    <h:link outcome="RecepProveedorRegistrar">
+                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Registrar proveedor</b>
+                                    </h:link>
+                                </li>
+                                <li>
+                                    <h:link outcome="RecepProveedorConsultar">
+                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar proveedores</b>
+                                    </h:link>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#pageSubmenu5" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="bag-check"></ion-icon>Pedidos</a>
+                            <ul class="collapse list-unstyled" id="pageSubmenu5">
+                                <li>
+                                    <h:link outcome="RecepPedidoRegistrar">
+                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Registrar pedido</b>
+                                    </h:link>
+                                </li>
+                                <li>
+                                    <h:link outcome="RecepPedidoConsultar">
+                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar pedido</b>
+                                    </h:link>
+                                </li>
+                                <li>
+                                    <h:link outcome="RecepPedidoRecibidoConsultar">
+                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar pedidos recibidos</b>
+                                    </h:link>
+                                </li>
+                            </ul>
+                        </li>
+                        <!--Elemento-->
+                        <li>
+                            <a href="#pageSubmenu6" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="id-card"></ion-icon>Asignaciones</a>
+                            <ul class="collapse list-unstyled" id="pageSubmenu6">
+                                <li>
+                                    <h:link outcome="RecepAsignarAgenda">
+                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Asignar barberos</b>
+                                    </h:link>
+                                </li>
+                                <li>
+                                    <h:link outcome="RecepDetalleProducto">
+                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Despachar producto</b>
+                                    </h:link>
+                                </li>
+                                <li>
+                                    <h:link outcome="RecepDespachoConsultar">
+                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar despachos</b>
+                                    </h:link>
+                                </li>
+                            </ul>
+                        </li>
+                        <!--Elemento-->
+                        <li>
+                            <a href="#pageSubmenu7" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="receipt"></ion-icon>Facturas</a>
+                            <ul class="collapse list-unstyled" id="pageSubmenu7">
+                                <li>
+                                    <h:link outcome="RecepFacturasRegistrar">
+                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Registrar factura</b>
+                                    </h:link>
+                                </li>
+                                <li>
+                                    <h:link outcome="RecepConsultarFactura">
+                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar facturas</b>
+                                    </h:link>
+                                </li>
+                            </ul>
+                        </li>
+                        <!--Elemento-->
+                        <li>
+                            <a href="#pageSubmenu8" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="checkmark-circle"></ion-icon>Fidelización</a>
+                            <ul class="collapse list-unstyled" id="pageSubmenu8">
+                                <li>
+                                    <h:link outcome="RecepConsultarCalificaciones">
+                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar calificaciones</b>
+                                    </h:link>
+                                </li>
+                            </ul>
+                        </li>
+                        <!--Elemento-->
+                        <li>
+                            <a href="#pageSubmenu9"  data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="person"></ion-icon>Usuario</a>
+                            <ul class="collapse list-unstyled" id="pageSubmenu9">
+                                <li>
+                                    <h:link outcome="RecepConsultarUsuarios">
+                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar datos</b>
+                                    </h:link>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /#sidebar-wrapper -->
+            <!-- Page Content -->
+            <div id="page-content-wrapper">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-white" id="navegacion">
+                    <button class="btn btn-light" id="menu-toggle"><i class="icon ion-md-menu m-2"></i>Herramientas</button>
+
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Opciones de sesión
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="#">Cerrar sesión</a>
+                                    <!--<div class="dropdown-divider"></div>
+                                      <a class="dropdown-item" href="#">Something else here</a>-->
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <!--Aqui se puede añadir elementos-->
+                <div class="card container mt-3 mb-3" style="max-width: 55rem;" id="carta">
+                    <div class="row">
+                        <div class="col">
+                            <img src="img/Bodega.png" class="card-img mt-3"  alt="Foto de bodega de barbería"/>
+                            <div class="card-body">
+                                <h5 class="card-title font-weight-bold text-white">Consultar factura</h5>
+                                <hr class="bg-white"/>
+                                <h:form styleClass="jsfcrud_list_form">         
+                                    <p:dataTable id="tabla" emptyMessage="Ninguna factura registrada" value="#{facturaController.items}" 
+                                                 var="item" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
+                                                 >
+
+                                        <p:column headerText="Producto" filterBy="#{item.idFactura}" filterMatchMode="contains" >
+                                            <h:outputText value="#{item.idFactura}"  /> 
+                                        </p:column>
+
+
+                                        <p:column headerText="Nombre" filterBy="#{item.costo}" filterMatchMode="contains" >
+                                            <h:outputText value="#{item.costo}"  /> 
+                                        </p:column>
+
+                                        <p:column headerText="Descripción" filterBy="#{item.citaIdCita}" filterMatchMode="contains" >
+                                            <h:outputText value="#{item.citaIdCita}"  /> 
+                                        </p:column>
+
+                                        <p:column headerText=" " exportable="false" >
+
+                                            <h:commandLink class="btn btn-warning rounded-pill"  action="#{facturaController.prepareEdit}" value="Editar"/>
+
+                                        </p:column>
+
+                                        <p:column headerText=" " exportable="false" >
+
+                                            <h:commandLink class="btn btn-danger rounded-pill" action="#{facturaController.destroy}" value="Eliminar"/>
+
+                                        </p:column>  
+
+                                    </p:dataTable>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /#page-content-wrapper -->
+        </div>
+        <!-- Optional JavaScript; choose one of the two! -->
+
+        <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <h:outputScript library="JS" name="sidebarReutilizar.js"/>
+        <h:outputScript library="JS" name="accionesMenu.js"/>
+    </h:body>
+</html>

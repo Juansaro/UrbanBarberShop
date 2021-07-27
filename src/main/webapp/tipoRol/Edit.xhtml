@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditTipoRolTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditTipoRolLabel_numeroRol}" for="numeroRol" />
+                    <h:inputText id="numeroRol" value="#{tipoRolController.selected.numeroRol}" title="#{bundle.EditTipoRolTitle_numeroRol}" required="true" requiredMessage="#{bundle.EditTipoRolRequiredMessage_numeroRol}"/>
+                    <h:outputLabel value="#{bundle.EditTipoRolLabel_descripcion}" for="descripcion" />
+                    <h:inputText id="descripcion" value="#{tipoRolController.selected.descripcion}" title="#{bundle.EditTipoRolTitle_descripcion}" />
+                </h:panelGrid>
+                <h:commandLink action="#{tipoRolController.update}" value="#{bundle.EditTipoRolSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditTipoRolViewLink}"/>
+                <br />
+                <h:commandLink action="#{tipoRolController.prepareList}" value="#{bundle.EditTipoRolShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditTipoRolIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
