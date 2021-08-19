@@ -11,4 +11,5 @@
         <property name="driverClass" value="com.mysql.cj.jdbc.Driver"/>
     </jdbc-connection-pool>
     <jdbc-resource enabled="true" jndi-name="java:app/a" object-type="user" pool-name="mysql_urbanbarberbddef_juanPool"/>
+    <jdbc-resource enabled="true" jndi-name="java:app/s" object-type="user" pool-name="mysql_urbanbarberbddef_juanPool"/>
 </resources>

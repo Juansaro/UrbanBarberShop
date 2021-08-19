@@ -2,6 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:html5="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       >
     <h:head>
@@ -210,22 +211,23 @@
                             <div class="card-body">
                                 <h5 class="card-title font-weight-bold text-white">Registrar producto</h5>
                                 <hr class="bg-white"/>
-                                
+
                                 <h:form>
-                                        <h:outputLabel class="card-text font-weight-bold text-white" value="Nombre del producto:" for="nombreProducto" />
-                                        <h:inputText class="form-control" id="nombreProducto" value="#{productoController.selected.nombreProducto}" title="#{bundle.CreateProductoTitle_nombreProducto}" />
-                                        <h:outputLabel class="card-text font-weight-bold text-white" value="#{bundle.CreateProductoLabel_descripcion}" for="descripcion" />
-                                        <h:inputText class="form-control" id="descripcion" value="#{productoController.selected.descripcion}" title="#{bundle.CreateProductoTitle_descripcion}" />
-                                        <h:outputLabel class="card-text font-weight-bold text-white" value="#{bundle.CreateProductoLabel_precio}" for="precio" />
-                                        <h:inputText class="form-control" id="precio" value="#{productoController.selected.precio}" title="#{bundle.CreateProductoTitle_precio}" />
-                                        <h:outputLabel class="card-text font-weight-bold text-white" value="#{bundle.CreateProductoLabel_cantidad}" for="cantidad" />
-                                        <h:inputText class="form-control" id="cantidad" value="#{productoController.selected.cantidad}" title="#{bundle.CreateProductoTitle_cantidad}" />
-                                        <h:outputLabel class="card-text font-weight-bold text-white" value="Elige la bodega:" for="bodegaIdBodega" />
-                                        <h:selectOneMenu class="form-control" id="bodegaIdBodega" value="#{productoController.selected.bodegaIdBodega}" title="#{bundle.CreateProductoTitle_bodegaIdBodega}" required="true" requiredMessage="#{bundle.CreateProductoRequiredMessage_bodegaIdBodega}">
-                                            <f:selectItems value="#{bodegaController.itemsAvailableSelectOne}"/>
-                                        </h:selectOneMenu>
-                                    <br />
-                                    <h:commandLink class="btn btn-success btn-lg btn-block text-white rounded-pill" action="#{productoController.create}" value="Guardar" />
+                                    <h:outputLabel class="card-text font-weight-bold text-white" value="Nombre del producto:" for="nombreProducto" />
+                                    <h:inputText class="form-control" id="nombreProducto" value="#{productoSesion.pro.nombreProducto}" html5:placeholder="Escribe el nombre" />
+                                    <h:outputLabel class="card-text font-weight-bold text-white" value="Descripción:" for="descripcion"/>
+                                    <h:inputText class="form-control" id="descripcion" value="#{productoSesion.pro.descripcion}" html5:placeholder="Descripción" />
+                                    <h:outputLabel class="card-text font-weight-bold text-white" value="Precio" for="precio" />
+                                    <h:inputText class="form-control" id="precio" value="#{productoSesion.pro.precio}" html5:placeholder="precio"/>
+                                    <h:outputLabel class="card-text font-weight-bold text-white" value="Cantidad" for="cantidad" />
+                                    <h:inputText class="form-control" id="cantidad" value="#{productoSesion.pro.cantidad}" html5:placeholder="cantidad"/>
+                                    <h:outputLabel class="card-text font-weight-bold text-white" value="Elige la bodega:" for="bodegaIdBodega" />
+                                    
+                                    <h:selectOneMenu class="form-control" id="bodegaIdBodega" value="#{productoSesion.bodega.idBodega}" required="true">
+                                        <f:selectItems value="#{productoSesion.bodegas}" var="bod" itemLabel="#{bod.nombre}" itemValue="#{bod.idBodega}"/>
+                                    </h:selectOneMenu>
+                                    <br/>
+                                    <h:commandLink action="#{productoSesion.registrarProducto()}" class="btn btn-success btn-lg btn-block text-white rounded-pill" value="Guardar" />
                                     <br />
                                 </h:form>
                             </div>

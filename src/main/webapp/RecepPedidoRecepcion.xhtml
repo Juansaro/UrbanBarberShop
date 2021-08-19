@@ -51,35 +51,35 @@
                 <div class="card container mt-3 mb-3" style="max-width: 21rem;" id="carta">
                     <div class="row">
                         <div class="col">
-                            <img src="img/Bodega.png" class="card-img mt-3"  alt="Foto de bodega de barbería"/>
                             <div class="card-body">
                                 <h5 class="card-title font-weight-bold text-white">Recibir pedido:</h5>
                                 <hr class="bg-white"/>
                                 <h:form>
+                                    
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Detalle pedido:" for="detallePedidoNumeroDetalle" />
-                                    <br/>
-                                    <h:selectOneMenu class="form-control" id="detallePedidoNumeroDetalle" value="#{pedidoController.selected.detallePedidoNumeroDetalle}" title="#{bundle.CreatePedidoTitle_detallePedidoNumeroDetalle}" required="true" requiredMessage="#{bundle.CreatePedidoRequiredMessage_detallePedidoNumeroDetalle}">
-                                        <f:selectItems value="#{detallePedidoController.itemsAvailableSelectOne}"/>
+                                   
+                                    <h:selectOneMenu class="form-control" id="detallePedidoNumeroDetalle" value="#{pedidoSesion.detallePedido.numeroDetalle}" required="true">
+                                        <f:selectItems value="#{pedidoSesion.detallesPedidos}" var="det" itemLabel="#{det.fechaSolicitud}" itemValue="#{det.numeroDetalle}"/>
                                     </h:selectOneMenu>
-                                    <br/>
+                                    
                                     <p:outputLabel class="card-text font-weight-bold text-white" for="datetime" value="Fecha de recepcion:"/>
-                                    <br/>
-                                    <p:calendar id="datetime" value="#{pedidoController.selected.fechaRecibida}" pattern="MM/dd/yyyy HH:mm:ss"/>
-                                    <br/>
+                                    
+                                    <p:calendar id="datetime" value="#{pedidoSesion.ped.fechaRecibida}" pattern="MM/dd/yyyy HH:mm:ss"/>
+                                    
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Recepcionista" for="usuarioIdUsuario" />
-                                    <br/>
+                                    
                                     <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
                                         <h:outputText value="Datetime:"/>
                                         <h:outputText value="#{calendarView.date10}">
                                             <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss"/>
                                         </h:outputText>
                                     </p:dialog>
-                                    <h:selectOneMenu class="form-control" id="usuarioIdUsuario" value="#{pedidoController.selected.usuarioIdUsuario}" title="#{bundle.CreatePedidoTitle_usuarioIdUsuario}" required="true" requiredMessage="#{bundle.CreatePedidoRequiredMessage_usuarioIdUsuario}">
-                                        <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"/>
+                                    <h:selectOneMenu class="form-control" id="usuarioIdUsuario" value="#{pedidoSesion.usuario.idUsuario}" >
+                                        <f:selectItems value="#{pedidoSesion.usuarios}" var="us" itemLabel="#{us.correo}" itemValue="#{us.idUsuario}"/>
                                     </h:selectOneMenu>
-                                    <br />
-                                    <h:commandLink class="btn btn-info btn-lg btn-block danger rounded-pill text-white rounded-pill" action="#{pedidoController.create}" value="Recibir" />
-                                    <br />
+                                    <br/>
+                                    <h:commandLink class="btn btn-info btn-lg btn-block danger rounded-pill text-white rounded-pill" action="#{pedidoSesion.registrarPedido()}" value="Recibir" />
+                                    
                                 </h:form>
                             </div>
                         </div>

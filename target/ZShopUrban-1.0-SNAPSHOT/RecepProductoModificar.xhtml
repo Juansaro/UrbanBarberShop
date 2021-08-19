@@ -2,6 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:html5="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <!-- Required meta tags -->
@@ -59,33 +60,30 @@
                                     <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
                                 </h:panelGroup>
                                 <h:form>
-                                        <h:outputLabel class="card-text font-weight-bold text-white" value="#{bundle.EditProductoLabel_idProducto}" for="idProducto" />
-                                        <br/>
-                                        <h:inputText class="form-control" id="idProducto" value="#{productoController.selected.idProducto}" title="#{bundle.EditProductoTitle_idProducto}" required="true" requiredMessage="#{bundle.EditProductoRequiredMessage_idProducto}"/>
-                                        <br/>
-                                        <h:outputLabel class="card-text font-weight-bold text-white" value="#{bundle.EditProductoLabel_nombreProducto}" for="nombreProducto" />
-                                        <br/>
-                                        <h:inputText class="form-control" id="nombreProducto" value="#{productoController.selected.nombreProducto}" title="#{bundle.EditProductoTitle_nombreProducto}" />
-                                        <br/>
-                                        <h:outputLabel class="card-text font-weight-bold text-white" value="#{bundle.EditProductoLabel_descripcion}" for="descripcion" />
-                                        <br/>
-                                        <h:inputText class="form-control" id="descripcion" value="#{productoController.selected.descripcion}" title="#{bundle.EditProductoTitle_descripcion}" />
-                                        <br/>
-                                        <h:outputLabel class="card-text font-weight-bold text-white" value="#{bundle.EditProductoLabel_precio}" for="precio" />
-                                        <br/>
-                                        <h:inputText class="form-control" id="precio" value="#{productoController.selected.precio}" title="#{bundle.EditProductoTitle_precio}" />
-                                        <br/>
-                                        <h:outputLabel class="card-text font-weight-bold text-white" value="#{bundle.EditProductoLabel_cantidad}" for="cantidad" />
-                                        <br/>
-                                        <h:inputText class="form-control" id="cantidad" value="#{productoController.selected.cantidad}" title="#{bundle.EditProductoTitle_cantidad}" />
-                                        <br/>
+                                       
+                                        <h:outputLabel class="card-text font-weight-bold text-white" value="Nombre producto:" for="nombreProducto" />
+                                    
+                                        <h:inputText class="form-control" id="nombreProducto" value="#{productoSesion.proTemporal.nombreProducto}" />
+                                    
+                                        <h:outputLabel class="card-text font-weight-bold text-white" value="Descripción" for="descripcion" />
+                                      
+                                        <h:inputText class="form-control" id="descripcion" value="#{productoSesion.proTemporal.descripcion}" />
+                                   
+                                        <h:outputLabel class="card-text font-weight-bold text-white" value="Precio" for="precio" />
+                                  
+                                        <h:inputText class="form-control" id="precio" value="#{productoSesion.proTemporal.precio}" />
+                                
+                                        <h:outputLabel class="card-text font-weight-bold text-white" value="Cantidad" for="cantidad" />
+                                
+                                        <h:inputText class="form-control" id="cantidad" value="#{productoSesion.proTemporal.cantidad}" />
+                                
                                         <h:outputLabel class="card-text font-weight-bold text-white" value="Bodega:" for="bodegaIdBodega" />
-                                        <br/>
-                                        <h:selectOneMenu class="form-control" id="bodegaIdBodega" value="#{productoController.selected.bodegaIdBodega}" title="#{bundle.EditProductoTitle_bodegaIdBodega}" required="true" requiredMessage="#{bundle.EditProductoRequiredMessage_bodegaIdBodega}">
-                                            <f:selectItems value="#{bodegaController.itemsAvailableSelectOne}"/>
+                                     
+                                        <h:selectOneMenu class="form-control" id="bodegaIdBodega" value="#{productoSesion.bodega.idBodega}" title="#{bundle.EditProductoTitle_bodegaIdBodega}" required="true" requiredMessage="#{bundle.EditProductoRequiredMessage_bodegaIdBodega}">
+                                            <f:selectItems value="#{productoSesion.bodegas}" var="bod" itemLabel="#{bod.nombre}" itemValue="#{bod.idBodega}"/>
                                         </h:selectOneMenu>
                                         <br/>
-                                    <h:commandLink class="btn btn-warning btn-lg btn-block text-white rounded-pill" action="#{productoController.update}" value="Modificar"/>
+                                        <h:commandLink class="btn btn-warning btn-lg btn-block text-white rounded-pill" action="#{productoSesion.editarProducto()}" value="Modificar"/>
                                     <br />
                                 </h:form>
                             </div>

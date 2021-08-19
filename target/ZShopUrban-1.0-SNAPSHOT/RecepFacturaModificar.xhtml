@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:html5="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <!-- Required meta tags -->
@@ -60,15 +61,15 @@
                                 <h:form>
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Cita:" for="citaIdCita" />
                                     <br/>
-                                    <h:selectOneMenu class="form-control" id="citaIdCita" value="#{facturaController.selected.citaIdCita}" title="#{bundle.EditFacturaTitle_citaIdCita}" required="true" requiredMessage="#{bundle.EditFacturaRequiredMessage_citaIdCita}">
-                                        <f:selectItems value="#{citaController.itemsAvailableSelectOne}"/>
+                                    <h:selectOneMenu class="form-control" id="citaIdCita" value="#{facturaSesion.cita.idCita}">
+                                        <f:selectItems value="#{citaSesion.citas}" var="cit" itemLabel="#{cit.fechaCita}" itemValue="#{cit.idCita}"/>
                                     </h:selectOneMenu>
                                     <br/>
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Costo:" for="costo" />
                                     <br/>
-                                    <h:inputText class="form-control" id="costo" value="#{facturaController.selected.costo}" title="#{bundle.EditFacturaTitle_costo}" />
+                                    <h:inputText class="form-control" id="costo" value="#{facturaSesion.facTemporal.costo}" html5:placeholder="Escribe el costo" />
                                     <br/>
-                                    <h:commandLink class="btn btn-warning btn-lg btn-block text-white rounded-pill" action="#{facturaController.update}" value="Modificar"/>
+                                    <h:commandLink class="btn btn-warning btn-lg btn-block text-white rounded-pill" action="#{facturaSesion.editarFactura()}" value="Modificar"/>
                                     <br />
                                 </h:form>
                             </div>

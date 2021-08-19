@@ -205,37 +205,36 @@
                 <div class="card container mt-3 mb-3" style="max-width: 55rem;" id="carta">
                     <div class="row">
                         <div class="col">
-                            <img src="img/Bodega.png" class="card-img mt-3"  alt="Foto de bodega de barbería"/>
                             <div class="card-body">
                                 <h5 class="card-title font-weight-bold text-white">Consultar factura</h5>
                                 <hr class="bg-white"/>
                                 <h:form styleClass="jsfcrud_list_form">         
-                                    <p:dataTable id="tabla" emptyMessage="Ninguna factura registrada" value="#{facturaController.items}" 
-                                                 var="item" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
+                                    <p:dataTable id="tabla" emptyMessage="Ninguna factura registrada" value="#{facturaSesion.facturas}" 
+                                                 var="f" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
                                                  >
 
-                                        <p:column headerText="Producto" filterBy="#{item.idFactura}" filterMatchMode="contains" >
-                                            <h:outputText value="#{item.idFactura}"  /> 
+                                        <p:column headerText="id_factura:" filterBy="#{f.idFactura}" filterMatchMode="contains" >
+                                            <h:outputText value="#{f.idFactura}"  /> 
                                         </p:column>
 
 
-                                        <p:column headerText="Nombre" filterBy="#{item.costo}" filterMatchMode="contains" >
-                                            <h:outputText value="#{item.costo}"  /> 
+                                        <p:column headerText="Costo:" filterBy="#{f.costo}" filterMatchMode="contains" >
+                                            <h:outputText value="#{f.costo}"  /> 
                                         </p:column>
 
-                                        <p:column headerText="Descripción" filterBy="#{item.citaIdCita}" filterMatchMode="contains" >
-                                            <h:outputText value="#{item.citaIdCita}"  /> 
-                                        </p:column>
-
-                                        <p:column headerText=" " exportable="false" >
-
-                                            <h:commandLink class="btn btn-warning rounded-pill"  action="#{facturaController.prepareEdit}" value="Editar"/>
-
+                                        <p:column headerText="fecha de la cita:" filterBy="#{f.citaIdCita}" filterMatchMode="contains" >
+                                            <h:outputText value="#{f.citaIdCita}"  /> 
                                         </p:column>
 
                                         <p:column headerText=" " exportable="false" >
 
-                                            <h:commandLink class="btn btn-danger rounded-pill" action="#{facturaController.destroy}" value="Eliminar"/>
+                                            <h:commandLink class="btn btn-warning rounded-pill"  action="#{facturaSesion.guardarTemporal(f)}" value="Editar"/>
+
+                                        </p:column>
+
+                                        <p:column headerText=" " exportable="false" >
+
+                                            <h:commandLink class="btn btn-danger rounded-pill" action="#{facturaSesion.eliminarFactura(f)}" value="Eliminar"/>
 
                                         </p:column>  
 

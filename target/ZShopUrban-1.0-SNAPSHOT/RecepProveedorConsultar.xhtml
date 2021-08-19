@@ -2,9 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:html5="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <!-- Required meta tags -->
         <meta charset="utf-8"/>
@@ -213,39 +212,38 @@
                                 <br/>
                                 <h:form id="frmPrincipal">
 
-                                    <p:dataTable id="tabla" emptyMessage="Ningun proveedor registrado" value="#{proveedorController.items}" 
-                                                 var="item" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
+                                    <p:dataTable id="tabla" emptyMessage="Ningun proveedor registrado" value="#{proveedorSesion.proveedores}" 
+                                                 var="p" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
                                                  >
 
-                                        <p:column headerText="Numero proveedor" >
-                                            <h:outputText value="#{item.numeroProveedor}"  /> 
+                                        <p:column headerText="Nombre" filterBy="#{p.nombre}" filterMatchMode="Nombre" >
+                                            <h:outputText value="#{p.nombre}"  /> 
                                         </p:column>
 
-                                        <p:column headerText="Nombre" filterBy="#{item.nombre}" filterMatchMode="Nombre" >
-                                            <h:outputText value="#{item.nombre}"  /> 
+                                        <p:column headerText="Apellidos" filterBy="#{p.apellidos}" filterMatchMode="Descripción" >
+                                            <h:outputText value="#{p.apellidos}"  /> 
                                         </p:column>
 
-                                        <p:column headerText="Apellidos" filterBy="#{item.apellidos}" filterMatchMode="Descripción" >
-                                            <h:outputText value="#{item.apellidos}"  /> 
+                                        <p:column headerText="Correo" filterBy="#{p.correo}" filterMatchMode="Costo" >
+                                            <h:outputText value="#{p.correo}"  /> 
                                         </p:column>
-                                        
-                                        <p:column headerText="Correo" filterBy="#{item.correo}" filterMatchMode="Costo" >
-                                            <h:outputText value="#{item.correo}"  /> 
-                                        </p:column>
-                                        
-                                        <p:column headerText="Direccion" filterBy="#{item.direccion}" filterMatchMode="Costo" >
-                                            <h:outputText value="#{item.direccion}"  /> 
-                                        </p:column>
-                                        
-                                        <p:column headerText=" " exportable="false" >
 
-                                            <h:commandLink class="btn btn-warning rounded-pill" action="#{proveedorController.prepareEdit}" value="Editar"/>
-                                            
+                                        <p:column headerText="Direccion" filterBy="#{p.direccion}" filterMatchMode="Costo" >
+                                            <h:outputText value="#{p.direccion}"  /> 
                                         </p:column>
 
                                         <p:column headerText=" " exportable="false" >
 
-                                            <h:commandLink class="btn btn-danger rounded-pill" action="#{proveedorController.destroy}" value="Eliminar"/>
+                                            <h:commandButton class="btn btn-warning rounded-pill"
+                                                             action="#{proveedorSesion.guardarTemporal(p)}" 
+                                                             value="Editar" >
+                                            </h:commandButton>
+
+                                        </p:column>
+
+                                        <p:column headerText=" " exportable="false" >
+
+                                            <h:commandLink class="btn btn-danger rounded-pill" action="#{proveedorSesion.eliminarProveedor(p)}" value="Eliminar"/>
 
                                         </p:column>  
 
@@ -256,15 +254,53 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
             <!-- /#page-content-wrapper -->
         </div>
         <!-- Optional JavaScript; choose one of the two ! -->
 
-        
+        <div class="modal fade" id="exampleModalAct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Actualizar</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <h:form id="formActualizar">
+                        <div class="modal-body">
+                            <h:outputLabel class="card-text font-weight-bold text-white" value="Nombre" for="nombre" />
+                            <br/>
+                            <h:inputText class="form-control" id="nombre" value="#{proveedorSesion.proTemporal.nombre}" html5:placeholder="Nombre del proveedor" />
+                            <br/>
+                            <h:outputLabel class="card-text font-weight-bold text-white" value="Apellidos:" for="apellidos" />
+                            <br/>
+                            <h:inputText class="form-control" id="apellidos" value="#{proveedorSesion.proTemporal.apellidos}" html5:placeholder="Apellidos del proveedor" />
+                            <br/>
+                            <h:outputLabel class="card-text font-weight-bold text-white" value="Correo:" for="correo" />
+                            <br/>
+                            <h:inputText class="form-control" id="correo" value="#{proveedorSesion.proTemporal.correo}" html5:placeholder="Correo del proveedor" />
+                            <br/>
+                            <h:outputLabel class="card-text font-weight-bold text-white" value="Dirección:" for="direccion" />
+                            <br/>
+                            <h:inputText class="form-control" id="direccion" value="#{proveedorSesion.proTemporal.direccion}" html5:placeholder="Dirección del proveedor" />
+                            <br />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <h:commandButton action="#{proveedorSesion.editarProveedor()}" class="btn btn-primary" value="Editar">
+                            </h:commandButton>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
-        
+
         <h:outputScript library="JS" name="sidebarReutilizar.js"/>
         <h:outputScript library="JS" name="accionesMenu.js"/>
     </h:body>

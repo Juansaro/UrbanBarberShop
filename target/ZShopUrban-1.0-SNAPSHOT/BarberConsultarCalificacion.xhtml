@@ -93,26 +93,26 @@
                                 <h5 class="card-title font-weight-bold text-white">Consultar calificación:</h5>
                                 <hr class="bg-white"/>
                                 <h:form styleClass="jsfcrud_list_form">
-                                    <p:dataTable id="tabla" emptyMessage="Ningun despacho registrado" value="#{calificacionController.items}" 
-                                                 var="item" paginator="true"  rows="15" rowSelectMode="add" paginatorPosition="bottom"
+                                    <p:dataTable id="tabla" emptyMessage="Ninguna calificaion registrada" value="#{califiacionSesion.calificaciones}" 
+                                                 var="c" paginator="true"  rows="15" rowSelectMode="add" paginatorPosition="bottom"
                                                  >
 
-                                        <p:column headerText="Numero Calificación" filterBy="#{item.idCalificacion}" filterMatchMode="contains" >
-                                            <h:outputText value="#{item.idCalificacion}"  /> 
+                                        <p:column headerText="Numero Calificación" filterBy="#{c.idCalificacion}" filterMatchMode="contains" >
+                                            <h:outputText value="#{c.idCalificacion}"  /> 
                                         </p:column>
 
-                                        <p:column headerText="Puntaje" filterBy="#{item.puntaje}" filterMatchMode="contains" >
-                                            <h:outputText value="#{item.puntaje}">
+                                        <p:column headerText="Puntaje" filterBy="#{c.puntaje}" filterMatchMode="contains" >
+                                            <h:outputText value="#{c.puntaje}">
                                                 <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
                                             </h:outputText>
                                         </p:column>
 
-                                        <p:column headerText="Comentario" filterBy="#{item.comentario}" filterMatchMode="contains" >
-                                            <h:outputText value="#{item.comentario}"  /> 
+                                        <p:column headerText="Comentario" filterBy="#{c.comentario}" filterMatchMode="contains" >
+                                            <h:outputText value="#{c.comentario}"  /> 
                                         </p:column>
 
-                                        <p:column headerText="id factura" filterBy="#{item.facturaIdFactura}" filterMatchMode="contains" >
-                                            <h:outputText value="#{item.facturaIdFactura}"  /> 
+                                        <p:column headerText="id factura" filterBy="#{c.facturaIdFactura}" filterMatchMode="contains" >
+                                            <h:outputText value="#{c.facturaIdFactura}"  /> 
                                         </p:column>
 
                                     </p:dataTable> 

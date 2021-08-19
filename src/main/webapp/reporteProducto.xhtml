@@ -27,7 +27,7 @@
                 <p:dataExporter type="xls" target="tabla" fileName="Productoexcel"/>
 
             </h:commandLink>
-            <p:dataTable id="tabla" emptyMessage="Ningun producto registrado" value="#{productoController.items}" 
+            <p:dataTable id="tabla" emptyMessage="Ningun producto registrado" value="#{productoSesion.productos}" 
                          var="item" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
                          >
 

@@ -235,7 +235,7 @@
                                 <h5 class="card-title font-weight-bold text-white">Asignar agenda</h5>
                                 <hr class="bg-white"/>
                                 <h:form id="frmPrincipal">
-                                    <p:dataTable id="tabla" emptyMessage="Ningun pedido confirmado registrado" value="#{citaController.items}" 
+                                    <p:dataTable id="tabla" emptyMessage="Ningun pedido confirmado registrado" value="#{citaSesion.citas}" 
                                                  var="item" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
                                                  >
 
@@ -267,7 +267,7 @@
                                         
                                         <p:column headerText=" " exportable="false" >
 
-                                            <h:commandLink action="#{citaController.destroy}" value="Eliminar"/>
+                                            <h:commandLink action="#{citaSesion.eliminarCita(c)}" value="Eliminar"/>
 
                                         </p:column>  
 

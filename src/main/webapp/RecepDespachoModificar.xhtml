@@ -2,7 +2,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:html5="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <!-- Required meta tags -->
         <meta charset="utf-8"/>
@@ -56,33 +58,38 @@
                                 <hr class="bg-white"/>
                                 <h:form>
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Fecha de despacho:" for="fechaSolicitud" />
-                                    <br/>
-                                    <h:inputText class="form-control" id="fechaSolicitud" value="#{despachoProductoController.selected.fechaSolicitud}" title="#{bundle.EditDespachoProductoTitle_fechaSolicitud}" >
-                                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                                    </h:inputText>
-                                    <br/>
+
+                                    <p:calendar id="fechaSolicitud" value="#{despachoSesion.desTemporal.fechaSolicitud}" pattern="MM/dd/yyyy HH:mm:ss"/>
+                                    
+                                    <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
+                                        <h:outputText value="Datetime:"/>
+                                        <h:outputText value="#{calendarView.date10}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss"/>
+                                        </h:outputText>
+                                    </p:dialog>
+                                    
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Cantidad solicitada:" for="cantidadSolicitada" />
-                                    <br/>
-                                    <h:inputText class="form-control" id="cantidadSolicitada" value="#{despachoProductoController.selected.cantidadSolicitada}" title="#{bundle.EditDespachoProductoTitle_cantidadSolicitada}" />
-                                    <br/>
+
+                                    <h:inputText class="form-control" id="cantidadSolicitada" value="#{despachoSesion.desTemporal.cantidadSolicitada}" html5:placeholder="Escribe la cantidad."/>
+
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Usuario:" for="usuarioIdUsuario" />
-                                    <br/>
-                                    <h:selectOneMenu class="form-control" id="usuarioIdUsuario" value="#{despachoProductoController.selected.usuarioIdUsuario}" title="#{bundle.EditDespachoProductoTitle_usuarioIdUsuario}" required="true" requiredMessage="#{bundle.EditDespachoProductoRequiredMessage_usuarioIdUsuario}">
-                                        <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"/>
+
+                                    <h:selectOneMenu class="form-control" id="usuarioIdUsuario" value="#{despachoSesion.usuario.idUsuario}" >
+                                        <f:selectItems value="#{despachoSesion.usuarios}" var="usu" itemLabel="#{usu.correo}" itemValue="#{usu.idUsuario}"/>
                                     </h:selectOneMenu>
-                                    <br/>
+
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Producto:" for="productoIdProducto" />
-                                    <br/>
-                                    <h:selectOneMenu class="form-control" id="productoIdProducto" value="#{despachoProductoController.selected.productoIdProducto}" title="#{bundle.EditDespachoProductoTitle_productoIdProducto}" required="true" requiredMessage="#{bundle.EditDespachoProductoRequiredMessage_productoIdProducto}">
-                                        <f:selectItems value="#{productoController.itemsAvailableSelectOne}"/>
+
+                                    <h:selectOneMenu class="form-control" id="productoIdProducto" value="#{despachoSesion.producto.idProducto}" >
+                                        <f:selectItems value="#{productoSesion.productos}" var="pro" itemLabel="#{pro.nombreProducto}" itemValue="#{pro.idProducto}"/>
                                     </h:selectOneMenu>
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Costo total:" for="costoTotal" />
+
+                                    <h:inputText class="form-control" id="costoTotal" value="#{despachoSesion.desTemporal.costoTotal}" html5:placeholder="Costo total."/>
                                     <br/>
-                                    <h:inputText class="form-control" id="costoTotal" value="#{despachoProductoController.selected.costoTotal}" title="#{bundle.EditDespachoProductoTitle_costoTotal}" />
-                                    <br/>
-                                    <br/>
-                                    <h:commandLink class="btn btn-warning btn-lg btn-block text-white rounded-pill" action="#{despachoProductoController.update}" value="Modificar"/>
-                                    <br />
+
+                                    <h:commandLink class="btn btn-warning btn-lg btn-block text-white rounded-pill" action="#{despachoSesion.editarDespacho()}" value="Modificar"/>
+
                                 </h:form>
                             </div>
                         </div>
@@ -93,10 +100,8 @@
             <!-- /#page-content-wrapper -->
         </div>
         <!-- Optional JavaScript; choose one of the two! -->
-
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
         <h:outputScript library="JS" name="sidebarReutilizar.js"/>
         <h:outputScript library="JS" name="accionesMenu.js"/>
     </h:body>

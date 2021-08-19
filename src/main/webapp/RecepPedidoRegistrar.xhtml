@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:html5="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <!-- Required meta tags -->
@@ -207,18 +208,17 @@
                 <div class="card container mt-3 mb-3" style="max-width: 21rem;" id="carta">
                     <div class="row">
                         <div class="col">
-                            <img src="img/Bodega.png" class="card-img mt-3"  alt="Foto de bodega de barbería"/>
                             <div class="card-body">
                                 <h5 class="card-title font-weight-bold text-white">Registrar pedido</h5>
                                 <hr class="bg-white"/>
                                 <h:form>
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Cantidad solicitada:" for="cantidadSolicitada" />
                                     <br/>
-                                    <h:inputText class="form-control" id="cantidadSolicitada" value="#{detallePedidoController.selected.cantidadSolicitada}" title="#{bundle.CreateDetallePedidoTitle_cantidadSolicitada}" />
+                                    <h:inputText class="form-control" id="cantidadSolicitada" value="#{detallePedidoSesion.det.cantidadSolicitada}" />
                                     <br/>
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Fecha para solicitud:" for="fechaSolicitud" />
                                     <br/>
-                                    <p:calendar id="fechaSolicitud" value="#{detallePedidoController.selected.fechaSolicitud}" pattern="MM/dd/yyyy HH:mm:ss"/>
+                                    <p:calendar id="fechaSolicitud" value="#{detallePedidoSesion.det.fechaSolicitud}" pattern="MM/dd/yyyy HH:mm:ss"/>
                                     <br/>
                                     <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
                                         <h:outputText value="Datetime:"/>
@@ -229,21 +229,21 @@
                                     <br/>
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Costo total:" for="costoTotal" />
                                     <br/>
-                                    <h:inputText class="form-control" id="costoTotal" value="#{detallePedidoController.selected.costoTotal}" title="#{bundle.CreateDetallePedidoTitle_costoTotal}" />
+                                    <h:inputText class="form-control" id="costoTotal" value="#{detallePedidoSesion.det.costoTotal}"  />
                                     <br/>
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Producto:" for="productoIdProducto" />
                                     <br/>
-                                    <h:selectOneMenu class="form-control" id="productoIdProducto" value="#{detallePedidoController.selected.productoIdProducto}" title="#{bundle.CreateDetallePedidoTitle_productoIdProducto}" required="true" requiredMessage="#{bundle.CreateDetallePedidoRequiredMessage_productoIdProducto}">
-                                        <f:selectItems value="#{productoController.itemsAvailableSelectOne}"/>
+                                    <h:selectOneMenu class="form-control" id="productoIdProducto" value="#{detallePedidoSesion.producto.idProducto}">
+                                        <f:selectItems value="#{detallePedidoSesion.productos}" var="prod" itemLabel="#{prod.nombreProducto}" itemValue="#{prod.idProducto}"/>
                                     </h:selectOneMenu>
                                     <br/>
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Proveedor:" for="proveedorNumeroProveedor" />
                                     <br/>
-                                    <h:selectOneMenu class="form-control" id="proveedorNumeroProveedor" value="#{detallePedidoController.selected.proveedorNumeroProveedor}" title="#{bundle.CreateDetallePedidoTitle_proveedorNumeroProveedor}" required="true" requiredMessage="#{bundle.CreateDetallePedidoRequiredMessage_proveedorNumeroProveedor}">
-                                        <f:selectItems value="#{proveedorController.itemsAvailableSelectOne}"/>
+                                    <h:selectOneMenu class="form-control" id="proveedorNumeroProveedor" value="#{detallePedidoSesion.proveedor.numeroProveedor}" >
+                                        <f:selectItems value="#{detallePedidoSesion.proveedores}" var="pro" itemLabel="#{pro.correo}" itemValue="#{pro.numeroProveedor}" />
                                     </h:selectOneMenu>
                                     <br />
-                                    <h:commandLink class="btn btn-success btn-lg btn-block text-white rounded-pill" action="#{detallePedidoController.create}" value="Guardar" />
+                                    <h:commandLink class="btn btn-success btn-lg btn-block text-white rounded-pill" action="#{detallePedidoSesion.registrarDetallePedido()}" value="Guardar" />
                                     <br />
                                 </h:form>
                             </div>

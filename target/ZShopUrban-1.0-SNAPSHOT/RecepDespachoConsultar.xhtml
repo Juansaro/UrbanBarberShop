@@ -211,7 +211,7 @@
                                 <h5 class="card-title font-weight-bold text-white">Lista de pedidos</h5>
                                 <br/>
                                 <h:form id="frmPrincipal">
-                                    <p:dataTable id="tabla" emptyMessage="Ningun despacho registrado" value="#{despachoProductoController.items}" 
+                                    <p:dataTable id="tabla" emptyMessage="Ningun despacho registrado" value="#{despachoSesion.despachoProductos}" 
                                                  var="item" paginator="true"  rows="15" rowSelectMode="add" paginatorPosition="bottom"
                                                  >
 
@@ -242,11 +242,11 @@
                                         </p:column> 
                                         
                                         <p:column headerText=" " exportable="false" >
-                                            <h:commandLink class="btn btn-warning rounded-pill" action="#{despachoProductoController.prepareEdit}" value="Editar"/>
+                                            <h:commandLink class="btn btn-warning rounded-pill" action="#{despachoSesion.guardarTemporal(d)}" value="Editar"/>
                                         </p:column>
                                         
                                         <p:column headerText=" " exportable="false" >
-                                            <h:commandLink class="btn btn-danger rounded-pill" action="#{despachoProductoController.destroy}" value="Eliminar"/>
+                                            <h:commandLink class="btn btn-danger rounded-pill" action="#{despachoSesion.eliminarDespachoProducto(item)}" value="Eliminar"/>
                                         </p:column>
                                     </p:dataTable> 
                                 </h:form>

@@ -2,7 +2,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:html5="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <!-- Required meta tags -->
         <meta charset="utf-8"/>
@@ -210,65 +212,61 @@
                                 <h5 class="card-title font-weight-bold text-white">Consultar usuarios</h5>
                                 <hr class="bg-white"/>
                                 <h:form styleClass="jsfcrud_list_form">
-                                    
-                                        <p:dataTable id="tabla" emptyMessage="Ninguna usuario registrado" value="#{usuarioController.items}" 
-                                                 var="item" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
+
+                                    <p:dataTable id="tabla" emptyMessage="Ninguna usuario registrado" value="#{usuarioSesion.usuarios}" 
+                                                 var="u" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
                                                  >
-
-                                        <p:column headerText="Id usuario" filterBy="#{item.idUsuario}" filterMatchMode="contains" >
-                                            <h:outputText value="#{item.idUsuario}"  /> 
+                                        <p:column headerText="Nombre" filterBy="#{u.nombre}" filterMatchMode="contains" >
+                                            <h:outputText value="#{u.nombre}"  /> 
                                         </p:column>
 
-                                        <p:column headerText="Nombre" filterBy="#{item.nombre}" filterMatchMode="contains" >
-                                            <h:outputText value="#{item.nombre}"  /> 
+                                        <p:column headerText="Apellidos" filterBy="#{u.apellido}" filterMatchMode="contains" >
+                                            <h:outputText value="#{u.apellido}"  /> 
                                         </p:column>
 
-                                        <p:column headerText="Apellidos" filterBy="#{item.apellido}" filterMatchMode="contains" >
-                                            <h:outputText value="#{item.apellido}"  /> 
+                                        <p:column headerText="Clave:" filterBy="#{u.contrasena}" filterMatchMode="contains" >
+                                            <h:outputText value="#{u.contrasena}"  /> 
                                         </p:column>
-                                            
-                                        <p:column headerText="Clave:" filterBy="#{item.contrasena}" filterMatchMode="contains" >
-                                            <h:outputText value="#{item.contrasena}"  /> 
+
+                                        <p:column headerText="Email:" filterBy="#{u.correo}" filterMatchMode="contains" >
+                                            <h:outputText value="#{u.correo}"  /> 
                                         </p:column>
-                                            
-                                        <p:column headerText="Email:" filterBy="#{item.correo}" filterMatchMode="contains" >
-                                            <h:outputText value="#{item.correo}"  /> 
+
+                                        <p:column headerText="Documento" filterBy="#{u.numeroDocumento}" filterMatchMode="contains" >
+                                            <h:outputText value="#{u.numeroDocumento}"  /> 
                                         </p:column>
-                                        
-                                        <p:column headerText="Documento" filterBy="#{item.numeroDocumento}" filterMatchMode="contains" >
-                                            <h:outputText value="#{item.numeroDocumento}"  /> 
+
+                                        <p:column headerText="Numero de telefono:" filterBy="#{u.numeroTelefono}" filterMatchMode="contains" >
+                                            <h:outputText value="#{u.numeroTelefono}"  /> 
                                         </p:column>
-                                            
-                                        <p:column headerText="Numero de telefono:" filterBy="#{item.numeroTelefono}" filterMatchMode="contains" >
-                                            <h:outputText value="#{item.numeroTelefono}"  /> 
+
+                                        <p:column headerText="Ciudad" filterBy="#{u.ciudadNumeroCiudad}" filterMatchMode="contains" >
+                                            <h:outputText value="#{u.ciudadNumeroCiudad}"  /> 
                                         </p:column>
-                                            
-                                        <p:column headerText="Ciudad" filterBy="#{item.ciudadNumeroCiudad}" filterMatchMode="contains" >
-                                            <h:outputText value="#{item.ciudadNumeroCiudad}"  /> 
+
+                                        <p:column headerText="Tipo identificacion" filterBy="#{u.tipoIdentificacionIdTipoIdentificacion}" filterMatchMode="contains" >
+                                            <h:outputText value="#{u.tipoIdentificacionIdTipoIdentificacion}"  /> 
                                         </p:column>
-                                            
-                                        <p:column headerText="Tipo identificacion" filterBy="#{item.tipoIdentificacionIdTipoIdentificacion}" filterMatchMode="contains" >
-                                            <h:outputText value="#{item.tipoIdentificacionIdTipoIdentificacion}"  /> 
-                                        </p:column>
-                                        
-                                        <p:column headerText="Tipo de telefono" filterBy="#{item.tipoTelefonoNumeroTipoTelefono}" filterMatchMode="contains" >
-                                            <h:outputText value="#{item.tipoTelefonoNumeroTipoTelefono}"  /> 
+
+                                        <p:column headerText="Tipo de telefono" filterBy="#{u.tipoTelefonoNumeroTipoTelefono}" filterMatchMode="contains" >
+                                            <h:outputText value="#{u.tipoTelefonoNumeroTipoTelefono}"  /> 
                                         </p:column>
 
                                         <p:column headerText=" " exportable="false" >
 
-                                            <h:commandLink class="btn btn-warning rounded-pill" action="#{usuarioController.prepareEdit}" value="Editar"/>
+                                            <h:commandButton class="btn btn-warning rounded-pill" action="#{usuarioSesion.guardarTemporal(u)}" value="Editar" >
+                                            </h:commandButton>
 
                                         </p:column>
 
                                         <p:column headerText=" " exportable="false" >
 
-                                            <h:commandLink class="btn btn-danger rounded-pill" action="#{usuarioController.destroy}" value="Eliminar"/>
+                                            <h:commandLink class="btn btn-danger rounded-pill" action="#{usuarioSesion.eliminarUsuario(u)}" value="Eliminar"/>
 
                                         </p:column>  
 
                                     </p:dataTable>
-                                        
+
                                 </h:form>
                             </div>
                         </div>
@@ -279,6 +277,68 @@
             <!-- /#page-content-wrapper -->
         </div>
         <!-- Optional JavaScript; choose one of the two! -->
+
+
+        <div class="modal fade" id="exampleModalAct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Actualizar</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <h:form id="formActualizar">
+                        <div class="modal-body">
+
+
+
+                            <h:inputText value="#{usuarioSesion.usuTemporal.nombre}" required="true" html5:placeholder="Nombre" class="form-control"/>
+                            <br/>                              
+                            <h:inputText value="#{usuarioSesion.usuTemporal.apellido}" required="true" html5:placeholder="Apellido" class="form-control"/>
+                            <br/>
+                            <h:inputText value="#{usuarioSesion.usuTemporal.correo}" required="true" html5:placeholder="Correo" class="form-control"/>
+                            <br/>
+                            <h:inputText value="#{usuarioSesion.usuTemporal.contrasena}" required="true" html5:placeholder="contraseña" class="form-control"/>
+                            <br/>
+                            <h:outputLabel value="Tipo identificacion" for="tipoIdentificacionIdTipoIdentificacion" />
+                            <h:selectOneMenu id="tipoIdentificacionIdTipoIdentificacion" value="#{usuarioSesion.usuTemporal.ciudadNumeroCiudad}" required="true" >
+                                <f:selectItems value="#{usuarioSesion.ciudades}" />
+                            </h:selectOneMenu>
+
+                            <h:outputLabel value="Tipo rol" for="ripoRol" />
+                            <h:selectOneMenu id="ripoRol" value="#{usuarioSesion.tipoRol.numeroRol}" required="true">
+                                <f:selectItems value="#{usuarioSesion.roles}" var="rol" itemLabel="#{rol.descripcion}" itemValue="#{rol.numeroRol}"/>
+                            </h:selectOneMenu>
+
+                            <h:outputLabel value="Tipo identificacion" for="tipoIdentificacion" />
+                            <h:selectOneMenu id="tipoIdentificacion" value="#{usuarioSesion.tipoIdentificacion.idTipoIdentificacion}" required="true">
+                                <f:selectItems value="#{usuarioSesion.tipoIdentificaciones}" var="ide" itemLabel="#{ide.descripcion}" itemValue="#{ide.idTipoIdentificacion}"/>
+                            </h:selectOneMenu>
+
+                            <h:outputLabel value="Tipo telefono" for="tipoTelefono" />
+                            <h:selectOneMenu id="tipoTelefono" value="#{usuarioSesion.tipoTelefono.numeroTipoTelefono}" required="true">
+                                <f:selectItems value="#{usuarioSesion.tipoTelefonos}" var="tel" itemLabel="#{tel.descripcion}" itemValue="#{tel.numeroTipoTelefono}"/>
+                            </h:selectOneMenu>
+
+                            <br/>
+                            <h:inputText value="#{usuarioSesion.usuTemporal.numeroDocumento}" required="true" html5:placeholder="Número documento" class="form-control"/>
+                            <br/>
+
+                            <br/>
+                            <h:inputText value="#{usuarioSesion.usuTemporal.numeroTelefono}" required="true" html5:placeholder="Número telefono" class="form-control"/>
+                            <br/>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <h:commandButton action="#{usuarioSesion.editarUsuario()}" class="btn btn-primary" value="Registrar.">
+                            </h:commandButton>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
 
         <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

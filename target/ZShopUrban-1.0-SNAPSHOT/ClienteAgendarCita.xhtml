@@ -118,7 +118,7 @@
                                 <h:form>
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Fecha de la cita:" for="fechaSolicitud" />
                                     <br/>
-                                    <p:calendar id="fechaSolicitud" value="#{citaController.selected.fechaCita}" pattern="MM/dd/yyyy HH:mm:ss"/>
+                                    <p:calendar id="fechaSolicitud" value="#{citaSesion.cit.fechaCita}" pattern="MM/dd/yyyy HH:mm:ss"/>
                                     <br/>
                                     <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
                                         <h:outputText value="Datetime:"/>
@@ -129,23 +129,23 @@
                                     <br/>
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Estado de la cita:" for="estadoAsignacionIdEstadoAsignacion" />
                                     <br/>
-                                    <h:selectOneMenu class="form-control" id="estadoAsignacionIdEstadoAsignacion" value="#{citaController.selected.estadoAsignacionIdEstadoAsignacion}" title="#{bundle.CreateCitaTitle_estadoAsignacionIdEstadoAsignacion}" required="true" requiredMessage="#{bundle.CreateCitaRequiredMessage_estadoAsignacionIdEstadoAsignacion}">
-                                        <f:selectItems value="#{estadoAsignacionController.itemsAvailableSelectOne}"/>
+                                    <h:selectOneMenu class="form-control" id="estadoAsignacionIdEstadoAsignacion" value="#{citaSesion.estadoAsignacion.idEstadoAsignacion}" required="true">
+                                        <f:selectItems value="#{citaSesion.estadoAsignaciones}"  var="est" itemLabel="#{est.descripcion}" itemValue="#{est.idEstadoAsignacion}"/>
                                     </h:selectOneMenu>
                                     <br/>
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Servicio:" for="servicioIdServicio" />
                                     <br/>
-                                    <h:selectOneMenu class="form-control" id="servicioIdServicio" value="#{citaController.selected.servicioIdServicio}" title="#{bundle.CreateCitaTitle_servicioIdServicio}" required="true" requiredMessage="#{bundle.CreateCitaRequiredMessage_servicioIdServicio}">
-                                        <f:selectItems value="#{servicioController.itemsAvailableSelectOne}"/>
+                                    <h:selectOneMenu class="form-control" id="servicioIdServicio" value="#{citaSesion.servicio.idServicio}" required="true">
+                                        <f:selectItems value="#{citaSesion.servicios}" var="ser" itemLabel="#{ser.descripcion}" itemValue="#{ser.idServicio}"/>
                                     </h:selectOneMenu>
                                     <br/>
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Usuario" for="usuarioIdUsuario" />
                                     <br/>
-                                    <h:selectOneMenu class="form-control" id="usuarioIdUsuario" value="#{citaController.selected.usuarioIdUsuario}" title="#{bundle.CreateCitaTitle_usuarioIdUsuario}" required="true" requiredMessage="#{bundle.CreateCitaRequiredMessage_usuarioIdUsuario}">
-                                        <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"/>
+                                    <h:selectOneMenu class="form-control" id="usuarioIdUsuario" value="#{citaSesion.usuario.idUsuario}" required="true">
+                                        <f:selectItems value="#{citaSesion.usuarios}" var="usu" itemLabel="#{usu.correo}" itemValue="#{usu.idUsuario}"/>
                                     </h:selectOneMenu>
                                     <br />
-                                    <h:commandLink class="btn btn-success btn-lg btn-block text-white rounded-pill" action="#{citaController.create}" value="Agendar" />
+                                    <h:commandLink class="btn btn-success btn-lg btn-block text-white rounded-pill" action="#{citaSesion.registrarCita()}" value="Agendar" />
                                     <br />
                                 </h:form>
                             </div>

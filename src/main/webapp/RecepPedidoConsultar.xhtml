@@ -8,7 +8,6 @@
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
         <title>Consultar pedidos pendientes</title>
-        <h:outputStylesheet library="CSS" name="recepcionista.css"/>
 
         <!-- Bootstrap CSS -->
 
@@ -210,32 +209,32 @@
                                 <h5 class="card-title font-weight-bold text-white">Lista de pedidos</h5>
                                 <br/>
                                 <h:form id="frmPrincipal">
-                                    <p:dataTable id="tabla" emptyMessage="Ningun pedido registrado" value="#{detallePedidoController.items}" 
-                                                 var="item" paginator="true"  rows="15" rowSelectMode="add" paginatorPosition="bottom"
+                                    <p:dataTable id="tabla" emptyMessage="Ningun pedido registrado" value="#{detallePedidoSesion.detallePedidos}" 
+                                                 var="d" paginator="true"  rows="15" rowSelectMode="add" paginatorPosition="bottom"
                                                  >
 
                                         <p:column headerText="Numero detalle pedido">
-                                            <h:outputText value="#{item.numeroDetalle}"  /> 
+                                            <h:outputText value="#{d.numeroDetalle}"  /> 
                                         </p:column>
 
                                         <p:column headerText="Cantidad solicitada" >
-                                            <h:outputText value="#{item.cantidadSolicitada}"  /> 
+                                            <h:outputText value="#{d.cantidadSolicitada}"  /> 
                                         </p:column>
 
-                                        <p:column headerText="Fecha de solicitud" filterBy="#{item.fechaSolicitud}" filterMatchMode="Fecha solicitud" >
-                                            <h:outputText value="#{item.fechaSolicitud}"  /> 
+                                        <p:column headerText="Fecha de solicitud" filterBy="#{d.fechaSolicitud}" filterMatchMode="Fecha solicitud" >
+                                            <h:outputText value="#{d.fechaSolicitud}"  /> 
                                         </p:column>
 
                                         <p:column headerText="Costo total" >
-                                            <h:outputText value="#{item.costoTotal}"  /> 
+                                            <h:outputText value="#{d.costoTotal}"  /> 
                                         </p:column>
 
-                                        <p:column headerText="Id producto" filterBy="#{item.productoIdProducto}" filterMatchMode="Producto" >
-                                            <h:outputText value="#{item.productoIdProducto}"  /> 
+                                        <p:column headerText="Id producto" filterBy="#{d.productoIdProducto}" filterMatchMode="Producto" >
+                                            <h:outputText value="#{d.productoIdProducto}"  /> 
                                         </p:column>
 
-                                        <p:column headerText="Numero proveedor" filterBy="#{item.proveedorNumeroProveedor}" filterMatchMode="Proveedor" >
-                                            <h:outputText value="#{item.proveedorNumeroProveedor}"  /> 
+                                        <p:column headerText="Correo del proveedor:" filterBy="#{d.proveedorNumeroProveedor}" filterMatchMode="Proveedor" >
+                                            <h:outputText value="#{d.proveedorNumeroProveedor}"  /> 
                                         </p:column> 
 
                                         <p:column headerText=" " exportable="false" >
@@ -243,7 +242,7 @@
                                         </p:column>
 
                                         <p:column headerText=" " exportable="false" >
-                                            <h:commandLink class="btn btn-danger rounded-pill" action="#{detallePedidoController.destroy}" value="Eliminar"/>
+                                            <h:commandLink class="btn btn-danger rounded-pill" action="#{detallePedidoSesion.eliminardetallePedido(d)}" value="Eliminar"/>
                                         </p:column>
 
                                     </p:dataTable> 

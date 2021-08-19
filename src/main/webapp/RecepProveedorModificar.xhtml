@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:html5="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
     <h:head>
         <!-- Required meta tags -->
@@ -49,28 +50,27 @@
                 <div class="card container mt-3 mb-3" style="max-width: 21rem;" id="carta">
                     <div class="row">
                         <div class="col">
-                            <img src="img/Bodega.png" class="card-img mt-3"  alt="Foto de bodega de barbería"/>
                             <div class="card-body">
                                 <h5 class="card-title font-weight-bold text-white">Modificar proveedor</h5>
                                 <hr class="bg-white"/>
                                 <h:form>
-                                    <h:outputLabel class="card-text font-weight-bold text-white" value="#{bundle.EditProveedorLabel_nombre}" for="nombre" />
+                                    <h:outputLabel class="card-text font-weight-bold text-white" value="Nombre del proveedor:" for="nombre" />
+                                    
+                                    <h:inputText class="form-control" id="nombre" value="#{proveedorSesion.proTemporal.nombre}" html5:placeholder="Escribe el nombre." />
+                                    
+                                    <h:outputLabel class="card-text font-weight-bold text-white" value="Apellidos:" for="apellidos" />
+                          
+                                    <h:inputText class="form-control" id="apellidos" value="#{proveedorSesion.proTemporal.apellidos}" html5:placeholder="Escribe los apellidos."/>
+                        
+                                    <h:outputLabel class="card-text font-weight-bold text-white" value="Correo:" for="correo" />
+                    
+                                    <h:inputText class="form-control" id="correo" value="#{proveedorSesion.proTemporal.correo}" html5:placeholder="Escribe el correo."/>
+                          
+                                    <h:outputLabel class="card-text font-weight-bold text-white" value="Dirección" for="direccion" />
+                        
+                                    <h:inputText class="form-control" id="direccion" value="#{proveedorSesion.proTemporal.direccion}" html5:placeholder="Escribe la dirección." />
                                     <br/>
-                                    <h:inputText class="form-control" id="nombre" value="#{proveedorController.selected.nombre}" title="#{bundle.EditProveedorTitle_nombre}" />
-                                    <br/>
-                                    <h:outputLabel class="card-text font-weight-bold text-white" value="#{bundle.EditProveedorLabel_apellidos}" for="apellidos" />
-                                    <br/>
-                                    <h:inputText class="form-control" id="apellidos" value="#{proveedorController.selected.apellidos}" title="#{bundle.EditProveedorTitle_apellidos}" />
-                                    <br/>
-                                    <h:outputLabel class="card-text font-weight-bold text-white" value="#{bundle.EditProveedorLabel_correo}" for="correo" />
-                                    <br/>
-                                    <h:inputText class="form-control" id="correo" value="#{proveedorController.selected.correo}" title="#{bundle.EditProveedorTitle_correo}" />
-                                    <br/>
-                                    <h:outputLabel class="card-text font-weight-bold text-white" value="#{bundle.EditProveedorLabel_direccion}" for="direccion" />
-                                    <br/>
-                                    <h:inputText class="form-control" id="direccion" value="#{proveedorController.selected.direccion}" title="#{bundle.EditProveedorTitle_direccion}" />
-                                    <br/>
-                                    <h:commandLink class="btn btn-warning btn-lg btn-block text-white rounded-pill" action="#{proveedorController.update}" value="Modificar"/>
+                                    <h:commandLink class="btn btn-warning btn-lg btn-block text-white rounded-pill" action="#{proveedorSesion.editarProveedor()}" value="Modificar"/>
                                     <br />
                                 </h:form>
                             </div>

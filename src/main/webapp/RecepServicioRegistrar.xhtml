@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:html5="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
     <h:head>
         <!-- Required meta tags -->
@@ -210,19 +211,13 @@
                                 <h5 class="card-title font-weight-bold text-white">Registrar servicio</h5>
                                 <hr class="bg-white"/>
                                 <h:form>
-                                    <h:outputLabel class="card-text font-weight-bold text-white" value="#{bundle.CreateServicioLabel_nombre}" for="nombre" />
-                                    <br/>
-                                    <h:inputText class="form-control" id="nombre" value="#{servicioController.selected.nombre}" title="#{bundle.CreateServicioTitle_nombre}" />
-                                    <br/>
-                                    <h:outputLabel class="card-text font-weight-bold text-white" value="#{bundle.CreateServicioLabel_descripcion}" for="descripcion" />
-                                    <br/>
-                                    <h:inputText class="form-control" id="descripcion" value="#{servicioController.selected.descripcion}" title="#{bundle.CreateServicioTitle_descripcion}" />
-                                    <br/>
-                                    <h:outputLabel class="card-text font-weight-bold text-white" value="#{bundle.CreateServicioLabel_costo}" for="costo" />
-                                    <br/>
-                                    <h:inputText class="form-control" id="costo" value="#{servicioController.selected.costo}" title="#{bundle.CreateServicioTitle_costo}" />        
-                                    <br />
-                                    <h:commandLink class="btn btn-success btn-lg btn-block text-white rounded-pill" action="#{servicioController.create}" value="Guardar" />
+                                    <h:inputText value="#{servicioSesion.ser.nombre}" required="true" html5:placeholder="Nombre" class="form-control"/><br/>
+                                   
+                                    <h:inputText value="#{servicioSesion.ser.descripcion}" class="form-control" id="nombre" required="true" html5:placeholder="Descripción" /><br/>
+                                    
+                                    <h:inputText value="#{servicioSesion.ser.costo}" class="form-control" id="descripcion" html5:placeholder="Costo" /><br/>
+                 
+                                    <h:commandLink class="btn btn-success btn-lg btn-block text-white rounded-pill" action="#{servicioSesion.registrarServicio()}" value="Guardar" />
                                     <br />
                                 </h:form>
                             </div>

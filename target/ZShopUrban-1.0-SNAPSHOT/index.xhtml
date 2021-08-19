@@ -1,7 +1,9 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:html5="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Facelet Title</title>
         <h:outputStylesheet name="css/jsfcrud.css"/>
@@ -10,12 +12,11 @@
         <meta name="description" content=""></meta>
         <meta name="author" content="Mauricio Romero, Juan Sarmiento, Brikman Morales"></meta>
         <title>Urban Barber Shop</title>
-        <h:outputStylesheet name="css/jsfcrud.css"/>
         <!-- Bootstrap core CSS -->
         <h:outputStylesheet library="CSS" name="bootstrap.min.css"></h:outputStylesheet>
-            <!-- Custom styles for this template -->
-            <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900" rel="stylesheet"></link>
-            <!-- Custom styles for this template -->
+        <!-- Custom styles for this template -->
+        <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900" rel="stylesheet"></link>
+        <!-- Custom styles for this template -->
         <h:outputStylesheet library="CSS" name="blog.css"></h:outputStylesheet>
     </h:head>
     <h:body>
@@ -27,8 +28,7 @@
                         <button class="translate" id="es">Español</button>
                         <button class="translate" id="en"> English</button>
                         <h:link outcome="iniciarsesion">
-                            <div class="lang btn btn-sm btn-outline-success" style="cursor: pointer;" key="iniciarSesion"><b>Iniciar
-                                    sesion</b>
+                            <div class="lang btn btn-sm btn-outline-success" style="cursor: pointer;" key="iniciarSesion"><a  data-toggle="modal" data-target="#exampleModal2" href="#">Iniciar sesion</a>
                             </div>
                         </h:link>
                     </div>
@@ -49,7 +49,7 @@
 
                         <h:link outcome="Registrarse">
                             <div class="lang btn btn-sm btn-outline-danger" style="cursor: pointer;" 
-                                 key="registrarse">Registrate</div>
+                                 key="registrarse"><a  data-toggle="modal" data-target="#exampleModal1" href="#">Registrarse</a></div>
                         </h:link>
                         <br />
 
@@ -238,7 +238,7 @@
             </div><!-- /.row -->
 
         </main><!-- /.container -->
-      
+
         <footer class="blog-footer">
             <p class="lang" key="derechosReservados">Derechos reservados <a href="index.html">Urban Barber Shop</a> 2021.</p>
             <p>
@@ -246,123 +246,93 @@
             </p>
         </footer>
 
+        <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Registro</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <h:form>
+                        <h:inputText value="#{usuarioSesion.correoUsuario}" requiredMessage="Se requiere un correo valido !!" required="true" html5:placeholder="Correo Electronico" class="form-control" />
+                        <br/>
+                        <h:inputSecret value="#{usuarioSesion.contrasena}" requiredMessage="Se requiere una clave valido !!"  required="true" html5:placeholder="Clave" class="form-control" />
+                        <br/>
+                        <h:commandButton action="#{usuarioSesion.validarUsuario()}" class="button" value="Ingresar">
+                        </h:commandButton>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Registro</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <h:form>
+
+                        <div class="modal-body">
+                            <h:inputText value="#{usuarioSesion.usuReg.nombre}" required="true" html5:placeholder="Nombre" class="form-control"/>
+                            <br/>                              
+                            <h:inputText value="#{usuarioSesion.usuReg.apellido}" required="true" html5:placeholder="Apellido" class="form-control"/>
+                            <br/>
+                            <h:inputText value="#{usuarioSesion.usuReg.correo}" required="true" html5:placeholder="Correo" class="form-control"/>
+                            <br/>
+                            <h:inputText value="#{usuarioSesion.usuReg.contrasena}" required="true" html5:placeholder="contraseña" class="form-control"/>
+                            <br/>
+                            <h:outputLabel value="Tipo identificacion" for="tipoIdentificacionIdTipoIdentificacion" />
+                            <h:selectOneMenu id="tipoIdentificacionIdTipoIdentificacion" value="#{usuarioSesion.ciudad.numeroCiudad}" required="true" >
+                                <f:selectItems value="#{usuarioSesion.ciudades}" var="ciu" itemLabel="#{ciu.nombreCiudad}" itemValue="#{ciu.numeroCiudad}"/>
+                            </h:selectOneMenu>
+
+                            <h:outputLabel value="Tipo rol" for="ripoRol" />
+                            <h:selectOneMenu id="ripoRol" value="#{usuarioSesion.tipoRol.numeroRol}" required="true">
+                                <f:selectItems value="#{usuarioSesion.roles}" var="rol" itemLabel="#{rol.descripcion}" itemValue="#{rol.numeroRol}"/>
+                            </h:selectOneMenu>
+
+                            <h:outputLabel value="Tipo identificacion" for="tipoIdentificacion" />
+                            <h:selectOneMenu id="tipoIdentificacion" value="#{usuarioSesion.tipoIdentificacion.idTipoIdentificacion}" required="true">
+                                <f:selectItems value="#{usuarioSesion.tipoIdentificaciones}" var="ide" itemLabel="#{ide.descripcion}" itemValue="#{ide.idTipoIdentificacion}"/>
+                            </h:selectOneMenu>
+
+                            <h:outputLabel value="Tipo telefono" for="tipoTelefono" />
+                            <h:selectOneMenu id="tipoTelefono" value="#{usuarioSesion.tipoTelefono.numeroTipoTelefono}" required="true">
+                                <f:selectItems value="#{usuarioSesion.tipoTelefonos}" var="tel" itemLabel="#{tel.descripcion}" itemValue="#{tel.numeroTipoTelefono}"/>
+                            </h:selectOneMenu>
+
+                            <br/>
+                            <h:inputText value="#{usuarioSesion.usuReg.numeroDocumento}" required="true" html5:placeholder="Número documento" class="form-control"/>
+                            <br/>
+
+                            <br/>
+                            <h:inputText value="#{usuarioSesion.usuReg.numeroTelefono}" required="true" html5:placeholder="Número telefono" class="form-control"/>
+                            <br/>
+
+                        </div>
+
+                        <h:commandButton action="#{usuarioSesion.registrarUsuario()}" class="btn btn-primary" value="Registrar.">
+                        </h:commandButton>
+
+                    </h:form>
+                </div>
+            </div>
+        </div>
+
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <h:outputScript library="JS" name="idiomas.js"></h:outputScript>
 
-            <br />
-            <!--
-        <h:link outcome="/agenda/List" value="Show All Agenda Items"/>
         <br />
-        <h:link outcome="/barbero/List" value="Show All Barbero Items"/>
-        <br />
-        <h:link outcome="/bodega/List" value="Show All Bodega Items"/>
-        <br />
-        <h:link outcome="/calificacion/List" value="Show All Calificacion Items"/>
-        <br />
-        <h:link outcome="/cita/List" value="Show All Cita Items"/>
-        <br />
-        <h:link outcome="/ciudad/List" value="Show All Ciudad Items"/>
-        <br />
-        <h:link outcome="/cliente/List" value="Show All Cliente Items"/>
-        <br />
-        <h:link outcome="/detalleProducto/List" value="Show All DetalleProducto Items"/>
-        <br />
-        <h:link outcome="/estadoCita/List" value="Show All EstadoCita Items"/>
-        <br />
-        <h:link outcome="/factura/List" value="Show All Factura Items"/>
-        <br />
-        <h:link outcome="/identificacion/List" value="Show All Identificacion Items"/>
-        <br />
-        <h:link outcome="/pedido/List" value="Show All Pedido Items"/>
-        <br />
-        <h:link outcome="/producto/List" value="Show All Producto Items"/>
-        <br />
-        <h:link outcome="/proveedor/List" value="Show All Proveedor Items"/>
-        <br />
-        <h:link outcome="/recepcionista/List" value="Show All Recepcionista Items"/>
-        <br />
-        <h:link outcome="/rol/List" value="Show All Rol Items"/>
-        <br />
-        <h:link outcome="/servicio/List" value="Show All Servicio Items"/>
-        <br />
-        <h:link outcome="/telefono/List" value="Show All Telefono Items"/>
-        <br />
-        <h:link outcome="/tipoEstadoCita/List" value="Show All TipoEstadoCita Items"/>
-        <br />
-        <h:link outcome="/tipoIdentificacion/List" value="Show All TipoIdentificacion Items"/>
-        <br />
-        <h:link outcome="/tipoRol/List" value="Show All TipoRol Items"/>
-        <br />
-        <h:link outcome="/tipoTelefono/List" value="Show All TipoTelefono Items"/>
-        <br />
-        <h:link outcome="/usuario/List" value="Show All Usuario Items"/>
-        <br />
-        <h:link outcome="/bodega/List" value="Show All Bodega Items"/>
-        <br />
-        <h:link outcome="/calificacion/List" value="Show All Calificacion Items"/>
-        <br />
-        <h:link outcome="/cita/List" value="Show All Cita Items"/>
-        <br />
-        <h:link outcome="/ciudad/List" value="Show All Ciudad Items"/>
-        <br />
-        <h:link outcome="/despachoProducto/List" value="Show All DespachoProducto Items"/>
-        <br />
-        <h:link outcome="/detallePedido/List" value="Show All DetallePedido Items"/>
-        <br />
-        <h:link outcome="/estadoAsignacion/List" value="Show All EstadoAsignacion Items"/>
-        <br />
-        <h:link outcome="/factura/List" value="Show All Factura Items"/>
-        <br />
-        <h:link outcome="/pedido/List" value="Show All Pedido Items"/>
-        <br />
-        <h:link outcome="/producto/List" value="Show All Producto Items"/>
-        <br />
-        <h:link outcome="/proveedor/List" value="Show All Proveedor Items"/>
-        <br />
-        <h:link outcome="/servicio/List" value="Show All Servicio Items"/>
-        <br />
-        <h:link outcome="/tipoIdentificacion/List" value="Show All TipoIdentificacion Items"/>
-        <br />
-        <h:link outcome="/tipoRol/List" value="Show All TipoRol Items"/>
-        <br />
-        <h:link outcome="/tipoTelefono/List" value="Show All TipoTelefono Items"/>
-        <br />
-        <h:link outcome="/usuario/List" value="Show All Usuario Items"/>
-        <br />
-        <h:link outcome="/bodega/List" value="Show All Bodega Items"/>
-        <br />
-        <h:link outcome="/calificacion/List" value="Show All Calificacion Items"/>
-        <br />
-        <h:link outcome="/cita/List" value="Show All Cita Items"/>
-        <br />
-        <h:link outcome="/ciudad/List" value="Show All Ciudad Items"/>
-        <br />
-        <h:link outcome="/despachoProducto/List" value="Show All DespachoProducto Items"/>
-        <br />
-        <h:link outcome="/detallePedido/List" value="Show All DetallePedido Items"/>
-        <br />
-        <h:link outcome="/estadoAsignacion/List" value="Show All EstadoAsignacion Items"/>
-        <br />
-        <h:link outcome="/factura/List" value="Show All Factura Items"/>
-        <br />
-        <h:link outcome="/pedido/List" value="Show All Pedido Items"/>
-        <br />
-        <h:link outcome="/producto/List" value="Show All Producto Items"/>
-        <br />
-        <h:link outcome="/proveedor/List" value="Show All Proveedor Items"/>
-        <br />
-        <h:link outcome="/servicio/List" value="Show All Servicio Items"/>
-        <br />
-        <h:link outcome="/tipoIdentificacion/List" value="Show All TipoIdentificacion Items"/>
-        <br />
-        <h:link outcome="/tipoRol/List" value="Show All TipoRol Items"/>
-        <br />
-        <h:link outcome="/tipoTelefono/List" value="Show All TipoTelefono Items"/>
-        <br />
-        <h:link outcome="/usuario/List" value="Show All Usuario Items"/>-->
+
     </h:body>
 </html>
 

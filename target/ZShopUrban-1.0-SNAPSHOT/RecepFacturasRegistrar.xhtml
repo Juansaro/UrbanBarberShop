@@ -2,6 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:html5="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <!-- Required meta tags -->
@@ -212,16 +213,16 @@
                                 <hr class="bg-white"/>
                                 <h:form>
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Número de cita:" for="citaIdCita" />
-                                    <br/>
-                                    <h:selectOneMenu class="form-control" id="citaIdCita" value="#{facturaController.selected.citaIdCita}" title="#{bundle.CreateFacturaTitle_citaIdCita}" required="true" requiredMessage="#{bundle.CreateFacturaRequiredMessage_citaIdCita}">
-                                        <f:selectItems value="#{citaController.itemsAvailableSelectOne}"/>
+                                    
+                                    <h:selectOneMenu class="form-control" id="citaIdCita" value="#{facturaSesion.cita.idCita}" >
+                                        <f:selectItems value="#{facturaSesion.citas}" var="cit" itemLabel="#{cit.fechaCita}" itemValue="#{cit.idCita}"/>
                                     </h:selectOneMenu>
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Costo:" for="costo" />
+                                    
+                                    <h:inputText class="form-control" id="costo" value="#{facturaSesion.fac.costo}" html5:placeholder="Escribe el costo"/>
                                     <br/>
-                                    <h:inputText class="form-control" id="costo" value="#{facturaController.selected.costo}" title="#{bundle.CreateFacturaTitle_costo}" />
-                                    <br/>
-                                    <br />
-                                    <h:commandLink class="btn btn-success btn-lg btn-block text-white rounded-pill" action="#{facturaController.create}" value="Guardar" />
+                                 
+                                    <h:commandLink class="btn btn-success btn-lg btn-block text-white rounded-pill" action="#{facturaSesion.registrarFactura()}" value="Guardar" />
                                     <br />
                                 </h:form>
                             </div>

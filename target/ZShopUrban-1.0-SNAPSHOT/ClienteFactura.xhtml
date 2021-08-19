@@ -114,21 +114,21 @@
                             <div class="card-body">
                                 <h5 class="card-title font-weight-bold text-white">Consultar factura</h5>
                                 <hr class="bg-white"/>
-                                <p:dataTable id="tabla" emptyMessage="Ninguna factura registrada" value="#{facturaController.items}" 
-                                             var="item" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
+                                <p:dataTable id="tabla" emptyMessage="Ninguna factura registrada" value="#{facturaSesion.facturas}" 
+                                             var="f" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
                                              >
 
-                                    <p:column headerText="Factura" filterBy="#{item.idFactura}" filterMatchMode="contains" >
-                                        <h:outputText value="#{item.idFactura}"  /> 
+                                    <p:column headerText="Factura" filterBy="#{f.idFactura}" filterMatchMode="contains" >
+                                        <h:outputText value="#{f.idFactura}"  /> 
                                     </p:column>
 
 
-                                    <p:column headerText="Costo" filterBy="#{item.costo}" filterMatchMode="contains" >
-                                        <h:outputText value="#{item.costo}"  /> 
+                                    <p:column headerText="Costo" filterBy="#{f.costo}" filterMatchMode="contains" >
+                                        <h:outputText value="#{f.costo}"  /> 
                                     </p:column>
 
-                                    <p:column headerText="Cita" filterBy="#{item.citaIdCita}" filterMatchMode="contains" >
-                                        <h:outputText value="#{item.citaIdCita}"  /> 
+                                    <p:column headerText="Cita" filterBy="#{f.citaIdCita}" filterMatchMode="contains" >
+                                        <h:outputText value="#{f.citaIdCita}"  /> 
                                     </p:column> 
 
                                 </p:dataTable>

@@ -115,24 +115,24 @@
                                 <hr class="bg-white"/>
                                 <h:form id="frmPrincipal">
 
-                                    <p:dataTable id="tabla" emptyMessage="Ninguna servicio registrado" value="#{servicioController.items}" 
-                                                 var="item" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
+                                    <p:dataTable id="tabla" emptyMessage="Ninguna servicio registrado" value="#{servicioSesion.servicios}" 
+                                                 var="s" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
                                                  >
 
-                                        <p:column headerText="Bodega" filterBy="#{item.idServicio}" filterMatchMode="Servicio" >
-                                            <h:outputText value="#{item.idServicio}"  /> 
+                                        <p:column headerText="id servicio" filterBy="#{s.idServicio}" filterMatchMode="Servicio" >
+                                            <h:outputText value="#{s.idServicio}"  /> 
                                         </p:column>
 
-                                        <p:column headerText="Nombre" filterBy="#{item.nombre}" filterMatchMode="Nombre" >
-                                            <h:outputText value="#{item.nombre}"  /> 
+                                        <p:column headerText="Nombre" filterBy="#{s.nombre}" filterMatchMode="Nombre" >
+                                            <h:outputText value="#{s.nombre}"  /> 
                                         </p:column>
 
-                                        <p:column headerText="Existencias" filterBy="#{item.descripcion}" filterMatchMode="Descripción" >
-                                            <h:outputText value="#{item.descripcion}"  /> 
+                                        <p:column headerText="Descripción" filterBy="#{s.descripcion}" filterMatchMode="Descripción" >
+                                            <h:outputText value="#{s.descripcion}"  /> 
                                         </p:column>
 
-                                        <p:column headerText="Existencias" filterBy="#{item.costo}" filterMatchMode="Costo" >
-                                            <h:outputText value="#{item.costo}"  /> 
+                                        <p:column headerText="Costo" filterBy="#{s.costo}" filterMatchMode="Costo" >
+                                            <h:outputText value="#{s.costo}"  /> 
                                         </p:column>
 
                                     </p:dataTable>

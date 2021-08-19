@@ -2,6 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:html5="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Facelet Title</title>
@@ -11,35 +12,33 @@
     </h:head>
     <h:body>
         <div class="page">
-  <div class="container">
-    <div class="left">
-      <div class="login">Login-in </div>
-      <button class="translate" id ="es">Español</button>
-        <button class="translate" id ="en"> English</button>
-      <div class="lang eula" key="ingresarElNombre...">Ingresar el Nombre de Usuario y la contraseña de Urban Barber Shop</div>
-    </div>
-    <div class="right">
-      <div class="form">
-        <h:form>
-            <p:growl id="growl" life="3000"/>
-            <h:panelGrid columns="2" id="hpgLogin">
-                <p:outputLabel for="txtUsuario" value="Usuario"/>
-                <p:inputText id="txtUsuario" required="true" value="#{usuarioController.correoUsuario}"/>
+            <div class="container">
+                <div class="left">
+                    <div class="login">Login-in </div>
+                    <button class="translate" id ="es">Español</button>
+                    <button class="translate" id ="en"> English</button>
+                    <div class="lang eula" key="ingresarElNombre...">Ingresar el Nombre de Usuario y la contraseña de Urban Barber Shop</div>
+                </div>
+                <div class="right">
+                    <div class="form">
+                        <h:form>
+                            <p:growl id="growl" life="3000"/>
+                            <h:panelGrid columns="2" id="hpgLogin">
+                                <h:inputText value="#{usuarioSesion.correoUsuario}" requiredMessage="Se requiere un correo valido !!" required="true" html5:placeholder="Correo Electronico" class="form-control" />
+                                <br/>
+                                <h:inputSecret value="#{usuarioSesion.contrasena}" requiredMessage="Se requiere una clave valido !!"  required="true" html5:placeholder="Clave" class="form-control" />
+                                <br/>
+                                <h:commandButton action="#{usuarioSesion.validarUsuario()}" class="button" value="Ingresar">
+                                </h:commandButton>
+                            </h:panelGrid>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                <p:outputLabel for="txtClave" value="Clave"/>
-                <p:inputText id="txtClave" type="password" required="true" value="#{usuarioController.contrasena}" />
-                <br/>
-                <br/>
-                <p:commandButton icon="ui-u" value="Iniciar sesión" update="hpgLogin, growl" action="#{usuarioController.autenticar()}"/>
-            </h:panelGrid>
-        </h:form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="JS/idiomas.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="JS/idiomas.js"></script>
     </h:body>
 </html>
 

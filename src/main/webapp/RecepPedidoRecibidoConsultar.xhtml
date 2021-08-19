@@ -210,29 +210,29 @@
                                 <h5 class="card-title font-weight-bold text-white">Lista de pedidos</h5>
                                 <br/>
                                  <h:form id="frmPrincipal">
-                                    <p:dataTable id="tabla" emptyMessage="Ningun pedido confirmado registrado" value="#{pedidoController.items}" 
-                                                 var="item" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
+                                     <p:dataTable id="tabla" emptyMessage="Ningun pedido confirmado registrado" value="#{pedidoSesion.pedidos}" 
+                                                 var="pe" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
                                                  >
 
-                                        <p:column headerText="Numero pedido" filterBy="#{item.numeroPedido}" filterMatchMode="Num pedido" >
-                                            <h:outputText value="#{item.numeroPedido}"  /> 
+                                        <p:column headerText="Numero pedido" filterBy="#{pe.numeroPedido}" filterMatchMode="contains" >
+                                            <h:outputText value="#{pe.numeroPedido}"  /> 
                                         </p:column>
 
-                                        <p:column headerText="fechaRecibida" filterBy="#{item.fechaRecibida}" filterMatchMode="Cantidad solicitada" >
-                                            <h:outputText value="#{item.fechaRecibida}"  /> 
+                                        <p:column headerText="Cantidad solicitada" filterBy="#{pe.fechaRecibida}" filterMatchMode="contains" >
+                                            <h:outputText value="#{pe.fechaRecibida}"  /> 
                                         </p:column>
 
-                                        <p:column headerText="Recepcionista" filterBy="#{item.detallePedidoNumeroDetalle}" filterMatchMode="Fecha solicitud" >
-                                            <h:outputText value="#{item.detallePedidoNumeroDetalle}"  /> 
+                                        <p:column headerText="Numero de detalle" filterBy="#{pe.detallePedidoNumeroDetalle}" filterMatchMode="contains" >
+                                            <h:outputText value="#{pe.detallePedidoNumeroDetalle}"  /> 
                                         </p:column>
 
-                                        <p:column headerText="Recepcionista" filterBy="#{item.usuarioIdUsuario}" filterMatchMode="Costo total" >
-                                            <h:outputText value="#{item.usuarioIdUsuario}"  /> 
+                                        <p:column headerText="Email del recepcionista" filterBy="#{pe.usuarioIdUsuario}" filterMatchMode="contains" >
+                                            <h:outputText value="#{pe.usuarioIdUsuario}"  /> 
                                         </p:column>
 
                                         <p:column headerText=" " exportable="false" >
 
-                                            <h:commandLink class="btn btn-primary rounded-pill" action="#{pedidoController.destroy}" value="Eliminar"/>
+                                            <h:commandLink class="btn btn-primary rounded-pill" action="#{pedidoSesion.eliminarPedido(pe)}" value="Eliminar"/>
 
                                         </p:column>  
 

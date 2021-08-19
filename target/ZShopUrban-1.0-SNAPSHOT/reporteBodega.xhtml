@@ -28,7 +28,7 @@
                 <p:dataExporter type="xls" target="tabla" fileName="bodegaexcel"/>
                 
             </h:commandLink>
-            <p:dataTable id="tabla" emptyMessage="Ninguna bodega registrada" value="#{bodegaController.bodegas}" 
+            <p:dataTable id="tabla" emptyMessage="Ninguna bodega registrada" value="#{bodegaSesion.bodegas}" 
                          var="bod" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom">
                 
                 <p:column headerText="Bodega" filterBy="#{bod.nombre}" filterMatchMode="contains" >

@@ -3,20 +3,19 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:html5="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
         <!-- Required meta tags -->
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
         <h:outputStylesheet library="CSS" name="recepcionista.css"/>
-        
+
         <!-- Bootstrap CSS -->
-        
-        
+
+
         <h:outputStylesheet library="CSS" name="bootstrap.min.css"></h:outputStylesheet>
         <!--Iconos-->
-        
+
         <h:outputStylesheet library="CSS" name="agendamiento.css"/>
         <title>Registrar servicio</title>
     </h:head>
@@ -24,186 +23,7 @@
         <!--wrapper-->
         <div class="d-flex" id="wrapper">
             <!-- Sidebar -->
-            <div class="bg-dark" id="sidebar-wrapper">
-                <div class="sidebar-heading text-white font-weight-bold mb-3 pt-4">Recepcionista</div>
-                <div class="list-group list-group-flush">
-                    <!--Los elementos padre e hijos deben estar dentro de un super ul y los elementos padre primero se abren con in <i> y luego un sub- <ul>-->
-                    <ul class="list-unstyled components"> <!--Elemento <u> padre--> <!--La clase de <ul> "list-unstyled components" le quita los elementos por defecto de <a>-->
-                        <li class="active">
-                            <li>
-                                <h:link outcome="RecepInicio">
-                                    <b class="list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="home"></ion-icon>Inicio</b>
-                                </h:link> 
-                            </li>
-                            <a href="#pageSubmenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="file-tray-stacked"></ion-icon>Bodegas</a>
-                            <!--Primero un <a> del título del elemento padre y luego el <ul> con los elementos hijos-->
-                            <!--Se debe enlazar el href del padre con el <ul> (ID)-->
-                            <ul class="collapse list-unstyled" id="pageSubmenu1">
-                                <li>
-                                    <h:link outcome="RecepBodegasRegistrarbodega">
-                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Registrar bodega</b>
-                                    </h:link>
-                                </li>
-                                <li>
-                                    <h:link outcome="RecepBodegasModificar">
-                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Modificar bodega</b>
-                                    </h:link>           
-                                </li>
-                                <li>
-                                    <h:link outcome="RecepBodegaConsultarEliminar">
-                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar bodegas</b>
-                                    </h:link>
-                                </li>
-                            </ul>
-                        </li>
-                        <!--Elemento-->
-                        <li>
-                            <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="file-tray"></ion-icon>Productos</a>
-                            <ul class="collapse list-unstyled" id="pageSubmenu2">
-                                <li>
-                                    <h:link outcome="RecepProductosRegistrar">
-                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Registrar producto</b>
-                                    </h:link>
-                                </li>
-                                <li>
-                                    <h:link outcome="RecepProductoModificar">
-                                        <b href="RecepProductosModificarproducto.html" class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Modificar producto</b>
-                                    </h:link>
-                                </li>
-                                <li>
-                                    <h:link outcome="RecepProductosConsultarEliminar">
-                                        <b href="RecepProductoActualizar.html" class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Actualizar producto</b>
-                                    </h:link>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="create"></ion-icon>Servicios</a>
-                            <ul class="collapse list-unstyled" id="pageSubmenu3">
-                                <li>
-                                    <h:link outcome="RecepServicioRegistrar">
-                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Registrar servicio</b>   
-                                    </h:link>
-                                </li>
-                                <li>
-                                    <h:link outcome="RecepServicioModificar">
-                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Modificar servicio</b>
-                                    </h:link>
-                                </li>
-                                <li>
-                                    <h:link outcome="RecepServicioConsultarEliminar">
-                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar servicio</b>
-                                    </h:link>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#pageSubmenu4" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="people"></ion-icon>Proveedores</a>
-                            <ul class="collapse list-unstyled" id="pageSubmenu4">
-                                <li>
-                                    <h:link outcome="RecepProveedorRegistrar">
-                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Registrar proveedor</b>
-                                    </h:link>
-                                </li>
-                                <li>
-                                    <h:link outcome="RecepProveedorModificar">
-                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Modificar proveedor</b>
-                                    </h:link>
-                                </li>
-                                <li>
-                                    <h:link outcome="RecepProveedorConsultar">
-                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar proveedores</b>
-                                    </h:link>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#pageSubmenu5" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="bag-check"></ion-icon>Pedidos</a>
-                            <ul class="collapse list-unstyled" id="pageSubmenu5">
-                                <li>
-                                    <h:link outcome="RecepPedidoRegistrar">
-                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Registrar pedido</b>
-                                    </h:link>
-                                </li>
-                                <li>
-                                    <h:link outcome="RecepPedidoConsultar">
-                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar pedido</b>
-                                    </h:link>
-                                </li>
-                            </ul>
-                        </li>
-                        <!--Elemento-->
-                        <li>
-                            <a href="#pageSubmenu6" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="id-card"></ion-icon>Asignaciones</a>
-                            <ul class="collapse list-unstyled" id="pageSubmenu6">
-                                <li>
-                                    <h:link outcome="RecepAsignarAgenda">
-                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Asignar barberos</b>
-                                    </h:link>
-                                </li>
-                                <li>
-                                    <h:link outcome="RecepDetalleProducto">
-                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Despachar producto</b>
-                                    </h:link>
-                                </li>
-                                <li>
-                                    <h:link outcome="RecepRegistroBarbero">
-                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Registrar barbero</b>
-                                    </h:link>
-                                </li>
-                                <li>
-                                    <h:link outcome="RecepModificarBarbero">
-                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Modificar barbero</b>
-                                    </h:link>
-                                </li>
-                                <li>
-                                    <h:link outcome="RecepConsultarBarberos">
-                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar barberos</b>
-                                    </h:link>
-                                </li>
-                            </ul>
-                        </li>
-                        <!--Elemento-->
-                        <li>
-                            <a href="#pageSubmenu7" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="receipt"></ion-icon>Facturas</a>
-                            <ul class="collapse list-unstyled" id="pageSubmenu7">
-                                <li>
-                                    <h:link outcome="RecepConsultarFactura">
-                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar facturas</b>
-                                    </h:link>
-                                </li>
-                            </ul>
-                        </li>
-                        <!--Elemento-->
-                        <li>
-                            <a href="#pageSubmenu8" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="checkmark-circle"></ion-icon>Fidelización</a>
-                            <ul class="collapse list-unstyled" id="pageSubmenu8">
-                                <li>
-                                    <h:link outcome="RecepConsultarCalificaciones">
-                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar calificaciones</b>
-                                    </h:link>
-                                </li>
-                            </ul>
-                        </li>
-                        <!--Elemento-->
-                        <li>
-                            <a href="#pageSubmenu9"  data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="person"></ion-icon>Usuario</a>
-                            <ul class="collapse list-unstyled" id="pageSubmenu9">
-                                <li>
-                                    <h:link outcome="RecepConsultarUsuarios">
-                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar datos</b>
-                                    </h:link>
-                                </li>
-                                <li>
-                                    <h:link outcome="RecepModificarUsuarios">
-                                        <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Modificar datos</b>
-                                    </h:link>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            
             <!-- /#sidebar-wrapper -->
             <!-- Page Content -->
             <div id="page-content-wrapper">
@@ -230,54 +50,60 @@
                     </div>
                 </nav>
                 <!--Aqui se puede añadir elementos-->
-                <div class="card container mt-3 mb-3" style="max-width: 21rem; max-height: 43rem;" id="carta">
+                <div class="card container mt-3 mb-3" style="max-width: 21rem; " id="carta">
                     <div class="row">
                         <div class="col">
-                            <img src="img/Bodega.png" class="card-img mt-3"  alt="Foto de bodega de barbería"/>
                             <div class="card-body">
                                 <h5 class="card-title font-weight-bold text-white">Modificar usuarios</h5>
                                 <hr class="bg-white"/>
                                 <h:panelGroup id="messagePanel" layout="block">
                                     <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
                                 </h:panelGroup>
-                                <h:form>
-                                    <h:panelGrid columns="2">
-                                        <h:outputLabel value="#{bundle.EditUsuarioLabel_idUsuario}" for="idUsuario" />
-                                        <h:inputText id="idUsuario" value="#{usuarioController.selected.idUsuario}" title="#{bundle.EditUsuarioTitle_idUsuario}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_idUsuario}"/>
-                                        <h:outputLabel value="#{bundle.EditUsuarioLabel_nombre}" for="nombre" />
-                                        <h:inputText id="nombre" value="#{usuarioController.selected.nombre}" title="#{bundle.EditUsuarioTitle_nombre}" />
-                                        <h:outputLabel value="#{bundle.EditUsuarioLabel_apellido}" for="apellido" />
-                                        <h:inputText id="apellido" value="#{usuarioController.selected.apellido}" title="#{bundle.EditUsuarioTitle_apellido}" />
-                                        <h:outputLabel value="#{bundle.EditUsuarioLabel_contrasena}" for="contrasena" />
-                                        <h:inputText id="contrasena" value="#{usuarioController.selected.contrasena}" title="#{bundle.EditUsuarioTitle_contrasena}" />
-                                        <h:outputLabel value="#{bundle.EditUsuarioLabel_correo}" for="correo" />
-                                        <h:inputText id="correo" value="#{usuarioController.selected.correo}" title="#{bundle.EditUsuarioTitle_correo}" />
-                                        <h:outputLabel value="#{bundle.EditUsuarioLabel_identificacion}" for="identificacion" />
-                                        <h:selectOneMenu id="identificacion" value="#{usuarioController.selected.identificacion}" title="#{bundle.EditUsuarioTitle_identificacion}" >
-                                            <f:selectItems value="#{identificacionController.itemsAvailableSelectOne}"/>
+                                <h:form id="formActualizar">
+                                    
+                                        <h:outputLabel value="Nombre:" for="nombre" />
+                                        <h:inputText id="nombre" value="#{usuarioSesion.usuTemporal.nombre}" required="true" html5:placeholder="Nombre" class="form-control"/>
+                                     
+                                        <h:outputLabel value="Apellido:" for="apellido" />
+                                        <h:inputText id="apellido" value="#{usuarioSesion.usuTemporal.apellido}" required="true" html5:placeholder="Apellido" class="form-control"/>
+                                        
+                                        <h:outputLabel value="Correo:" for="correo" />
+                                        <h:inputText id="correo" value="#{usuarioSesion.usuTemporal.correo}" required="true" html5:placeholder="Correo" class="form-control"/>
+                                        
+                                        <h:outputLabel value="Contrasena:" for="contrasena" />
+                                        <h:inputText id="contrasena" value="#{usuarioSesion.usuTemporal.contrasena}" required="true" html5:placeholder="contraseña" class="form-control"/>
+                                   
+                                        <h:outputLabel value="Tipo identificacion:" for="tipoIdentificacionIdTipoIdentificacion" />
+                                        <h:selectOneMenu class="form-control" id="tipoIdentificacionIdTipoIdentificacion" value="#{usuarioSesion.ciudad.numeroCiudad}" required="true" >
+                                            <f:selectItems value="#{usuarioSesion.ciudades}" var="ciu" itemLabel="#{ciu.nombreCiudad}" itemValue="#{ciu.numeroCiudad}"/>
                                         </h:selectOneMenu>
-                                        <h:outputLabel value="#{bundle.EditUsuarioLabel_rol}" for="rol" />
-                                        <h:selectOneMenu id="rol" value="#{usuarioController.selected.rol}" title="#{bundle.EditUsuarioTitle_rol}" >
-                                            <f:selectItems value="#{rolController.itemsAvailableSelectOne}"/>
+
+                                        <h:outputLabel value="Tipo rol:" for="ripoRol" />
+                                        <h:selectOneMenu class="form-control" id="ripoRol" value="#{usuarioSesion.tipoRol.numeroRol}" required="true">
+                                            <f:selectItems value="#{usuarioSesion.roles}" var="rol" itemLabel="#{rol.descripcion}" itemValue="#{rol.numeroRol}"/>
                                         </h:selectOneMenu>
-                                        <h:outputLabel value="#{bundle.EditUsuarioLabel_ciudadNumeroCiudad}" for="ciudadNumeroCiudad" />
-                                        <h:selectOneMenu id="ciudadNumeroCiudad" value="#{usuarioController.selected.ciudadNumeroCiudad}" title="#{bundle.EditUsuarioTitle_ciudadNumeroCiudad}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_ciudadNumeroCiudad}">
-                                            <f:selectItems value="#{ciudadController.itemsAvailableSelectOne}"/>
+
+                                        <h:outputLabel value="Tipo identificacion:" for="tipoIdentificacion" />
+                                        <h:selectOneMenu class="form-control" id="tipoIdentificacion" value="#{usuarioSesion.tipoIdentificacion.idTipoIdentificacion}" required="true">
+                                            <f:selectItems value="#{usuarioSesion.tipoIdentificaciones}" var="ide" itemLabel="#{ide.descripcion}" itemValue="#{ide.idTipoIdentificacion}"/>
                                         </h:selectOneMenu>
-                                        <h:outputLabel value="#{bundle.EditUsuarioLabel_telefono}" for="telefono" />
-                                        <h:selectOneMenu id="telefono" value="#{usuarioController.selected.telefono}" title="#{bundle.EditUsuarioTitle_telefono}" >
-                                            <f:selectItems value="#{telefonoController.itemsAvailableSelectOne}"/>
+
+                                        <h:outputLabel value="Tipo telefono:" for="tipoTelefono" />
+                                        <h:selectOneMenu class="form-control" id="tipoTelefono" value="#{usuarioSesion.tipoTelefono.numeroTipoTelefono}" required="true">
+                                            <f:selectItems value="#{usuarioSesion.tipoTelefonos}" var="tel" itemLabel="#{tel.descripcion}" itemValue="#{tel.numeroTipoTelefono}"/>
                                         </h:selectOneMenu>
-                                    </h:panelGrid>
-                                    <h:commandLink action="#{usuarioController.update}" value="#{bundle.EditUsuarioSaveLink}"/>
-                                    <br />
-                                    <br />
-                                    <h:link outcome="View" value="#{bundle.EditUsuarioViewLink}"/>
-                                    <br />
-                                    <h:commandLink action="#{usuarioController.prepareList}" value="#{bundle.EditUsuarioShowAllLink}" immediate="true"/>
-                                    <br />
-                                    <br />
-                                    <h:link outcome="/index" value="#{bundle.EditUsuarioIndexLink}" />
+                                        
+                                        <h:outputLabel value="Numero de documento:" for="numeroDocumento" />
+                                        <h:inputText id="numeroDocumento" value="#{usuarioSesion.usuTemporal.numeroDocumento}" required="true" html5:placeholder="Número documento" class="form-control"/>
+                           
+                                        <h:outputLabel value="Numero de telefono:" for="numeroTelefono" />
+                                        <h:inputText id="numeroTelefono" value="#{usuarioSesion.usuTemporal.numeroTelefono}" required="true" html5:placeholder="Número telefono" class="form-control"/>
+                                        
+                                        <br/>
+                                        
+                                        <h:commandButton action="#{usuarioSesion.editarUsuario()}" class="btn btn-warning btn-lg btn-block text-white rounded-pill" value="Editar">
+                                        </h:commandButton>
+                                    
                                 </h:form>
                             </div>
                         </div>

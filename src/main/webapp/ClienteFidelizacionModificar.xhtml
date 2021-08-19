@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:html5="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <!-- Required meta tags -->
@@ -54,17 +55,17 @@
                                 <h5 class="card-title font-weight-bold text-white">Modificar Calificación:</h5>
                                 <h:form>
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Puntaje:" for="puntaje" />
-                                    <p:rating id="puntaje"  value="#{calificacionController.selected.puntaje}"/>
+                                    <p:rating id="puntaje"  value="#{calificacionSesion.calTemporal.puntaje}"/>
                                     <br/>
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Comentario:" for="comentario" />
-                                    <h:inputText class="form-control" id="comentario" value="#{calificacionController.selected.comentario}" title="#{bundle.EditCalificacionTitle_comentario}" />
+                                    <h:inputText class="form-control" id="comentario" value="#{calificacionSesion.calTemporal.comentario}" html5:placeholder="Escribe un comentario."/>
                                     <br/>
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Numero factura:" for="facturaIdFactura" />
-                                    <h:selectOneMenu class="form-control" id="facturaIdFactura" value="#{calificacionController.selected.facturaIdFactura}" title="#{bundle.EditCalificacionTitle_facturaIdFactura}" required="true" requiredMessage="#{bundle.EditCalificacionRequiredMessage_facturaIdFactura}">
-                                        <f:selectItems value="#{facturaController.itemsAvailableSelectOne}"/>
+                                    <h:selectOneMenu class="form-control" id="facturaIdFactura" value="#{calificacionSesion.factura.idFactura}" >
+                                        <f:selectItems value="#{facturaSesion.facturas}" var="fac" itemLabel="#{fac.idFactura}" itemValue="#{fac.idFactura}"/>
                                     </h:selectOneMenu>
                                     <br/>
-                                    <h:commandLink class="btn btn-warning btn-lg btn-block text-white rounded-pill" action="#{calificacionController.update}" value="Modificar"/>
+                                    <h:commandLink class="btn btn-warning btn-lg btn-block text-white rounded-pill" action="#{calificacionSesion.editarCalificacion()}" value="Modificar"/>
                                     <br />
                                 </h:form>
                             </div>

@@ -2,6 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:html5="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
@@ -119,19 +120,19 @@
                                 <h:form>
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Puntaje:" for="puntaje" />
                                     <br/>
-                                    <p:rating id="puntaje" value="#{calificacionController.selected.puntaje}"/>
+                                    <p:rating id="puntaje" value="#{calificacionSesion.cal.puntaje}"/>
                                     <br/>
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Comentario:" for="comentario" />
                                     <br/>
-                                    <h:inputText class="form-control" id="comentario" value="#{calificacionController.selected.comentario}" title="#{bundle.CreateCalificacionTitle_comentario}" />
+                                    <h:inputText class="form-control" id="comentario" value="#{calificacionSesion.cal.comentario}" html5:placeholder="Escribe un comentario" />
                                     <br/>
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Factura:" for="facturaIdFactura" />
                                     <br/>
-                                    <h:selectOneMenu class="form-control" id="facturaIdFactura" value="#{calificacionController.selected.facturaIdFactura}" title="#{bundle.CreateCalificacionTitle_facturaIdFactura}" required="true" requiredMessage="#{bundle.CreateCalificacionRequiredMessage_facturaIdFactura}">
-                                        <f:selectItems value="#{facturaController.itemsAvailableSelectOne}"/>
+                                    <h:selectOneMenu class="form-control" id="facturaIdFactura" value="#{calificacionSesion.factura.idFactura}" >
+                                        <f:selectItems value="#{calificacionSesion.facturas}" var="fac" itemLabel="#{fac.citaIdCita}" itemValue="#{fac.idFactura}"/>
                                     </h:selectOneMenu>
                                     <br />
-                                    <h:commandLink class="btn btn-success btn-lg btn-block text-white rounded-pill" action="#{calificacionController.create}" value="Calificar" />
+                                    <h:commandLink class="btn btn-success btn-lg btn-block text-white rounded-pill" action="#{calificacionSesion.registrarCalificacion()}" value="Calificar" />
                                     <br />
                                 </h:form>
                             </div>

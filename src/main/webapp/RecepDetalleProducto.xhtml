@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:html5="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <!-- Required meta tags -->
@@ -207,43 +208,43 @@
                 <div class="card container mt-3 mb-3" style="max-width: 21rem;" id="carta">
                     <div class="row">
                         <div class="col">
-                            <img src="img/Bodega.png" class="card-img mt-3"  alt="Foto de bodega de barbería"/>
+                            
                             <div class="card-body">
                                 <h5 class="card-title font-weight-bold text-white">Despacho</h5>
                                 <hr class="bg-white"/>
                                 <h:form>
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Fecha de despacho" for="fechaDesapacho" />
-                                    <br/>
-                                    <p:calendar id="fechaDesapacho" value="#{despachoProductoController.selected.fechaSolicitud}" pattern="MM/dd/yyyy HH:mm:ss"/>
-                                    <br/>
+                                    
+                                    <p:calendar id="fechaDesapacho" value="#{despachoSesion.des.fechaSolicitud}" pattern="MM/dd/yyyy HH:mm:ss" html5:placeholder="Fecha de despacho"/>
+                                    
                                     <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
                                         <h:outputText value="Datetime:"/>
                                         <h:outputText value="#{calendarView.date10}">
                                             <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss"/>
                                         </h:outputText>
                                     </p:dialog>
-                                    <br/>
+                                    
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Usuario:" for="usuarioIdUsuario" />
-                                    <br/>
-                                    <h:selectOneMenu class="form-control" id="usuarioIdUsuario" value="#{despachoProductoController.selected.usuarioIdUsuario}" title="#{bundle.CreateDespachoProductoTitle_usuarioIdUsuario}" required="true" requiredMessage="#{bundle.CreateDespachoProductoRequiredMessage_usuarioIdUsuario}">
-                                        <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"/>
+                                    
+                                    <h:selectOneMenu class="form-control" id="usuarioIdUsuario" value="#{despachoSesion.usuario.idUsuario}" >
+                                        <f:selectItems value="#{despachoSesion.usuarios}" var="usu" itemLabel="#{usu.correo}" itemValue="#{usu.idUsuario}"/>
                                     </h:selectOneMenu>
-                                    <br/>
+                                    
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Producto:" for="productoIdProducto" />
-                                    <br/>
-                                    <h:selectOneMenu class="form-control" id="productoIdProducto" value="#{despachoProductoController.selected.productoIdProducto}" title="#{bundle.CreateDespachoProductoTitle_productoIdProducto}" required="true" requiredMessage="#{bundle.CreateDespachoProductoRequiredMessage_productoIdProducto}">
-                                        <f:selectItems value="#{productoController.itemsAvailableSelectOne}"/>
+                                    
+                                    <h:selectOneMenu class="form-control" id="productoIdProducto" value="#{despachoSesion.producto.idProducto}" >
+                                        <f:selectItems value="#{productoSesion.productos}" var="pro" itemLabel="#{pro.nombreProducto}" itemValue="#{pro.idProducto}"/>
                                     </h:selectOneMenu>
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Cantidad:" for="cantidadSolicitada" />
-                                    <br/>
-                                    <h:inputText class="form-control" id="cantidadSolicitada" value="#{despachoProductoController.selected.cantidadSolicitada}" title="#{bundle.CreateDespachoProductoTitle_cantidadSolicitada}" />
-                                    <br/>
+                                    
+                                    <h:inputText class="form-control" id="cantidadSolicitada" value="#{despachoSesion.des.cantidadSolicitada}" html5:placeholder="digita la cantidad solicitada"/>
+                                    
                                     <h:outputLabel class="card-text font-weight-bold text-white" value="Costo total:" for="costoTotal" />
+                                    
+                                    <h:inputText class="form-control" id="costoTotal" value="#{despachoSesion.des.costoTotal}" html5:placeholder="Escribe el costo total"/>
                                     <br/>
-                                    <h:inputText class="form-control" id="costoTotal" value="#{despachoProductoController.selected.costoTotal}" title="#{bundle.CreateDespachoProductoTitle_costoTotal}" />
-                                    <br/>
-                                    <h:commandLink class="btn btn-success btn-lg btn-block text-white rounded-pill" action="#{despachoProductoController.create}" value="Despachar" />
-                                    <br />
+                                    <h:commandLink class="btn btn-success btn-lg btn-block text-white rounded-pill" action="#{despachoSesion.registrarDespachoProducto()}" value="Despachar" />
+                                    
                                 </h:form>
                             </div>
                         </div>

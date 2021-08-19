@@ -115,32 +115,32 @@
                                 <h5 class="card-title font-weight-bold text-white">Consultar Fidelización</h5>
                                 <br/>
                                 <h:form id="frmPrincipal">
-                                    <p:dataTable id="tabla" emptyMessage="Ningun despacho registrado" value="#{calificacionController.items}" 
-                                                 var="item" paginator="true"  rows="15" rowSelectMode="add" paginatorPosition="bottom"
+                                    <p:dataTable id="tabla" emptyMessage="Ninguna calificacion registrada" value="#{calificacionSesion.calificaciones}" 
+                                                 var="c" paginator="true"  rows="15" rowSelectMode="add" paginatorPosition="bottom"
                                                  >
 
-                                        <p:column headerText="Calificación" filterBy="#{item.idCalificacion}" filterMatchMode="contains" >
-                                            <h:outputText value="#{item.idCalificacion}"  /> 
+                                        <p:column headerText="Calificación" filterBy="#{c.idCalificacion}" filterMatchMode="contains" >
+                                            <h:outputText value="#{c.idCalificacion}"  /> 
                                         </p:column>
 
-                                        <p:column headerText="Puntaje" filterBy="#{item.puntaje}" filterMatchMode="contains" >
-                                            <h:outputText value="#{item.puntaje}"/>
+                                        <p:column headerText="Puntaje" filterBy="#{c.puntaje}" filterMatchMode="contains" >
+                                            <h:outputText value="#{c.puntaje}"/>
                                         </p:column>
 
-                                        <p:column headerText="Comentario" filterBy="#{item.comentario}" filterMatchMode="contains" >
-                                            <h:outputText value="#{item.comentario}"  /> 
+                                        <p:column headerText="Comentario" filterBy="#{c.comentario}" filterMatchMode="contains" >
+                                            <h:outputText value="#{c.comentario}"  /> 
                                         </p:column>
 
-                                        <p:column headerText="Id factura" filterBy="#{item.facturaIdFactura}" filterMatchMode="contains" >
-                                            <h:outputText value="#{item.facturaIdFactura}"  /> 
-                                        </p:column>
-
-                                        <p:column headerText=" " exportable="false" >
-                                            <h:commandLink class="btn btn-warning rounded-pill" action="#{calificacionController.prepareEdit}" value="Editar"/>
+                                        <p:column headerText="Id factura" filterBy="#{c.facturaIdFactura}" filterMatchMode="contains" >
+                                            <h:outputText value="#{c.facturaIdFactura}"  /> 
                                         </p:column>
 
                                         <p:column headerText=" " exportable="false" >
-                                            <h:commandLink class="btn btn-danger rounded-pill" action="#{calificacionController.destroy}" value="Eliminar"/>
+                                            <h:commandLink class="btn btn-warning rounded-pill" action="#{calificacionSesion.guardarTemporal(c)}" value="Editar"/>
+                                        </p:column>
+
+                                        <p:column headerText=" " exportable="false" >
+                                            <h:commandLink class="btn btn-danger rounded-pill" action="#{calificacionSesion.eliminarCalificacion(c)}" value="Eliminar"/>
                                         </p:column>
                                     </p:dataTable> 
                                 </h:form>
