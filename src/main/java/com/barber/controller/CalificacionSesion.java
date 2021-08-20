@@ -14,6 +14,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -54,6 +56,7 @@ public class CalificacionSesion implements Serializable{
             cal.setFacturaIdFactura(factura);
             calificacionFacadeLocal.create(cal);
             calificaciones = calificacionFacadeLocal.findAll();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Calificación registrada", "Calificación registrada"));
             return "/ClienteFidelizacionConsultar.xhtml";
         } catch (Exception e) {
         }
@@ -71,6 +74,7 @@ public class CalificacionSesion implements Serializable{
         try {
             calificacionFacadeLocal.edit(calTemporal);
             this.calificacion = new Calificacion();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Calificación editada", "Calificación editada"));
             return "/ClienteFidelizacionConsultar.xhtml";
         } catch (Exception e) {
         }
@@ -88,6 +92,7 @@ public class CalificacionSesion implements Serializable{
         try {
             calificacionFacadeLocal.remove(c);
             calificacion = new Calificacion();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Se eliminó la calificación", "Se eliminó la calificación"));
             prepararEliminar();
         } catch (Exception e) {
         }

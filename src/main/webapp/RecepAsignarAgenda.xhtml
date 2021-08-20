@@ -228,6 +228,7 @@
                     </div>
                 </nav>
                 <!--Aqui se puede añadir elementos-->
+                <p:growl id="growl" life="3000"/>
                 <div class="card container mt-3 mb-3" style="max-width: 55rem;" id="carta">
                     <div class="row">
                         <div class="col">
@@ -261,13 +262,13 @@
                                         
                                         <p:column headerText=" " exportable="false" >
 
-                                            <h:commandLink class="btn btn-primary rounded-pill" action="#{citaController.prepareEdit}" value="Asignar"/>
+                                            <h:commandLink class="btn btn-primary rounded-pill" action="#{citaSesion.guardarTemporal(item)}" value="Asignar"/>
 
                                         </p:column>
                                         
                                         <p:column headerText=" " exportable="false" >
 
-                                            <h:commandLink action="#{citaSesion.eliminarCita(c)}" value="Eliminar"/>
+                                            <h:commandLink action="#{citaSesion.eliminarCita(item)}" value="Eliminar"/>
 
                                         </p:column>  
 

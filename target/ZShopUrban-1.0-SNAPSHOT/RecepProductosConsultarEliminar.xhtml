@@ -211,10 +211,7 @@
                             <div class="card-body">
                                 <h5 class="card-title font-weight-bold text-white">Lista de productos</h5>
                                 <br/>
-                                <h:panelGroup id="messagePanel" layout="block">
-                                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
-                                </h:panelGroup>
-
+                                <p:growl id="growl" life="3000"/>
                                 <h:form id="frmPrincipal">
 
                                     <p:dataTable id="tabla" emptyMessage="Ningun producto registrado" value="#{productoSesion.productos}" 
@@ -237,8 +234,8 @@
                                             <h:outputText value="#{p.cantidad}"  /> 
                                         </p:column>
                                         
-                                        <p:column headerText="Id bodega" filterBy="#{p.bodegaIdBodega}" filterMatchMode="contains">
-                                            <h:outputText value="#{p.bodegaIdBodega}"  /> 
+                                        <p:column headerText="Id bodega" filterBy="#{p.bodegaIdBodega.nombre}" filterMatchMode="contains">
+                                            <h:outputText value="#{p.bodegaIdBodega.nombre}"  /> 
                                         </p:column>
 
                                         <p:column headerText=" " exportable="false" >
@@ -252,7 +249,7 @@
 
                                         <p:column headerText=" " exportable="false" >
 
-                                            <h:commandLink class="btn btn-danger rounded-pill" action="#{productoService.eliminarProducto(p)}" value="Eliminar"/>
+                                            <h:commandLink class="btn btn-danger rounded-pill" action="#{productoSesion.eliminarProducto(p)}" value="Eliminar"/>
 
                                         </p:column>  
 

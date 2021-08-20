@@ -211,26 +211,27 @@
                                 <h5 class="card-title font-weight-bold text-white">Consultar calificaciones</h5>
                                 <hr class="bg-white"/>
                                 <h:form id="frmPrincipal">
-                                    <p:dataTable id="tabla" emptyMessage="Ninguna calificacion registrada" value="#{califiacionSesion.calificaciones}" 
-                                                 var="d" paginator="true"  rows="15" rowSelectMode="add" paginatorPosition="bottom"
+                                    <p:growl id="growl" life="3000"/>
+                                    <p:dataTable id="tabla" emptyMessage="Ninguna calificacion registrada" value="#{calificacionSesion.calificaciones}" 
+                                                 var="c" paginator="true"  rows="15" rowSelectMode="add" paginatorPosition="bottom"
                                                  >
 
-                                        <p:column headerText="Puntaje" filterBy="#{d.puntaje}" filterMatchMode="contains" >
-                                            <h:outputText value="#{d.puntaje}">
+                                        <p:column headerText="Puntaje" filterBy="#{c.puntaje}" filterMatchMode="contains" >
+                                            <h:outputText value="#{c.puntaje}">
                                                 <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
                                             </h:outputText>
                                         </p:column>
 
                                         <p:column headerText="Comentario" >
-                                            <h:outputText value="#{d.comentario}"  /> 
+                                            <h:outputText value="#{c.comentario}"  /> 
                                         </p:column>
 
                                         <p:column headerText="Numero factura" >
-                                            <h:outputText value="#{d.facturaIdFactura}"  /> 
+                                            <h:outputText value="#{c.facturaIdFactura}"  /> 
                                         </p:column>
 
                                         <p:column headerText=" " exportable="false" >
-                                            <h:commandLink class="btn btn-danger rounded-pill" action="#{despachoSesion.eliminarDespachoProducto(d)}" value="Eliminar"/>
+                                            <h:commandLink class="btn btn-danger rounded-pill" action="#{calificacionSesion.eliminarCalificacion(c)}" value="Eliminar"/>
                                         </p:column>
                                         
                                     </p:dataTable>

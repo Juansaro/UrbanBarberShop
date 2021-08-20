@@ -64,6 +64,7 @@ public class PedidoSesion implements Serializable{
             this.ped.setDetallePedidoNumeroDetalle(detallePedido);
             pedidoFacadeLocal.create(ped);
             pedidos = pedidoFacadeLocal.findAll();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Pedido registrado", "Pedido registrado"));
             return "/RecepPedidoRecibidoConsultar.xhtml";
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de registro", "Error de registro"));
@@ -82,8 +83,8 @@ public class PedidoSesion implements Serializable{
             this.pedidoFacadeLocal.remove(pe);
             this.pedido = new Pedido();
             //Colocar prepararEliminar()
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Pedido eliminado", "Pedido eliminado"));
             prepararEliminar();
-            
         }catch(Exception e){
             e.printStackTrace();
         }

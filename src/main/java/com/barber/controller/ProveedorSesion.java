@@ -12,6 +12,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.primefaces.PrimeFaces;
 
@@ -43,6 +45,7 @@ public class ProveedorSesion implements Serializable{
         try {
             proveedorFacadeLocal.create(pro);
             proveedores = proveedorFacadeLocal.findAll();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Proveedor registrado", "Proveedor registrado"));
             return "/RecepProveedorConsultar";
         } catch (Exception e) {
         }
@@ -66,6 +69,7 @@ public class ProveedorSesion implements Serializable{
         try {
             proveedorFacadeLocal.edit(proTemporal);
             this.proveedor = new Proveedor();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Proveedor editado", "Proveedor editado"));
             return "/RecepProveedorConsultar.xhtml";
         } catch (Exception e) {
             
@@ -78,9 +82,9 @@ public class ProveedorSesion implements Serializable{
         try{
             this.proveedorFacadeLocal.remove(p);
             this.proveedor = new Proveedor();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Proveedor eliminado", "Proveedor eliminado"));
             //Colocar prepararEliminar()
             prepararEliminar();
-            
         }catch(Exception e){
             e.printStackTrace();
         }

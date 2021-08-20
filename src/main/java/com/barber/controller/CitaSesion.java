@@ -55,6 +55,7 @@ public class CitaSesion implements Serializable{
     private List<Usuario> usuarios;
     
     private Cita cit = new Cita();
+    private Cita citTemporal = new Cita();
     
     @PostConstruct 
     public void init(){
@@ -74,15 +75,34 @@ public class CitaSesion implements Serializable{
             this.cit.setUsuarioIdUsuario(usuario);
             citaFacadeLocal.create(cit);
             citas = citaFacadeLocal.findAll();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cita registrada", "Cita registrada"));
             return "/ClienteVerEstadoCita.xhtml";
         } catch (Exception e) {
         }
         return null;
     }
     
+    //guardar temporal
+    public String guardarTemporal(Cita c){
+        citTemporal = c;
+        return "/RecepAsignarBarbero.xhtml";
+    }
+    
+    //Editar
+    public String editarCita(){
+        try {
+            citaFacadeLocal.edit(citTemporal);
+            this.cita = new Cita();
+            return "/RecepAsignarAgenda.xhtml";
+        } catch (Exception e) {
+        }
+        return null;
+    }
+    //***Hacer más métodos aquí***
     //Preparar página para 
     public String prepararEliminar(){
         citas = citaFacadeLocal.findAll();
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cita eliminada", "Cita eliminada"));
         return "/ClienteVerEstadoCita.xhtml";
         
     }
@@ -178,6 +198,14 @@ public class CitaSesion implements Serializable{
 
     public void setUsuarios(List<Usuario> usuarios) {
         this.usuarios = usuarios;
+    }
+
+    public Cita getCitTemporal() {
+        return citTemporal;
+    }
+
+    public void setCitTemporal(Cita citTemporal) {
+        this.citTemporal = citTemporal;
     }
     
 }

@@ -65,6 +65,7 @@ public class DetallePedidoSesion implements Serializable{
             this.det.setProveedorNumeroProveedor(proveedor);
             detallePedidoFacadeLocal.create(det);
             detallePedidos = detallePedidoFacadeLocal.findAll();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Pedido registrado", "Pedido registrado"));
             return "/RecepPedidoConsultar.xhtml";
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de registro", "Error de registro"));
@@ -76,6 +77,7 @@ public class DetallePedidoSesion implements Serializable{
     //Preparar página para 
     public String prepararEliminar(){
         detallePedidos = detallePedidoFacadeLocal.findAll();
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Orden de pedido eliminado", "Orden de pedido eliminado"));
         return "/RecepConsultarUsuarios.xhtml";
     }
     //Eliminar
@@ -84,10 +86,10 @@ public class DetallePedidoSesion implements Serializable{
             this.detallePedidoFacadeLocal.remove(d);
             this.detallePedido = new DetallePedido();
             //Colocar prepararEliminar()
-            prepararEliminar();
             
+            prepararEliminar();
         }catch(Exception e){
-            e.printStackTrace();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error al eliminar", "Error al eliminar"));
         }
     }
     

@@ -14,6 +14,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -40,6 +42,7 @@ public class ProductoSesion implements Serializable{
     
     private Producto pro = new Producto();
     private Producto proTemporal = new Producto();
+    private Bodega bodTemporal = new Bodega();
     
     @PostConstruct
     private void init(){
@@ -54,6 +57,7 @@ public class ProductoSesion implements Serializable{
             pro.setBodegaIdBodega(bodega);
             productoFacadeLocal.create(pro);
             productos = productoFacadeLocal.findAll();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Producto registrado", "Producto registrado"));
             return "/RecepProductosConsultarEliminar.xhtml";
         } catch (Exception e) {
         }
@@ -69,8 +73,12 @@ public class ProductoSesion implements Serializable{
     //Editar usuario (En el modal)
     public String editarProducto() {
         try {
+            this.proTemporal.setBodegaIdBodega(bodega);
             productoFacadeLocal.edit(proTemporal);
-            this.producto = new Producto();
+            proTemporal = new Producto();
+            bodega = new Bodega();
+            prepararEliminar();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Producto editado", "Producto editado"));
             return "/RecepProductosConsultarEliminar.xhtml";
         } catch (Exception e) {
             
@@ -91,6 +99,7 @@ public class ProductoSesion implements Serializable{
             this.productoFacadeLocal.remove(p);
             this.producto = new Producto();
             //Colocar prepararEliminar()
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Producto eliminado", "Producto eliminado"));
             prepararEliminar();
             
         }catch(Exception e){
@@ -146,6 +155,14 @@ public class ProductoSesion implements Serializable{
 
     public void setProTemporal(Producto proTemporal) {
         this.proTemporal = proTemporal;
+    }
+
+    public Bodega getBodTemporal() {
+        return bodTemporal;
+    }
+
+    public void setBodTemporal(Bodega bodTemporal) {
+        this.bodTemporal = bodTemporal;
     }
     
 }

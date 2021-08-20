@@ -208,6 +208,7 @@
                             <div class="card-body">
                                 <h5 class="card-title font-weight-bold text-white">Consultar factura</h5>
                                 <hr class="bg-white"/>
+                                <p:growl id="growl" life="3000"/>
                                 <h:form styleClass="jsfcrud_list_form">         
                                     <p:dataTable id="tabla" emptyMessage="Ninguna factura registrada" value="#{facturaSesion.facturas}" 
                                                  var="f" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"

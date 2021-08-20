@@ -79,7 +79,7 @@
                                 
                                         <h:outputLabel class="card-text font-weight-bold text-white" value="Bodega:" for="bodegaIdBodega" />
                                      
-                                        <h:selectOneMenu class="form-control" id="bodegaIdBodega" value="#{productoSesion.bodega.idBodega}" title="#{bundle.EditProductoTitle_bodegaIdBodega}" required="true" requiredMessage="#{bundle.EditProductoRequiredMessage_bodegaIdBodega}">
+                                        <h:selectOneMenu class="form-control" id="bodegaIdBodega" value="#{productoSesion.bodega.idBodega}" >
                                             <f:selectItems value="#{productoSesion.bodegas}" var="bod" itemLabel="#{bod.nombre}" itemValue="#{bod.idBodega}"/>
                                         </h:selectOneMenu>
                                         <br/>

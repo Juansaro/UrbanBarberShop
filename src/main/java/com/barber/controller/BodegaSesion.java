@@ -12,6 +12,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.primefaces.PrimeFaces;
 
@@ -43,6 +45,7 @@ public class BodegaSesion implements Serializable{
         try {
             bodegaFacadeLocal.create(bod);
             bodegas = bodegaFacadeLocal.findAll();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Bodega registrada", "Bodega registrada"));
             return "/RecepBodegaConsultarEliminar.xhtml";
         } catch (Exception e) {
         }
@@ -59,6 +62,7 @@ public class BodegaSesion implements Serializable{
         try {
             bodegaFacadeLocal.edit(bodTemporal);
             this.bodega = new Bodega();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Bodega editada", "Bodega editada"));
             return "/RecepBodegaConsultarEliminar.xhtml";
         } catch (Exception e) {
             
@@ -69,6 +73,7 @@ public class BodegaSesion implements Serializable{
     //Preparar página para eliminar
     public String prepararEliminar(){
         bodegas = bodegaFacadeLocal.findAll();
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Bodega eliminada", "Bodega eliminada"));
         return "/RecepConsultarUsuarios.xhtml";
     }
     //Eliminar

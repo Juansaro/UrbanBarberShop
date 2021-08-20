@@ -32,8 +32,8 @@ import org.primefaces.PrimeFaces;
  */
 @Named(value = "usuarioSesion")
 @SessionScoped
-public class UsuarioSesion implements Serializable{
-    
+public class UsuarioSesion implements Serializable {
+
     //Conexión con FacadeLocal's
     //Es un punto de conexión a la base de datos
     @EJB
@@ -47,7 +47,7 @@ public class UsuarioSesion implements Serializable{
     private TipoTelefonoFacadeLocal tipoTelefonoFacadeLocal;
     @EJB
     private TipoIdentificacionFacadeLocal tipoIdentificacionFacadeLocal;
-    
+
     private Usuario usuario;
     //Usar esta estructura para las FK
     @Inject
@@ -58,27 +58,27 @@ public class UsuarioSesion implements Serializable{
     private TipoTelefono tipoTelefono;
     @Inject
     private TipoIdentificacion tipoIdentificacion;
-    
+
     //Usar esta estructura para las FK (Listar)
     private List<Usuario> usuarios;
     private List<TipoIdentificacion> tipoIdentificaciones;
     private List<TipoTelefono> tipoTelefonos;
     private List<TipoRol> roles;
     private List<Ciudad> ciudades;
-    
+
     //Atributos de clase
     private String correoUsuario;
     private String contrasena;
-            
+
     //------>Instacías de sesión<------
     private Usuario usuReg = new Usuario();
     private Usuario usuLog = new Usuario();
     private Usuario usuTemporal = new Usuario();
     //------>Instacías de sesión<------
-    
+
     //Este código me permite mostrar los datos en un select de un formulario (Me lista los datos en la vista)
     @PostConstruct
-    public void init(){
+    public void init() {
         //Usar esta estructura para las FK
         usuarios = usuarioFacadeLocal.findAll();
         ciudades = ciudadFacadeLocal.findAll();
@@ -87,9 +87,9 @@ public class UsuarioSesion implements Serializable{
         tipoIdentificaciones = tipoIdentificacionFacadeLocal.findAll();
         usuario = new Usuario();
     }
-    
+
     //Registrar usuario
-    public void registrarUsuario(){
+    public void registrarUsuario() {
         try {
             //Usar esta estructura para las FK
             this.usuReg.setCiudadNumeroCiudad(ciudad);
@@ -102,30 +102,33 @@ public class UsuarioSesion implements Serializable{
         } catch (Exception e) {
         }
     }
-    
+
     //Login
-    public String validarUsuario(){
+    public String validarUsuario() {
         usuLog = usuarioFacadeLocal.encontrarUsuarioCorreo(correoUsuario);
         //rol = ejbFacade.encontrarRol(numeroRol);
-        if(usuLog != null){
-            if(usuLog.getCorreo().equals(correoUsuario)){
-                if(usuLog.getContrasena().equals(contrasena)){
+        if (usuLog != null) {
+            if (usuLog.getCorreo().equals(correoUsuario)) {
+                if (usuLog.getContrasena().equals(contrasena)) {
                     switch (usuLog.getTipoRolNumeroRol().toString()) {
                         case "Recepcionista":
                             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("correo", correoUsuario);
+                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Bienvenido!", "Bienvenido!"));
                             return "/RecepInicio.xhtml";
                         case "Cliente":
                             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("correo", correoUsuario);
+                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Clave incorrecta", "Clave incorrecta"));
                             return "/ClienteInicio.xhtml";
                         case "Barbero":
                             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("correo", correoUsuario);
+                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Clave incorrecta", "Clave incorrecta"));
                             return "/BarberInicio.xhtml";
                         default:
                             break;
                     }
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "No dispones de un rol en el sistema", "No dispones de un rol en el sistema"));
                     return null;
-                    
+
                 }
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Clave incorrecta", "Clave incorrecta"));
                 return null;
@@ -136,56 +139,73 @@ public class UsuarioSesion implements Serializable{
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "El usuario no existe", "El usuario no existe"));
         return null;
     }
-    
+
     //Cerrar sesion
-    public String cerrarSesion(){
+    public String cerrarSesion() {
         //Se destruye la información almacenada en el FacesContext (Dentro del método validarUsuario())
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Has cerrado sesión", "Has cerrado sesión"));
         return "/index.xhtml";
+
     }
-    
+
     //Recupera datos del usuario al cual se va a editar
-     public String guardarTemporal(Usuario u) {
+    public String guardarTemporal(Usuario u) {
         usuTemporal = u;
         return "/RecepModificarUsuarios.xhtml";
     }
 
     //Editar usuario (En el modal)
     public String editarUsuario() {
+
         try {
+            this.usuTemporal.setCiudadNumeroCiudad(ciudad);
+            this.usuTemporal.setTipoRolNumeroRol(tipoRol);
+            this.usuTemporal.setTipoIdentificacionIdTipoIdentificacion(tipoIdentificacion);
+            this.usuTemporal.setTipoTelefonoNumeroTipoTelefono(tipoTelefono);
+
             usuarioFacadeLocal.edit(usuTemporal);
-            this.usuario = new Usuario();
+            //Limpieza local
+            usuTemporal = new Usuario();
+            ciudad = new Ciudad();
+            tipoRol = new TipoRol();
+            tipoIdentificacion = new TipoIdentificacion();
+            tipoTelefono = new TipoTelefono();
+            usuarios = usuarioFacadeLocal.findAll();
+            //Mensaje
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario modificado", "Usuario modificado"));
+            //Redirección para carga de datos
             return "/RecepConsultarUsuarios.xhtml";
         } catch (Exception e) {
-            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de edición", "Error de edición"));
         }
         return null;
     }
-    
+
     //Preparar página para eliminar
-    public String prepararEliminar(){
-        usuarios = usuarioFacadeLocal.findAll();
+    public String prepararEliminar() {
+        usuario = new Usuario();
+
         return "/RecepConsultarUsuarios.xhtml";
     }
+
     //Eliminar
-    public void eliminarUsuario(Usuario u){
-        try{
+    public void eliminarUsuario(Usuario u) {
+        try {
             this.usuarioFacadeLocal.remove(u);
-            this.usuario = new Usuario();
             //Colocar prepararEliminar()
             prepararEliminar();
-        }catch(Exception e){
-          
+        } catch (Exception e) {
+
         }
-    }       
-    
-    //Constructor vacío
-    public UsuarioSesion(){
-        
     }
-    
+
+    //Constructor vacío
+    public UsuarioSesion() {
+
+    }
+
     //Getters y Setters
-    
     public Usuario getUsuReg() {
         return usuReg;
     }
@@ -305,6 +325,5 @@ public class UsuarioSesion implements Serializable{
     public void setUsuTemporal(Usuario usuTemporal) {
         this.usuTemporal = usuTemporal;
     }
-    
-}
 
+}

@@ -14,6 +14,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -53,6 +55,7 @@ public class FacturaSesion implements Serializable{
             fac.setCitaIdCita(cita);
             facturaFacadeLocal.create(fac);
             facturas = facturaFacadeLocal.findAll();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Factura registrada", "Factura registrada"));
             return "/RecepConsultarFactura.xhtml";
         } catch (Exception e) {
         }
@@ -68,8 +71,11 @@ public class FacturaSesion implements Serializable{
     //Editar factura
     public String editarFactura(){
         try {
+            this.facTemporal.setCitaIdCita(cita);
             facturaFacadeLocal.edit(facTemporal);
-            this.factura = new Factura();
+            facTemporal = new Factura();
+            cita = new Cita();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Factura editada", "Factura editada"));
             return "/RecepConsultarFactura.xhtml";
         } catch (Exception e) {
         }
@@ -79,6 +85,7 @@ public class FacturaSesion implements Serializable{
     //Preparar página para eliminar
     public String prepararEliminar(){
         facturas = facturaFacadeLocal.findAll();
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Factura borrada", "Factura borrada"));
         return "/RecepConsultarUsuarios.xhtml";
     }
     //Eliminar
@@ -88,7 +95,6 @@ public class FacturaSesion implements Serializable{
             this.factura = new Factura();
             //Colocar prepararEliminar()
             prepararEliminar();
-            
         }catch(Exception e){
             e.printStackTrace();
         }

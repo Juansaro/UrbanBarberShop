@@ -106,15 +106,14 @@
                     </div>
                 </nav>
                 <!--Aqui se puede añadir elementos-->
+                <p:growl id="growl" life="3000"/>
                 <div class="card container mt-3 mb-3" style="max-width: 55rem;" id="carta">
                     <div class="row">
                         <div class="col">
                             <div class="card-body">
                                 <h5 class="card-title font-weight-bold text-white">Lista de citas:</h5>
                                 <br/>
-                                <h:panelGroup id="messagePanel" layout="block">
-                                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
-                                </h:panelGroup>
+                                \
 
                                 <h:form id="frmPrincipal">
                                     <p:dataTable id="tabla" emptyMessage="Ninguna cita registrada" value="#{citaSesion.citas}" 

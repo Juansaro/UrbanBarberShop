@@ -212,7 +212,7 @@
                                 <h5 class="card-title font-weight-bold text-white">Consultar usuarios</h5>
                                 <hr class="bg-white"/>
                                 <h:form styleClass="jsfcrud_list_form">
-
+                                    <p:growl id="growl" life="3000"/>
                                     <p:dataTable id="tabla" emptyMessage="Ninguna usuario registrado" value="#{usuarioSesion.usuarios}" 
                                                  var="u" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
                                                  >

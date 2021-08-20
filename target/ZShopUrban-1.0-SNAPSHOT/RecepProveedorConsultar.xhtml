@@ -211,7 +211,7 @@
                                 <h5 class="card-title font-weight-bold text-white">Lista de proveedores:</h5>
                                 <br/>
                                 <h:form id="frmPrincipal">
-
+                                    <p:growl id="growl" life="3000"/>
                                     <p:dataTable id="tabla" emptyMessage="Ningun proveedor registrado" value="#{proveedorSesion.proveedores}" 
                                                  var="p" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
                                                  >

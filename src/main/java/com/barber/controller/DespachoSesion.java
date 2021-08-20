@@ -100,8 +100,8 @@ public class DespachoSesion implements Serializable{
             this.despachoProductoFacadeLocal.remove(d);
             this.despachoProducto = new DespachoProducto();
             //Colocar prepararEliminar()
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Proveedor eliminado", "Proveedor eliminado"));
             prepararEliminar();
-            
         }catch(Exception e){
             e.printStackTrace();
         }
