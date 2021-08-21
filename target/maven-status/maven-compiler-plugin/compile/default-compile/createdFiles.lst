@@ -11,6 +11,7 @@ com\barber\model\Cita_.class
 com\barber\model\Usuario.class
 com\barber\model\TipoRol_.class
 com\barber\controller\DespachoSesion.class
+com\barber\utilidades\Mail$1.class
 com\barber\model\Factura_.class
 com\barber\EJB\ServicioFacadeLocal.class
 com\barber\model\DetallePedido.class
@@ -36,6 +37,7 @@ com\barber\controller\CalificacionSesion.class
 com\barber\controller\DetallePedidoSesion.class
 com\barber\EJB\ProductoFacade.class
 com\barber\model\Usuario_.class
+com\barber\utilidades\Mail.class
 com\barber\EJB\CitaFacadeLocal.class
 com\barber\EJB\DespachoProductoFacade.class
 com\barber\EJB\EstadoAsignacionFacade.class

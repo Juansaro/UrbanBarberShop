@@ -46,8 +46,8 @@ public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioFac
     @Override
     public Usuario recuperarClave(String correoIn) {
         try {
-            Query qt = em.createQuery("SELECT u FROM Usuario u WHERE u.correo = :correoIn");
-            qt.setParameter("correoIn", correoIn);
+            Query qt = em.createQuery("SELECT u FROM Usuario u WHERE u.correo = :correo");
+            qt.setParameter("correo", correoIn);
             return (Usuario) qt.getSingleResult();
         } catch (Exception e) {
             return null;

@@ -15,6 +15,7 @@ import com.barber.model.TipoIdentificacion;
 import com.barber.model.TipoRol;
 import com.barber.model.TipoTelefono;
 import com.barber.model.Usuario;
+import com.barber.utilidades.Mail;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -69,6 +70,8 @@ public class UsuarioSesion implements Serializable {
     //Atributos de clase
     private String correoUsuario;
     private String contrasena;
+    private String correoIn;
+    private String claveIn;
 
     //------>Instacías de sesión<------
     private Usuario usuReg = new Usuario();
@@ -200,10 +203,25 @@ public class UsuarioSesion implements Serializable {
         }
     }
 
-    //Constructor vacío
-    public UsuarioSesion() {
+    public void recuperarClave() {
+        try {
+            usuReg = usuarioFacadeLocal.recuperarClave(correoIn);
+            if (usuReg != null) {
+                
+            Mail.recuperarClaves(usuReg.getNombre(), usuReg.getCorreo()  , usuReg.getContrasena());
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correo enviado", "Correo enviado"));
+            
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "No se encontró el correo", "No se encontró el correo"));
+            }
+
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exepción de correo", "Exepción de correo"));
+        }
 
     }
+    
+    
 
     //Getters y Setters
     public Usuario getUsuReg() {
@@ -324,6 +342,22 @@ public class UsuarioSesion implements Serializable {
 
     public void setUsuTemporal(Usuario usuTemporal) {
         this.usuTemporal = usuTemporal;
+    }
+
+    public String getCorreoIn() {
+        return correoIn;
+    }
+
+    public void setCorreoIn(String correoIn) {
+        this.correoIn = correoIn;
+    }
+
+    public String getClaveIn() {
+        return claveIn;
+    }
+
+    public void setClaveIn(String claveIn) {
+        this.claveIn = claveIn;
     }
 
 }

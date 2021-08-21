@@ -31,6 +31,7 @@
                             <div class="lang btn btn-sm btn-outline-success" style="cursor: pointer;" key="iniciarSesion"><a  data-toggle="modal" data-target="#exampleModal2" href="#">Iniciar sesion</a>
                             </div>
                         </h:link>
+
                     </div>
                     <div class="col-4 text-center">
                         <a class="blog-header-logo text-white" href="#">Urban Barber Shop</a>
@@ -263,9 +264,15 @@
                         <h:commandButton action="#{usuarioSesion.validarUsuario()}" class="button" value="Ingresar">
                         </h:commandButton>
                     </h:form>
+                    <h:link outcome="iniciarsesion">
+                        <div class="lang btn btn-sm btn-outline-success" style="cursor: pointer;" key="recu"><a  data-toggle="modal" data-target="#recuperar" href="#">Recuperar clave</a>
+                        </div>
+                    </h:link>
                 </div>
             </div>
         </div>
+
+
 
         <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -321,9 +328,39 @@
                         </h:commandButton>
 
                     </h:form>
+
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="recuperar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Registro</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <h:form>
+
+                        <h:inputText value="#{usuarioSesion.correoIn}" required="true" html5:placeholder="Correo Electronico" class="form-control" />
+
+                        <h:commandButton onclick="Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'info',
+                                    title: 'Enviando correo !!!!',
+                                    showConfirmButton: false,
+                                    timer: 3000
+                                })" action="#{usuarioSesion.recuperarClave()}" class="button" value="Recordar !">
+                        </h:commandButton>
+
+                    </h:form>
+                </div>
+            </div>
+        </div>
+
+
 
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
