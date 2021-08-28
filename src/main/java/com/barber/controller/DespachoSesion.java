@@ -59,17 +59,16 @@ public class DespachoSesion implements Serializable{
     }
     
     //Registrar
-    public String registrarDespachoProducto(){
+    public void registrarDespachoProducto(){
         try {
             des.setProductoIdProducto(producto);
             des.setUsuarioIdUsuario(usuario);
             despachoProductoFacadeLocal.create(des);
             despachoProductos = despachoProductoFacadeLocal.findAll();
-            return "/RecepDespachoConsultar.xhtml";
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/recepcionista/consultarDespacho.xhtml");
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de registro", "Error de registro"));
         }
-        return null;
     }
     
     //Guardar temportal

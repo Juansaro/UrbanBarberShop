@@ -41,15 +41,14 @@ public class ProveedorSesion implements Serializable{
     }
     
     //Registrar proveedor
-    public String registrarProveedor(){
+    public void registrarProveedor(){
         try {
             proveedorFacadeLocal.create(pro);
             proveedores = proveedorFacadeLocal.findAll();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Proveedor registrado", "Proveedor registrado"));
-            return "/RecepProveedorConsultar";
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/recepcionista/consultarProveedor.xhtml");
         } catch (Exception e) {
         }
-        return null;
     }
     
     //Preparar página para 

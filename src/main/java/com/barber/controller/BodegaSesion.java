@@ -41,15 +41,15 @@ public class BodegaSesion implements Serializable{
     }
     
     //Registrar bodega
-    public String registrarBodega(){
+    public void registrarBodega(){
         try {
             bodegaFacadeLocal.create(bod);
             bodegas = bodegaFacadeLocal.findAll();
+            
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/recepcionista/consultarBodega.xhtml");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Bodega registrada", "Bodega registrada"));
-            return "/RecepBodegaConsultarEliminar.xhtml";
         } catch (Exception e) {
         }
-        return null;
     }
     //Recupera datos del bodega al cual se va a editar
      public String guardarTemporal(Bodega b) {

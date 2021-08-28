@@ -5,7 +5,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Urban barber shop</title>
         <h:outputStylesheet name="css/jsfcrud.css"/>
         <meta charset="utf-8"></meta>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"></meta>
@@ -27,7 +27,7 @@
                     <div class="col-4 pt-1">
                         <button class="translate" id="es">Español</button>
                         <button class="translate" id="en"> English</button>
-                        <h:link outcome="iniciarsesion">
+                        <h:link >
                             <div class="lang btn btn-sm btn-outline-success" style="cursor: pointer;" key="iniciarSesion"><a  data-toggle="modal" data-target="#exampleModal2" href="#">Iniciar sesion</a>
                             </div>
                         </h:link>
@@ -48,7 +48,7 @@
                             </svg>
                         </a>
 
-                        <h:link outcome="Registrarse">
+                        <h:link >
                             <div class="lang btn btn-sm btn-outline-danger" style="cursor: pointer;" 
                                  key="registrarse"><a  data-toggle="modal" data-target="#exampleModal1" href="#">Registrarse</a></div>
                         </h:link>
@@ -264,7 +264,7 @@
                         <h:commandButton action="#{usuarioSesion.validarUsuario()}" class="button" value="Ingresar">
                         </h:commandButton>
                     </h:form>
-                    <h:link outcome="iniciarsesion">
+                    <h:link >
                         <div class="lang btn btn-sm btn-outline-success" style="cursor: pointer;" key="recu"><a  data-toggle="modal" data-target="#recuperar" href="#">Recuperar clave</a>
                         </div>
                     </h:link>

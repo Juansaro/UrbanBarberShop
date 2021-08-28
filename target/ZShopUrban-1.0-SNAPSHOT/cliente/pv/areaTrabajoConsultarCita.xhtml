@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition>
+        <p:growl id="growl" life="3000"/>
+        <div class="card container mt-3 mb-3" style="max-width: 55rem;" id="carta">
+            <div class="row">
+                <div class="col">
+                    <div class="card-body">
+                        <h5 class="card-title font-weight-bold text-white">Lista de citas:</h5>
+                        <br/>
+                        
+                        <h:form id="frmPrincipal">
+                            <p:dataTable id="tabla" emptyMessage="Ninguna cita registrada" value="#{citaSesion.citas}" 
+                                         var="item" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
+                                         >
+
+                                <p:column headerText="Id cita" filterBy="#{item.idCita}" filterMatchMode="contains" >
+                                    <h:outputText value="#{item.idCita}"  /> 
+                                </p:column>
+
+                                <p:column headerText="Fecha de la cita" filterBy="#{item.fechaCita}" filterMatchMode="contains" >
+                                    <h:outputText value="#{item.fechaCita}"  /> 
+                                </p:column>
+
+                                <p:column headerText="Estado de asignacion" filterBy="#{item.estadoAsignacionIdEstadoAsignacion}" filterMatchMode="contains" >
+                                    <h:outputText value="#{item.estadoAsignacionIdEstadoAsignacion}"/>
+                                </p:column>
+
+                                <p:column headerText="Servicio" filterBy="#{item.servicioIdServicio}" filterMatchMode="contains" >
+                                    <h:outputText value="#{item.servicioIdServicio}"  /> 
+                                </p:column>
+
+                                <p:column headerText="Usuario" filterBy="#{item.usuarioIdUsuario}" filterMatchMode="contains" >
+                                    <h:outputText value="#{item.usuarioIdUsuario}"  /> 
+                                </p:column>
+
+                                <p:column headerText=" " exportable="false" >
+
+                                    <h:commandLink class="btn btn-danger rounded-pill" action="#{citaSesion.eliminarCita(item)}" value="Eliminar"/>
+
+                                </p:column>  
+
+                            </p:dataTable>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:composition>
+</html>
+

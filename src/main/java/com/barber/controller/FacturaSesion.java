@@ -56,7 +56,7 @@ public class FacturaSesion implements Serializable{
             facturaFacadeLocal.create(fac);
             facturas = facturaFacadeLocal.findAll();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Factura registrada", "Factura registrada"));
-            return "/RecepConsultarFactura.xhtml";
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/recepcionista/consultarFactura.xhtml");
         } catch (Exception e) {
         }
         return null;

@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:html5="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+        <div class="card container mt-3 mb-3" style="max-width: 21rem;" id="carta">
+            <div class="row">
+                <div class="col">
+                    <img src="resources/img/Producto.jpg" class="card-img mt-3"  alt="Foto de bodega de barbería"/>
+                    <div class="card-body">
+                        <h5 class="card-title font-weight-bold text-white">Registrar producto</h5>
+                        <hr class="bg-white"/>
+
+                        <h:form>
+                            <h:outputLabel class="card-text font-weight-bold text-white" value="Nombre del producto:" for="nombreProducto" />
+                            <h:inputText class="form-control" id="nombreProducto" value="#{productoSesion.pro.nombreProducto}" html5:placeholder="Escribe el nombre" />
+                            <h:outputLabel class="card-text font-weight-bold text-white" value="Descripción:" for="descripcion"/>
+                            <h:inputText class="form-control" id="descripcion" value="#{productoSesion.pro.descripcion}" html5:placeholder="Descripción" />
+                            <h:outputLabel class="card-text font-weight-bold text-white" value="Precio" for="precio" />
+                            <h:inputText class="form-control" id="precio" value="#{productoSesion.pro.precio}" html5:placeholder="precio"/>
+                            <h:outputLabel class="card-text font-weight-bold text-white" value="Cantidad" for="cantidad" />
+                            <h:inputText class="form-control" id="cantidad" value="#{productoSesion.pro.cantidad}" html5:placeholder="cantidad"/>
+                            <h:outputLabel class="card-text font-weight-bold text-white" value="Elige la bodega:" for="bodegaIdBodega" />
+
+                            <h:selectOneMenu class="form-control" id="bodegaIdBodega" value="#{productoSesion.bodega.idBodega}" required="true">
+                                <f:selectItems value="#{productoSesion.bodegas}" var="bod" itemLabel="#{bod.nombre}" itemValue="#{bod.idBodega}"/>
+                            </h:selectOneMenu>
+                            <br/>
+                            <h:commandLink action="#{productoSesion.registrarProducto()}" class="btn btn-success btn-lg btn-block text-white rounded-pill" value="Guardar" />
+                            <br />
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:composition>
+</html>
+

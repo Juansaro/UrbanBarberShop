@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+        <div class="card container mt-3 mb-3" style="max-width: 21rem;" id="carta">
+            <div class="row">
+                <div class="col">
+                    <div class="card-body">
+                        <h5 class="card-title font-weight-bold text-white">Agendar cita</h5>
+                        <hr class="bg-white"/>
+                        <h:form>
+                            <h:outputLabel class="card-text font-weight-bold text-white" value="Fecha de la cita:" for="fechaSolicitud" />
+                            <br/>
+                            <p:calendar id="fechaSolicitud" value="#{citaSesion.cit.fechaCita}" pattern="MM/dd/yyyy HH:mm:ss"/>
+                            <br/>
+                            <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
+                                <h:outputText value="Datetime:"/>
+                                <h:outputText value="#{calendarView.date10}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss"/>
+                                </h:outputText>
+                            </p:dialog>
+                            <br/>
+                            <h:outputLabel class="card-text font-weight-bold text-white" value="Estado de la cita:" for="estadoAsignacionIdEstadoAsignacion" />
+                            <br/>
+                            <h:selectOneMenu class="form-control" id="estadoAsignacionIdEstadoAsignacion" value="#{citaSesion.estadoAsignacion.idEstadoAsignacion}" required="true">
+                                <f:selectItems value="#{citaSesion.estadoAsignaciones}"  var="est" itemLabel="#{est.descripcion}" itemValue="#{est.idEstadoAsignacion}"/>
+                            </h:selectOneMenu>
+                            <br/>
+                            <h:outputLabel class="card-text font-weight-bold text-white" value="Servicio:" for="servicioIdServicio" />
+                            <br/>
+                            <h:selectOneMenu class="form-control" id="servicioIdServicio" value="#{citaSesion.servicio.idServicio}" required="true">
+                                <f:selectItems value="#{citaSesion.servicios}" var="ser" itemLabel="#{ser.descripcion}" itemValue="#{ser.idServicio}"/>
+                            </h:selectOneMenu>
+                            <br/>
+                            <h:outputLabel class="card-text font-weight-bold text-white" value="Usuario" for="usuarioIdUsuario" />
+                            <br/>
+                            <h:selectOneMenu class="form-control" id="usuarioIdUsuario" value="#{citaSesion.usuario.idUsuario}" required="true">
+                                <f:selectItems value="#{citaSesion.usuarios}" var="usu" itemLabel="#{usu.correo}" itemValue="#{usu.idUsuario}"/>
+                            </h:selectOneMenu>
+                            <br />
+                            <h:commandLink class="btn btn-success btn-lg btn-block text-white rounded-pill" action="#{citaSesion.registrarCita()}" value="Agendar" />
+                            <br />
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:composition>
+</html>
+

@@ -52,16 +52,15 @@ public class ProductoSesion implements Serializable{
     }
     
     //Registrar producto
-    public String registrarProducto(){
+    public void registrarProducto(){
         try {
             pro.setBodegaIdBodega(bodega);
             productoFacadeLocal.create(pro);
             productos = productoFacadeLocal.findAll();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Producto registrado", "Producto registrado"));
-            return "/RecepProductosConsultarEliminar.xhtml";
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/recepcionista/consultarProducto.xhtml");
         } catch (Exception e) {
         }
-        return null;
     }
     
     //Recupera datos del producto al cual se va a editar

@@ -41,7 +41,7 @@ public class ServicioSesion implements Serializable{
         try {
             servicioFacadeLocal.create(ser);
             servicios = servicioFacadeLocal.findAll();
-            return "/RecepServicioConsultarEliminar";
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/recepcionista/consultarServicio.xhtml");
         } catch (Exception e) {
         }
         return null;
