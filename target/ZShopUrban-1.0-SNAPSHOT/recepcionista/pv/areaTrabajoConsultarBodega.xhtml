@@ -7,11 +7,21 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition>
+
+        <h:form id="forarchivo" enctype="multipart/form-data">
+
+            <h:inputFile style="display: none" value="#{bodegaSesion.archivoCarga}" id="carga" class="btn btn-info" >
+                <!--Llamado asíncronico-->
+                <f:ajax></f:ajax>
+            </h:inputFile>
+            <button style="display: none" type="reset" id="resetform" class="btn btn-dark">Reset</button>
+        </h:form>
+
         <div class="card container mt-3 mb-3" style="max-width: 55rem;" id="carta">
             <div class="row">
                 <div class="col">
                     <div class="card-body">
-                        <h5 class="card-title font-weight-bold text-white">Lista de bodegas:</h5>
+                        <h5 class="card-title font-weight-bold text-white lang" key="l">Lista de bodegas:</h5>
                         <br/>
                         <p:growl id="growl" life="3000"/>
                         <h:form id="frmPrincipal">

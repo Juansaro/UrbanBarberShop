@@ -65,8 +65,8 @@ public class DetallePedidoSesion implements Serializable{
             this.det.setProveedorNumeroProveedor(proveedor);
             detallePedidoFacadeLocal.create(det);
             detallePedidos = detallePedidoFacadeLocal.findAll();
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/recepcionista/recibirPedido.xhtml");           
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Pedido registrado", "Pedido registrado"));
-            FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/recepcionista/rebirPedido.xhtml");
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de registro", "Error de registro"));
         }

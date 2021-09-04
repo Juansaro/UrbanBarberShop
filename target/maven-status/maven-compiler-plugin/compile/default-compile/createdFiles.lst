@@ -1,4 +1,5 @@
 com\barber\EJB\DetallePedidoFacadeLocal.class
+com\barber\utilidades\ImgServlet.class
 com\barber\EJB\TipoRolFacade.class
 com\barber\model\DetallePedido_.class
 com\barber\model\Pedido_.class

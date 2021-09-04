@@ -29,5 +29,7 @@ public interface TipoRolFacadeLocal {
     List<TipoRol> findRange(int[] range);
 
     int count();
+
+    public TipoRol encontrarUsuarioRol();
     
 }

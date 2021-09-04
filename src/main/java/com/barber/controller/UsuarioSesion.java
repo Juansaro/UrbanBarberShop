@@ -16,8 +16,14 @@ import com.barber.model.TipoRol;
 import com.barber.model.TipoTelefono;
 import com.barber.model.Usuario;
 import com.barber.utilidades.Mail;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -26,6 +32,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.Part;
+import org.primefaces.PrimeFaces;
+import org.primefaces.shaded.commons.io.FilenameUtils;
 
 /**
  *
@@ -73,6 +82,10 @@ public class UsuarioSesion implements Serializable {
     private String contrasena;
     private String correoIn;
     private String claveIn;
+    //Archivos (carga)
+    private Part archivoFoto;
+    //Format
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 
     //------>Instacías de sesión<------
     private Usuario usuReg = new Usuario();
@@ -93,7 +106,7 @@ public class UsuarioSesion implements Serializable {
         //Limpiar un formulario
         usuario = new Usuario();
     }
-    
+
     //Login
     public void validarUsuario() throws IOException {
         usuLog = usuarioFacadeLocal.encontrarUsuarioCorreo(correoUsuario);
@@ -118,7 +131,7 @@ public class UsuarioSesion implements Serializable {
                             break;
                     }
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "No dispones de un rol en el sistema", "No dispones de un rol en el sistema"));
-                 }
+                }
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Clave incorrecta", "Clave incorrecta"));
             }
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "El usuario no existe", "El usuario no existe"));
@@ -141,6 +154,7 @@ public class UsuarioSesion implements Serializable {
             //Encontrar datos
             usuarios = usuarioFacadeLocal.findAll();
         } catch (Exception e) {
+            System.out.println("Error");
         }
     }
 
@@ -172,10 +186,7 @@ public class UsuarioSesion implements Serializable {
             //Limpieza local
             usuTemporal = new Usuario();
             //Limpieza de las FK'S
-            ciudad = new Ciudad();
-            tipoRol = new TipoRol();
-            tipoIdentificacion = new TipoIdentificacion();
-            tipoTelefono = new TipoTelefono();
+            
             usuarios = usuarioFacadeLocal.findAll();
             //Mensaje
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario modificado", "Usuario modificado"));
@@ -217,6 +228,44 @@ public class UsuarioSesion implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exepción de correo", "Exepción de correo"));
         }
 
+    }
+
+    //Carga de foto de perfil
+    public void cargarFotoPerfil() {
+        if (archivoFoto != null) {
+            if (archivoFoto.getSize() > 70000) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "El archivo es muy grande", "El archivo es muy grande"));
+            } else if (archivoFoto.getContentType().equalsIgnoreCase("image/png") || archivoFoto.getContentType().equalsIgnoreCase("image/jpeg")) {
+                try (InputStream is = archivoFoto.getInputStream()) {
+                    File carpeta = new File("C:\\ubs\\usuarios\\fotoperfil");
+                    //Comprobación si no exite
+                    if (!carpeta.exists()) {
+                        //Creación de carpeta
+                        carpeta.mkdirs();
+                    }
+                    Calendar hoy = Calendar.getInstance();
+                    //Guardar la fecha con la fecha exacta
+                    String nuevoNombre = sdf.format(hoy.getTime()) + ".";
+                    //Recargue (concatenación) filesnameutils me permite traer la extención
+                    nuevoNombre += FilenameUtils.getExtension(archivoFoto.getSubmittedFileName());
+                    //**parámetros** Fuente , salida, sobreescribir
+                    Files.copy(is, (new File(carpeta, nuevoNombre)).toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    //Recoger la imagen y actualizar el usuario con el nombre de la imagen
+                    usuLog.setUsuFoto(nuevoNombre);
+                    usuarioFacadeLocal.edit(usuLog);
+                    //Resetear
+                    PrimeFaces.current().executeScript("document.getElementById('resetform').click()");
+                } catch (Exception e) {
+                    System.out.println("error");
+                }
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "El formato no esta permitido", "El formato no esta permitido"));
+            }
+        } else {
+            //Mensaje
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de carga", "Error de carga"));
+        }
+        System.out.println("Llegó");
     }
 
     //Getters y Setters
@@ -354,6 +403,14 @@ public class UsuarioSesion implements Serializable {
 
     public void setClaveIn(String claveIn) {
         this.claveIn = claveIn;
+    }
+
+    public Part getArchivoFoto() {
+        return archivoFoto;
+    }
+
+    public void setArchivoFoto(Part archivoFoto) {
+        this.archivoFoto = archivoFoto;
     }
 
 }

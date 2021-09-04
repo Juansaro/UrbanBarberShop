@@ -2,13 +2,40 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <ui:composition>
+        <p:growl id="growl" life="3000"/>
         <div class="container text-dark">
             <div class="row pt-4 text-white">
                 <div class="col">
                     <div class="card " id="carta" style="width: 18rem;">
-                        <img src="..." class="card-img-top" alt="..."/>
+                        <h:form enctype="multipart/form-data">
+                            
+
+                            <h:graphicImage
+                                height="128px"
+                                width="128px"
+                                class="rounded mx-auto d-block"
+                                id="fotoPerfil"
+                                value="/ImgServlet/#{usuarioSesion.usuLog.usuFoto}">
+                            </h:graphicImage>
+
+                            l<!-- <img
+                                src="#{request.contextPath}/resources/img/default.png" 
+                                class="card-img-top" 
+                                alt="..."
+                                />
+                            -->
+
+                            <h:inputFile value="#{usuarioSesion.archivoFoto}" class="btn btn-info" >
+                                <!--Llamado asíncronico-->
+                                <f:ajax listener="#{usuarioSesion.cargarFotoPerfil()}"></f:ajax>
+                            </h:inputFile>
+                            <button style="display: none" type="reset" id="resetform" class="btn btn-dark">Reset</button>
+                        </h:form>
+
                         <div class="card-body">
                             <h5 class="card-title">¡Bienvenido!</h5>
                             <p class="card-text">${nombre} ${apellido}.</p>
@@ -20,7 +47,7 @@
                     <div class="card mb-3"  id="carta" style="max-width: 340px; max-height: 150px;">
                         <div class="row no-gutters">
                             <div class="col-md-4">
-                                <img src="..." alt="..."/>
+                                <img src="" alt="..."/>
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">

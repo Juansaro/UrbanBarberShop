@@ -60,37 +60,7 @@
 
 
 
-        <div class="modal fade" id="exampleModalAct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Actualizar</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <h:form id="formActualizar">
-                        <div class="modal-body">
-                            <h:outputLabel class="card-text font-weight-bold text-white" value="Puntaje:" for="puntaje" />
-                            <p:rating id="puntaje"  value="#{calificacionSesion.calTemporal.puntaje}"/>
-
-                            <h:outputLabel class="card-text font-weight-bold text-white" value="Comentario:" for="comentario" />
-                            <h:inputText class="form-control" id="comentario" value="#{calificacionSesion.calTemporal.comentario}" html5:placeholder="Escribe un comentario."/>
-
-                            <h:outputLabel class="card-text font-weight-bold text-white" value="Numero factura:" for="facturaIdFactura" />
-                            <h:selectOneMenu class="form-control" id="facturaIdFactura" value="#{calificacionSesion.factura.idFactura}" >
-                                <f:selectItems value="#{facturaSesion.facturas}" var="fac" itemLabel="#{fac.idFactura}" itemValue="#{fac.idFactura}"/>
-                            </h:selectOneMenu>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <h:commandLink class="btn btn-primary" action="#{calificacionSesion.editarCalificacion()}" value="Modificar"/>
-
-                        </div>
-                    </h:form>
-                </div>
-            </div>
-        </div>
+        
     </ui:composition>
 </html>
 

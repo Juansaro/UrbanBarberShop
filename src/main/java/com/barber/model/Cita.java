@@ -138,7 +138,7 @@ public class Cita implements Serializable {
 
     @Override
     public String toString() {
-        return ""+idCita;
+        return "" + idCita;
     }
-    
+
 }

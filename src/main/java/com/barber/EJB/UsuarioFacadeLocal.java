@@ -39,5 +39,7 @@ public interface UsuarioFacadeLocal {
     public List<Usuario> leerTodos();
     
     public Usuario encontrarUsuarioCorreo(String correo);
+
+    public Usuario listarBarbero();
     
 }

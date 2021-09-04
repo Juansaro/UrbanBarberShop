@@ -66,6 +66,9 @@ public class Usuario implements Serializable {
     @Size(max = 150)
     @Column(name = "numero_telefono")
     private String numeroTelefono;
+    @Size(max = 255)
+    @Column(name = "usu_foto")
+    private String usuFoto;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdUsuario")
     private List<DespachoProducto> despachoProductoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdUsuario")
@@ -146,6 +149,14 @@ public class Usuario implements Serializable {
 
     public void setNumeroTelefono(String numeroTelefono) {
         this.numeroTelefono = numeroTelefono;
+    }
+    
+    public String getUsuFoto() {
+        return usuFoto;
+    }
+
+    public void setUsuFoto(String usuFoto) {
+        this.usuFoto = usuFoto;
     }
 
     @XmlTransient

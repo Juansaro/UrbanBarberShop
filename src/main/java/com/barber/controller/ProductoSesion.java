@@ -70,19 +70,17 @@ public class ProductoSesion implements Serializable{
     }
 
     //Editar usuario (En el modal)
-    public String editarProducto() {
+    public void editarProducto() {
         try {
             this.proTemporal.setBodegaIdBodega(bodega);
             productoFacadeLocal.edit(proTemporal);
-            proTemporal = new Producto();
-            bodega = new Bodega();
-            prepararEliminar();
+            productos = productoFacadeLocal.findAll();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Producto editado", "Producto editado"));
-            return "/RecepProductosConsultarEliminar.xhtml";
+            //return "/RecepProductosConsultarEliminar.xhtml";
         } catch (Exception e) {
             
         }
-        return null;
+        //return null;
     }
     
     

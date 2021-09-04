@@ -15,7 +15,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import org.primefaces.PrimeFaces;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -33,6 +33,8 @@ public class BodegaSesion implements Serializable{
     
     private Bodega bod = new Bodega();
     private Bodega bodTemporal = new Bodega();
+    
+    private Part archivoCarga;
     
     @PostConstruct
     public void init(){
@@ -89,6 +91,11 @@ public class BodegaSesion implements Serializable{
         }
     }
     
+    //carga inicial
+    public void cargaInicialDatos(){
+        
+    }
+    
     //Getters y Setters
 
     public Bodega getBodega() {
@@ -121,6 +128,14 @@ public class BodegaSesion implements Serializable{
 
     public void setBodTemporal(Bodega bodTemporal) {
         this.bodTemporal = bodTemporal;
+    }
+
+    public Part getArchivoCarga() {
+        return archivoCarga;
+    }
+
+    public void setArchivoCarga(Part archivoCarga) {
+        this.archivoCarga = archivoCarga;
     }
     
 }

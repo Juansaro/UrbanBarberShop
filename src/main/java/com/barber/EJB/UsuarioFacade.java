@@ -77,4 +77,17 @@ public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioFac
         return null;
     }
     
+    
+    @Override
+    public Usuario listarBarbero(){
+        Query q = em.createStoredProcedureQuery("{CALL ENCONTRAR_ROL_BARBERO()}");
+        
+        List<Usuario> listado = q.getResultList();
+        
+        if(!listado.isEmpty()){
+            return listado.get(0);
+        }
+        return null;
+    }
+    
 }
