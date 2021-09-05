@@ -13,6 +13,9 @@
                     <div class="card-body">
                         <h5 class="card-title font-weight-bold text-white">Consultar usuarios</h5>
                         <hr class="bg-white"/>
+                        
+                        <a onclick="${'#forarchivo:carga'}.click()" class="btn btn-tool btn-sm">Carga de archivo</a>
+                        
                         <h:form styleClass="jsfcrud_list_form">
                             <p:growl id="growl" life="3000"/>
                             <p:dataTable id="tabla" emptyMessage="Ninguna usuario registrado" value="#{usuarioSesion.usuarios}" 

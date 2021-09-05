@@ -9,6 +9,7 @@ import com.barber.model.Cita;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,4 +30,19 @@ public class CitaFacade extends AbstractFacade<Cita> implements CitaFacadeLocal 
         super(Cita.class);
     }
     
+    @Override
+    public Object generarFactura(int idCitaIn) {
+        try {
+            Query q = em.createNativeQuery("{CALL GENERAR_FACTURA(?);}");
+            q.setParameter(1, idCitaIn);
+            //Object no se sabe que devuelve
+            Object obj = q.getSingleResult();
+
+            return obj;
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
+
 }

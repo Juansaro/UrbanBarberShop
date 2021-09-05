@@ -5,6 +5,10 @@
  */
 package com.barber.controller;
 
+import com.opencsv.CSVParser;
+import com.opencsv.CSVParserBuilder;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 import com.barber.EJB.CiudadFacadeLocal;
 import com.barber.EJB.TipoIdentificacionFacadeLocal;
 import com.barber.EJB.TipoRolFacadeLocal;
@@ -17,6 +21,7 @@ import com.barber.model.TipoTelefono;
 import com.barber.model.Usuario;
 import com.barber.utilidades.Mail;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -84,6 +89,7 @@ public class UsuarioSesion implements Serializable {
     private String claveIn;
     //Archivos (carga)
     private Part archivoFoto;
+    private Part archivoCarga;
     //Format
     SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 
@@ -166,6 +172,106 @@ public class UsuarioSesion implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Has cerrado sesión", "Has cerrado sesión"));
         FacesContext.getCurrentInstance().getExternalContext().redirect("../index.xhtml");
     }
+    
+    //Carga inicial de datos de usuario
+    public void cargarInicialDatos() {
+        if (archivoCarga != null) {
+            if (archivoCarga.getSize() > 700000) {
+                PrimeFaces.current().executeScript("Swal.fire({"
+                        + "  title: 'El archivo !',"
+                        + "  text: 'No se puede cargar por el tamaño !!!',"
+                        + "  icon: 'error',"
+                        + "  confirmButtonText: 'Ok'"
+                        + "})");
+            } else if (archivoCarga.getContentType().equalsIgnoreCase("application/vnd.ms-excel")) {
+
+                try (InputStream is = archivoCarga.getInputStream()) {
+                    File carpeta = new File("C:\\cdi\\administrador\\archivos");
+                    if (!carpeta.exists()) {
+                        carpeta.mkdirs();
+                    }
+                    Files.copy(is, (new File(carpeta, archivoCarga.getSubmittedFileName())).toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    CSVParser conPuntoyComa = new CSVParserBuilder().withSeparator(';').build();
+                    CSVReader reader = new CSVReaderBuilder(new FileReader("C:\\cdi\\administrador\\archivos\\" + archivoCarga.getSubmittedFileName())).withCSVParser(conPuntoyComa).build();
+                    String[] nextline;
+                    while ((nextline = reader.readNext()) != null) {
+                        /*tipoDocumento = nextline[0] 
+                        numeroDocumento= nextline[1] 
+                        nombres= nextline[2] 
+                        apellidos = nextline[3] 
+                        correo = nextline[4] 
+                        clave = nextline[5] 
+                        telefono = nextline[6] 
+                        direccion = nextline[7] 
+                        estado = nextline[8] 
+                        foto = nextline[9] 
+                        ;*/
+
+                        Usuario usuObj = usuarioFacadeLocal.validarSiExiste(nextline[4]);
+                        if (usuObj == null) {
+                            /*
+                            Usuario objNew = new Usuario();
+                            objNew.setNombre(nextline[0]);
+                            objNew.setUsuNumerodocumento(BigInteger.valueOf(Long.parseLong(nextline[1])));
+                            objNew.setNombre(nextline[2]);
+                            objNew.setApellido(nextline[3]);
+                            objNew.setCorreo(nextline[4]);
+                            objNew.setContrasena(nextline[5]);
+                            objNew.setNumeroDocumento(nextline[6]);
+                            objNew.setNumeroTelefono(nextline[7]);
+                            objNew.(Short.parseShort(nextline[8]));
+                            objNew.setUsuFoto(nextline[9]);                            
+                            usuarioFacadeLocal.crearUsuario(objNew);
+/*
+                           
+                        } else {             
+/*
+                            usuObj.setUsuTipodocumento(nextline[0]);
+                            usuObj.setUsuNumerodocumento(BigInteger.valueOf(Long.parseLong(nextline[1])));
+                            usuObj.setUsuNombres(nextline[2]);
+                            usuObj.setUsuApellidos(nextline[3]);
+                            usuObj.setUsuCorreo(nextline[4]);
+                            usuObj.setUsuClave(nextline[5]);
+                            usuObj.setUsuTelefono(nextline[6]);
+                            usuObj.setUsuDireccion(nextline[7]);
+                            usuObj.setUsuEstado(Short.parseShort(nextline[8]));
+                            usuObj.setUsuFoto(nextline[9]);                            
+                            usuarioFacadeLocal.edit(usuObj);
+*/
+                        }
+                    }
+                    reader.close();
+
+                } catch (Exception e) {
+                    PrimeFaces.current().executeScript("Swal.fire({"
+                            + "  title: 'Problemas !',"
+                            + "  text: 'No se puede realizar esta accion',"
+                            + "  icon: 'error',"
+                            + "  confirmButtonText: 'Ok'"
+                            + "})");
+                }
+            } else {
+                PrimeFaces.current().executeScript("Swal.fire({"
+                        + "  title: 'El archivo !',"
+                        + "  text: 'No es una imagen .png o .jpeg !!!',"
+                        + "  icon: 'error',"
+                        + "  confirmButtonText: 'Ok'"
+                        + "})");
+            }
+
+        } else {
+            PrimeFaces.current().executeScript("Swal.fire({"
+                    + "  title: 'Problemas !',"
+                    + "  text: 'No se puede realizar esta accion',"
+                    + "  icon: 'error',"
+                    + "  confirmButtonText: 'Ok'"
+                    + "})");
+        }
+
+        PrimeFaces.current().executeScript("document.getElementById('resetform').click()");
+
+    }
+
 
     //Recupera datos del usuario al cual se va a editar
     public void guardarTemporal(Usuario u) {

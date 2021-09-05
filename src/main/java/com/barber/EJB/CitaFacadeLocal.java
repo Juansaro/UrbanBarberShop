@@ -29,5 +29,7 @@ public interface CitaFacadeLocal {
     List<Cita> findRange(int[] range);
 
     int count();
+
+    public Object generarFactura(int idCitaIn);
     
 }

@@ -5,8 +5,10 @@
  */
 package com.barber.utilidades;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -64,7 +66,20 @@ public class ImgServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String archivoNombre = request.getPathInfo().substring(1);
-        processRequest(request, response);
+        if (!archivoNombre.isEmpty()) {
+            File carpeta = new File("C:\\ubs\\usuarios\\fotoperfil\\" + archivoNombre);
+            response.setHeader("Content-Type", getServletContext().getMimeType(archivoNombre));
+            response.setHeader("Content-Length", String.valueOf(carpeta.length()));
+            response.setHeader("Content-Disposition", "inline; filename =\"" + archivoNombre + "\"");
+
+            try {
+                Files.copy(carpeta.toPath(), response.getOutputStream());
+                processRequest(request, response);
+            } catch (IOException | ServletException e) {
+                System.out.println("edu.sena.utilidades.cdi.ImgServlet.doGet() :: " + e.getMessage());
+            }
+
+        }
     }
 
     /**

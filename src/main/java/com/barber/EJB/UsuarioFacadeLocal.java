@@ -41,5 +41,9 @@ public interface UsuarioFacadeLocal {
     public Usuario encontrarUsuarioCorreo(String correo);
 
     public Usuario listarBarbero();
+
+    public Usuario validarSiExiste(String correoIn);
+
+    public boolean crearUsuario(Usuario usuIn);
     
 }

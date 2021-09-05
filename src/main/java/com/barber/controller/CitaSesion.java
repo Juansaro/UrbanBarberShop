@@ -119,6 +119,7 @@ public class CitaSesion implements Serializable{
         }
         
     }
+    
 
     public Cita getCita() {
         return cita;
