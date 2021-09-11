@@ -48,27 +48,18 @@ public class ServicioSesion implements Serializable{
     }
    
     //Recupera datos del servico al cual se va a editar
-     public String guardarTemporal(Servicio s) {
+     public void guardarTemporal(Servicio s) {
         serTemporal = s;
-        return "/RecepServicioModificar.xhtml";
     }
      
     //Editar
-    public String editarServicio(Servicio s){
+    public void editarServicio(){
         try{
             servicioFacadeLocal.edit(serTemporal);
-            this.servicio = new Servicio();
-            return "/RecepServicioConsultarEliminar.xhtml";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Servicio editado", "Servicio editado"));
         }catch(Exception e){
-           
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error al editar", "Error al editar"));
         }
-        return null;
-    }
-    
-    //Preparar página para eliminar
-    public String prepararEliminar(){
-        servicios = servicioFacadeLocal.findAll();
-        return "/RecepConsultarUsuarios.xhtml";
     }
     
     //Eliminar
@@ -76,9 +67,8 @@ public class ServicioSesion implements Serializable{
         try{
             this.servicioFacadeLocal.remove(s);
             this.servicio = new Servicio();
-            //Colocar prepararEliminar()
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Servicio eliminado", "Servicio eliminado"));
-            prepararEliminar();
+            servicios = servicioFacadeLocal.findAll();
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -87,18 +77,6 @@ public class ServicioSesion implements Serializable{
     //Recupera datos del servicio al cual se va a editar
      public void prepararEditar(Servicio serIn) {
         serTemporal = serIn;
-    }
-
-    //Editar servicio (En el modal)
-    public String editarServicio() {
-        try {
-            servicioFacadeLocal.edit(serTemporal);
-            this.servicio = new Servicio();
-            return "/RecepServicioConsultarEliminar.xhtml";
-        } catch (Exception e) {
-            
-        }
-        return null;
     }
     
     //Getters y Setters

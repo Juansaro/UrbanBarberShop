@@ -62,7 +62,7 @@ public class DetallePedidoSesion implements Serializable{
     public void registrarDetallePedido(){
         try {
             this.det.setProductoIdProducto(producto);
-            this.det.setProveedorNumeroProveedor(proveedor);
+            //this.det.setProveedorNumeroProveedor(proveedor);
             detallePedidoFacadeLocal.create(det);
             detallePedidos = detallePedidoFacadeLocal.findAll();
             FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/recepcionista/recibirPedido.xhtml");           

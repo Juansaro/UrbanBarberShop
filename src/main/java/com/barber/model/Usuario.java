@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,6 +21,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -39,7 +41,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Usuario.findByContrasena", query = "SELECT u FROM Usuario u WHERE u.contrasena = :contrasena"),
     @NamedQuery(name = "Usuario.findByCorreo", query = "SELECT u FROM Usuario u WHERE u.correo = :correo"),
     @NamedQuery(name = "Usuario.findByNumeroDocumento", query = "SELECT u FROM Usuario u WHERE u.numeroDocumento = :numeroDocumento"),
-    @NamedQuery(name = "Usuario.findByNumeroTelefono", query = "SELECT u FROM Usuario u WHERE u.numeroTelefono = :numeroTelefono")})
+    @NamedQuery(name = "Usuario.findByNumeroTelefono", query = "SELECT u FROM Usuario u WHERE u.numeroTelefono = :numeroTelefono"),
+    @NamedQuery(name = "Usuario.findByUsuFoto", query = "SELECT u FROM Usuario u WHERE u.usuFoto = :usuFoto")})
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,44 +51,56 @@ public class Usuario implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_usuario")
     private Integer idUsuario;
-    @Size(max = 100)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
     @Column(name = "nombre")
     private String nombre;
-    @Size(max = 100)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
     @Column(name = "apellido")
     private String apellido;
-    @Size(max = 150)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 150)
     @Column(name = "contrasena")
     private String contrasena;
-    @Size(max = 300)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 300)
     @Column(name = "correo")
     private String correo;
-    @Size(max = 150)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 150)
     @Column(name = "numero_documento")
     private String numeroDocumento;
-    @Size(max = 150)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 150)
     @Column(name = "numero_telefono")
     private String numeroTelefono;
     @Size(max = 255)
     @Column(name = "usu_foto")
     private String usuFoto;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdUsuario")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdUsuario", fetch = FetchType.LAZY)
     private List<DespachoProducto> despachoProductoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdUsuario")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdUsuario", fetch = FetchType.LAZY)
     private List<Pedido> pedidoList;
     @JoinColumn(name = "ciudad_numero_ciudad", referencedColumnName = "numero_ciudad")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Ciudad ciudadNumeroCiudad;
     @JoinColumn(name = "tipo_identificacion_id_tipo_identificacion", referencedColumnName = "id_tipo_identificacion")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private TipoIdentificacion tipoIdentificacionIdTipoIdentificacion;
     @JoinColumn(name = "tipo_rol_numero_rol", referencedColumnName = "numero_rol")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private TipoRol tipoRolNumeroRol;
     @JoinColumn(name = "tipo_telefono_numero_tipo_telefono", referencedColumnName = "numero_tipo_telefono")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private TipoTelefono tipoTelefonoNumeroTipoTelefono;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdUsuario")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdUsuario", fetch = FetchType.LAZY)
     private List<Cita> citaList;
 
     public Usuario() {
@@ -93,6 +108,16 @@ public class Usuario implements Serializable {
 
     public Usuario(Integer idUsuario) {
         this.idUsuario = idUsuario;
+    }
+
+    public Usuario(Integer idUsuario, String nombre, String apellido, String contrasena, String correo, String numeroDocumento, String numeroTelefono) {
+        this.idUsuario = idUsuario;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.contrasena = contrasena;
+        this.correo = correo;
+        this.numeroDocumento = numeroDocumento;
+        this.numeroTelefono = numeroTelefono;
     }
 
     public Integer getIdUsuario() {
@@ -150,7 +175,7 @@ public class Usuario implements Serializable {
     public void setNumeroTelefono(String numeroTelefono) {
         this.numeroTelefono = numeroTelefono;
     }
-    
+
     public String getUsuFoto() {
         return usuFoto;
     }

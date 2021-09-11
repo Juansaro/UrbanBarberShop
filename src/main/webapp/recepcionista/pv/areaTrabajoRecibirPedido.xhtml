@@ -27,12 +27,6 @@
                                     <h:outputText value="#{d.cantidadSolicitada}"  /> 
                                 </p:column>
                                 
-                                <!--
-                                <p:column headerText="Cantidad solicitada" >
-                                    <h:outputText value="#{d.cantidadSolicitada}"  />Aquí va la descripción
-                                </p:column>
-                                -->
-                                
                                 <p:column headerText="Fecha de solicitud" filterBy="#{d.fechaSolicitud}" filterMatchMode="Fecha solicitud" >
                                     <h:outputText value="#{d.fechaSolicitud}"  /> 
                                 </p:column>
@@ -44,10 +38,6 @@
                                 <p:column headerText="Id producto" filterBy="#{d.productoIdProducto}" filterMatchMode="contains" >
                                     <h:outputText value="#{d.productoIdProducto}"  /> 
                                 </p:column>
-
-                                <p:column headerText="Correo del proveedor:" filterBy="#{d.proveedorNumeroProveedor}" filterMatchMode="contains" >
-                                    <h:outputText value="#{d.proveedorNumeroProveedor}"  />
-                                </p:column> 
 
                                 <p:column headerText=" " exportable="false" >
                                     

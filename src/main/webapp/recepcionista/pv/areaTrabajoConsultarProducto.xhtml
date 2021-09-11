@@ -15,7 +15,6 @@
                         <br/>
                         <p:growl id="growl" life="3000"/>
                         <h:form id="frmPrincipal">
-
                             <p:dataTable id="tabla" emptyMessage="Ningun producto registrado" value="#{productoSesion.productos}" 
                                          var="p" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
                                          >
@@ -36,10 +35,14 @@
                                     <h:outputText value="#{p.cantidad}"  /> 
                                 </p:column>
 
-                                <p:column headerText="Id bodega" filterBy="#{p.bodegaIdBodega.nombre}" filterMatchMode="contains">
-                                    <h:outputText value="#{p.bodegaIdBodega.nombre}"  /> 
+                                <p:column headerText="Bodega" filterBy="#{p.bodegaIdBodega}" filterMatchMode="contains">
+                                    <h:outputText value="#{p.bodegaIdBodega}"  /> 
                                 </p:column>
-
+                                
+                                <p:column headerText="Proveedor" filterBy="#{p.proveedorNumeroProveedor}" filterMatchMode="contains">
+                                    <h:outputText value="#{p.proveedorNumeroProveedor}"  /> 
+                                </p:column>
+                                
                                 <p:column headerText=" " exportable="false" >
 
                                     <h:commandButton class="btn btn-warning rounded-pill"
@@ -98,6 +101,12 @@
 
                             <h:selectOneMenu class="form-control" id="bodegaIdBodega" value="#{productoSesion.bodega.idBodega}" >
                                 <f:selectItems value="#{productoSesion.bodegas}" var="bod" itemLabel="#{bod.nombre}" itemValue="#{bod.idBodega}"/>
+                            </h:selectOneMenu>
+                            
+                            <h:outputLabel class="card-text font-weight-bold text-white" value="Proveedor" for="proveedor" />
+
+                            <h:selectOneMenu class="form-control" id="proveedor" value="#{productoSesion.proveedor.numeroProveedor}" >
+                                <f:selectItems value="#{productoSesion.proveedores}" var="pro" itemLabel="#{pro.correo}" itemValue="#{pro.numeroProveedor}"/>
                             </h:selectOneMenu>
                         </div>
                         <div class="modal-footer">

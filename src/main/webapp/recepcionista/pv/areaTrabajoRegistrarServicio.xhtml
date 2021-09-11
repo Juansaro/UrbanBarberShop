@@ -2,9 +2,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:html5="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <ui:composition>
+        <p:growl id="growl" life="3000"/>
         <div class="card container mt-3 mb-3" style="max-width: 21rem;" id="carta">
             <div class="row">
                 <div class="col">
@@ -13,6 +16,12 @@
                         <h5 class="card-title font-weight-bold text-white">Registrar servicio</h5>
                         <hr class="bg-white"/>
                         <h:form>
+                            
+                            <h:inputFile value="#{usuarioSesion.archivoFoto}" class="btn btn-info" >
+                                <!--Llamado asíncronico-->
+                                <f:ajax listener="#{usuarioSesion.cargarFotoPerfil()}"></f:ajax>
+                            </h:inputFile>
+                            
                             <h:inputText value="#{servicioSesion.ser.nombre}" required="true" html5:placeholder="Nombre" class="form-control"/><br/>
 
                             <h:inputText value="#{servicioSesion.ser.descripcion}" class="form-control" id="nombre" required="true" html5:placeholder="Descripción" /><br/>

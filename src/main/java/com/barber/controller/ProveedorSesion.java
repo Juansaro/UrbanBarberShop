@@ -64,16 +64,15 @@ public class ProveedorSesion implements Serializable{
     }
 
     //Editar proveedor (En el modal)
-    public String editarProveedor() {
+    public void editarProveedor() {
         try {
             proveedorFacadeLocal.edit(proTemporal);
             this.proveedor = new Proveedor();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Proveedor editado", "Proveedor editado"));
-            return "/RecepProveedorConsultar.xhtml";
         } catch (Exception e) {
             
         }
-        return null;
+
     }
     
     //Eliminar

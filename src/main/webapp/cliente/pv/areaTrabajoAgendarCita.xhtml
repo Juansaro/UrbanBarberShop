@@ -35,11 +35,9 @@
                             <h:selectOneMenu class="form-control" id="servicioIdServicio" value="#{citaSesion.servicio.idServicio}" required="true">
                                 <f:selectItems value="#{citaSesion.servicios}" var="ser" itemLabel="#{ser.descripcion}" itemValue="#{ser.idServicio}"/>
                             </h:selectOneMenu>
-                            <br/>
-                            <h:outputLabel class="card-text font-weight-bold text-white" value="Cliente" for="usuarioIdUsuario" />
-                            <br/>
-                            <h:selectOneMenu class="form-control" id="usuarioIdUsuario" value="#{citaSesion.usuario.idUsuario}" required="true">
-                                <f:selectItems value="#{citaSesion.usuarios}" var="usu" itemLabel="#{usu.correo}" itemValue="#{usu.idUsuario}"/>
+                            
+                            <h:selectOneMenu class="form-control" id="servicioIdServicio" value="#{citaSesion.usuario.idUsuario}" required="true">
+                                <f:selectItems value="#{usuarioSesion.usuLog}"/>
                             </h:selectOneMenu>
                             <br />
                             <h:commandLink class="btn btn-success btn-lg btn-block text-white rounded-pill" action="#{citaSesion.registrarCita()}" value="Agendar" />

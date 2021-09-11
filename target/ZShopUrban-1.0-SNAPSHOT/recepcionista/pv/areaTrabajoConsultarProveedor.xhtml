@@ -17,6 +17,7 @@
                         <div class="card-body">
                             <h5 class="card-title font-weight-bold text-white">Lista de proveedores:</h5>
                             <br/>
+                            <p:growl id="growl" life="3000"/>
                             <h:form id="frmPrincipal">
                                 <p:growl id="growl" life="3000"/>
                                 <p:dataTable id="tabla" emptyMessage="Ningun proveedor registrado" value="#{proveedorSesion.proveedores}" 
@@ -61,6 +62,34 @@
 
                             </h:form>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="exampleModalAct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Actualizar</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <h:form id="formActualizar">
+                            <div class="modal-body">
+                                <h:outputLabel class="card-text font-weight-bold text-white" value="Nombre" for="nombre" />
+                                <h:inputText class="form-control" id="nombre" value="#{proveedorSesion.proTemporal.nombre}" html5:placeholder="Nombre del proveedor" />
+                                <h:outputLabel class="card-text font-weight-bold text-white" value="Apellidos:" for="apellidos" />
+                                <h:inputText class="form-control" id="apellidos" value="#{proveedorSesion.proTemporal.apellidos}" html5:placeholder="Apellidos del proveedor" />
+                                <h:outputLabel class="card-text font-weight-bold text-white" value="Correo:" for="correo" />
+                                <h:inputText class="form-control" id="correo" value="#{proveedorSesion.proTemporal.correo}" html5:placeholder="Correo del proveedor" />
+                                <h:outputLabel class="card-text font-weight-bold text-white" value="Dirección:" for="direccion" />
+                                <h:inputText class="form-control" id="direccion" value="#{proveedorSesion.proTemporal.direccion}" html5:placeholder="Dirección del proveedor" />
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                <h:commandLink class="btn btn-primary" action="#{proveedorSesion.editarProveedor()}" value="Guardar" />
+                            </div>
+                        </h:form>
                     </div>
                 </div>
             </div>

@@ -159,8 +159,9 @@ public class UsuarioSesion implements Serializable {
             usuReg = new Usuario();
             //Encontrar datos
             usuarios = usuarioFacadeLocal.findAll();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario registrado", "Usuario registrado"));
         } catch (Exception e) {
-            System.out.println("Error");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al registrar usuario", "Error al registrar usuario"));
         }
     }
 
@@ -292,6 +293,25 @@ public class UsuarioSesion implements Serializable {
             //Limpieza local
             usuTemporal = new Usuario();
             //Limpieza de las FK'S
+            
+            usuarios = usuarioFacadeLocal.findAll();
+            //Mensaje
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario modificado", "Usuario modificado"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de edición", "Error de edición"));
+        }
+    }
+    
+    public void editarCliente() {
+        try {
+            //usuTemporal sirve para el ciclo de vida de SOLO la edición
+            //Estructura FK'S
+            this.usuLog.setCiudadNumeroCiudad(ciudad);
+            this.usuLog.setTipoRolNumeroRol(tipoRol);
+            this.usuLog.setTipoIdentificacionIdTipoIdentificacion(tipoIdentificacion);
+            this.usuLog.setTipoTelefonoNumeroTipoTelefono(tipoTelefono);
+            //El parámetro que usea para editar es usuTemporal
+            usuarioFacadeLocal.edit(usuLog);
             
             usuarios = usuarioFacadeLocal.findAll();
             //Mensaje

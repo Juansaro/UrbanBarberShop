@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,6 +24,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -47,21 +49,23 @@ public class DetallePedido implements Serializable {
     @Basic(optional = false)
     @Column(name = "numero_detalle")
     private Integer numeroDetalle;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "cantidad_solicitada")
-    private Integer cantidadSolicitada;
+    private int cantidadSolicitada;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "fecha_solicitud")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaSolicitud;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "costo_total")
-    private Float costoTotal;
+    private float costoTotal;
     @JoinColumn(name = "producto_id_producto", referencedColumnName = "id_producto")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Producto productoIdProducto;
-    @JoinColumn(name = "proveedor_numero_proveedor", referencedColumnName = "numero_proveedor")
-    @ManyToOne(optional = false)
-    private Proveedor proveedorNumeroProveedor;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "detallePedidoNumeroDetalle")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "detallePedidoNumeroDetalle", fetch = FetchType.LAZY)
     private List<Pedido> pedidoList;
 
     public DetallePedido() {
@@ -69,6 +73,13 @@ public class DetallePedido implements Serializable {
 
     public DetallePedido(Integer numeroDetalle) {
         this.numeroDetalle = numeroDetalle;
+    }
+
+    public DetallePedido(Integer numeroDetalle, int cantidadSolicitada, Date fechaSolicitud, float costoTotal) {
+        this.numeroDetalle = numeroDetalle;
+        this.cantidadSolicitada = cantidadSolicitada;
+        this.fechaSolicitud = fechaSolicitud;
+        this.costoTotal = costoTotal;
     }
 
     public Integer getNumeroDetalle() {
@@ -79,11 +90,11 @@ public class DetallePedido implements Serializable {
         this.numeroDetalle = numeroDetalle;
     }
 
-    public Integer getCantidadSolicitada() {
+    public int getCantidadSolicitada() {
         return cantidadSolicitada;
     }
 
-    public void setCantidadSolicitada(Integer cantidadSolicitada) {
+    public void setCantidadSolicitada(int cantidadSolicitada) {
         this.cantidadSolicitada = cantidadSolicitada;
     }
 
@@ -95,11 +106,11 @@ public class DetallePedido implements Serializable {
         this.fechaSolicitud = fechaSolicitud;
     }
 
-    public Float getCostoTotal() {
+    public float getCostoTotal() {
         return costoTotal;
     }
 
-    public void setCostoTotal(Float costoTotal) {
+    public void setCostoTotal(float costoTotal) {
         this.costoTotal = costoTotal;
     }
 
@@ -109,14 +120,6 @@ public class DetallePedido implements Serializable {
 
     public void setProductoIdProducto(Producto productoIdProducto) {
         this.productoIdProducto = productoIdProducto;
-    }
-
-    public Proveedor getProveedorNumeroProveedor() {
-        return proveedorNumeroProveedor;
-    }
-
-    public void setProveedorNumeroProveedor(Proveedor proveedorNumeroProveedor) {
-        this.proveedorNumeroProveedor = proveedorNumeroProveedor;
     }
 
     @XmlTransient

@@ -7,7 +7,16 @@ package com.barber.controller;
 
 import com.barber.EJB.BodegaFacadeLocal;
 import com.barber.model.Bodega;
+import com.opencsv.CSVParser;
+import com.opencsv.CSVParserBuilder;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
+import java.io.File;
+import java.io.FileReader;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -16,6 +25,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.http.Part;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -47,29 +57,24 @@ public class BodegaSesion implements Serializable{
         try {
             bodegaFacadeLocal.create(bod);
             bodegas = bodegaFacadeLocal.findAll();
-            
             FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/recepcionista/consultarBodega.xhtml");
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Bodega registrada", "Bodega registrada"));
         } catch (Exception e) {
         }
     }
     //Recupera datos del bodega al cual se va a editar
-     public String guardarTemporal(Bodega b) {
+     public void guardarTemporal(Bodega b) {
         bodTemporal = b;
-        return "/RecepBodegasModificar.xhtml";
     }
 
     //Editar bodega (En el modal)
-    public String editarBodega() {
+    public void editarBodega() {
         try {
             bodegaFacadeLocal.edit(bodTemporal);
-            this.bodega = new Bodega();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Bodega editada", "Bodega editada"));
-            return "/RecepBodegaConsultarEliminar.xhtml";
         } catch (Exception e) {
             
         }
-        return null;
     }
     
     //Preparar página para eliminar
@@ -90,6 +95,69 @@ public class BodegaSesion implements Serializable{
             e.printStackTrace();
         }
     }
+    
+    public void cargarInicialDatos() {
+        if (archivoCarga != null) {
+            if (archivoCarga.getSize() > 700000) {
+                PrimeFaces.current().executeScript("Swal.fire({"
+                        + "  title: 'El archivo !',"
+                        + "  text: 'No se puede cargar por el tamaño !!!',"
+                        + "  icon: 'error',"
+                        + "  confirmButtonText: 'Ok'"
+                        + "})");
+            } else if (archivoCarga.getContentType().equalsIgnoreCase("application/vnd.ms-excel")) {
+
+                try (InputStream is = archivoCarga.getInputStream()) {
+                    File carpeta = new File("C:\\ubs\\recepcionista\\archivos");
+                    if (!carpeta.exists()) {
+                        carpeta.mkdirs();
+                    }
+                    Files.copy(is, (new File(carpeta, archivoCarga.getSubmittedFileName())).toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    CSVParser conPuntoyComa = new CSVParserBuilder().withSeparator(';').build();
+                    CSVReader reader = new CSVReaderBuilder(new FileReader("C:\\ubs\\recepcionista\\archivos\\" + archivoCarga.getSubmittedFileName())).withCSVParser(conPuntoyComa).build();
+                    String[] nextline;
+                    while ((nextline = reader.readNext()) != null) {
+                        
+                        Bodega bogObj = bodegaFacadeLocal.validarSiExiste(nextline[0]);
+                        if (bogObj == null) {
+                            bodegaFacadeLocal.crearBodega(nextline[0], Integer.parseInt(nextline[1]));
+                        } else {        
+                            bodegaFacadeLocal.edit(bogObj);
+                        }
+
+                    }
+                    reader.close();
+
+                } catch (Exception e) {
+                    PrimeFaces.current().executeScript("Swal.fire({"
+                            + "  title: 'Problemas !',"
+                            + "  text: 'No se puede realizar esta accion',"
+                            + "  icon: 'error',"
+                            + "  confirmButtonText: 'Ok'"
+                            + "})");
+                }
+            } else {
+                PrimeFaces.current().executeScript("Swal.fire({"
+                        + "  title: 'El archivo !',"
+                        + "  text: 'No es una imagen .png o .jpeg !!!',"
+                        + "  icon: 'error',"
+                        + "  confirmButtonText: 'Ok'"
+                        + "})");
+            }
+
+        } else {
+            PrimeFaces.current().executeScript("Swal.fire({"
+                    + "  title: 'Problemas !',"
+                    + "  text: 'No se puede realizar esta accion',"
+                    + "  icon: 'error',"
+                    + "  confirmButtonText: 'Ok'"
+                    + "})");
+        }
+
+        PrimeFaces.current().executeScript("document.getElementById('resetform').click()");
+
+    }
+
     
     //carga inicial
     public void cargaInicialDatos(){

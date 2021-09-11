@@ -14,15 +14,11 @@
                     <div class="card-body">
                         <h5 class="card-title font-weight-bold text-white">Lista de servicios</h5>
                         <br/>
+                        
                         <h:form id="frmPrincipal">
-
                             <p:dataTable id="tabla" emptyMessage="Ninguna servicio registrado" value="#{servicioSesion.servicios}" 
                                          var="s" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
                                          >
-
-                                <p:column headerText="Id servicio" filterBy="#{s.idServicio}" filterMatchMode="Servicio" >
-                                    <h:outputText value="#{s.idServicio}"  /> 
-                                </p:column>
 
                                 <p:column headerText="Nombre" filterBy="#{s.nombre}" filterMatchMode="Nombre" >
                                     <h:outputText value="#{s.nombre}"  /> 
@@ -40,7 +36,7 @@
 
                                     <h:commandButton class="btn btn-warning rounded-pill"
                                                      html5:data-toggle="modal"
-                                                     html5:data-target="#exampleModalAct"
+                                                     html5:data-target="#exampleModal"
                                                      action="#{servicioSesion.guardarTemporal(s)}"  
                                                      value="Editar" >
                                         <f:ajax render=":formActualizar"> </f:ajax>
@@ -73,16 +69,16 @@
                     </div>
                     <h:form>
                         <div class="modal-body">
-                            <h:inputText value="#{servicioSesion.ser.nombre}" required="true" html5:placeholder="Nombre" class="form-control"/><br/>
+                            <h:inputText value="#{servicioSesion.serTemporal.nombre}" required="true" html5:placeholder="Nombre" class="form-control"/><br/>
 
-                            <h:inputText value="#{servicioSesion.ser.descripcion}" class="form-control" id="nombre" required="true" html5:placeholder="Descripción" /><br/>
+                            <h:inputText value="#{servicioSesion.serTemporal.descripcion}" class="form-control" id="nombre" required="true" html5:placeholder="Descripción" /><br/>
 
-                            <h:inputText value="#{servicioSesion.ser.costo}" class="form-control" id="descripcion" html5:placeholder="Costo" /><br/>
+                            <h:inputText value="#{servicioSesion.serTemporal.costo}" class="form-control" id="descripcion" html5:placeholder="Costo" /><br/>
 
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <h:commandButton action="#{servicioSesion.editarServicio(s)}" class="btn btn-primary" value="Editar.">
+                            <h:commandButton action="#{servicioSesion.editarServicio()}" class="btn btn-primary" value="Editar.">
                             </h:commandButton>
                         </div>
                     </h:form>

@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,6 +21,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -37,7 +39,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Producto.findByNombreProducto", query = "SELECT p FROM Producto p WHERE p.nombreProducto = :nombreProducto"),
     @NamedQuery(name = "Producto.findByDescripcion", query = "SELECT p FROM Producto p WHERE p.descripcion = :descripcion"),
     @NamedQuery(name = "Producto.findByPrecio", query = "SELECT p FROM Producto p WHERE p.precio = :precio"),
-    @NamedQuery(name = "Producto.findByCantidad", query = "SELECT p FROM Producto p WHERE p.cantidad = :cantidad")})
+    @NamedQuery(name = "Producto.findByCantidad", query = "SELECT p FROM Producto p WHERE p.cantidad = :cantidad"),
+    @NamedQuery(name = "Producto.findByProductoFoto", query = "SELECT p FROM Producto p WHERE p.productoFoto = :productoFoto")})
 public class Producto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,23 +49,36 @@ public class Producto implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_producto")
     private Integer idProducto;
-    @Size(max = 300)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 300)
     @Column(name = "nombre_producto")
     private String nombreProducto;
-    @Size(max = 200)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 200)
     @Column(name = "descripcion")
     private String descripcion;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "precio")
-    private Float precio;
+    private float precio;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "cantidad")
-    private Integer cantidad;
+    private int cantidad;
+    @Size(max = 255)
+    @Column(name = "producto_foto")
+    private String productoFoto;
     @JoinColumn(name = "bodega_id_bodega", referencedColumnName = "id_bodega")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Bodega bodegaIdBodega;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productoIdProducto")
+    @JoinColumn(name = "proveedor_numero_proveedor", referencedColumnName = "numero_proveedor")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Proveedor proveedorNumeroProveedor;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productoIdProducto", fetch = FetchType.LAZY)
     private List<DespachoProducto> despachoProductoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productoIdProducto")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productoIdProducto", fetch = FetchType.LAZY)
     private List<DetallePedido> detallePedidoList;
 
     public Producto() {
@@ -70,6 +86,14 @@ public class Producto implements Serializable {
 
     public Producto(Integer idProducto) {
         this.idProducto = idProducto;
+    }
+
+    public Producto(Integer idProducto, String nombreProducto, String descripcion, float precio, int cantidad) {
+        this.idProducto = idProducto;
+        this.nombreProducto = nombreProducto;
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.cantidad = cantidad;
     }
 
     public Integer getIdProducto() {
@@ -96,20 +120,28 @@ public class Producto implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public Float getPrecio() {
+    public float getPrecio() {
         return precio;
     }
 
-    public void setPrecio(Float precio) {
+    public void setPrecio(float precio) {
         this.precio = precio;
     }
 
-    public Integer getCantidad() {
+    public int getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(Integer cantidad) {
+    public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public String getProductoFoto() {
+        return productoFoto;
+    }
+
+    public void setProductoFoto(String productoFoto) {
+        this.productoFoto = productoFoto;
     }
 
     public Bodega getBodegaIdBodega() {
@@ -118,6 +150,14 @@ public class Producto implements Serializable {
 
     public void setBodegaIdBodega(Bodega bodegaIdBodega) {
         this.bodegaIdBodega = bodegaIdBodega;
+    }
+
+    public Proveedor getProveedorNumeroProveedor() {
+        return proveedorNumeroProveedor;
+    }
+
+    public void setProveedorNumeroProveedor(Proveedor proveedorNumeroProveedor) {
+        this.proveedorNumeroProveedor = proveedorNumeroProveedor;
     }
 
     @XmlTransient

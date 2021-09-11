@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,7 +35,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Servicio.findByIdServicio", query = "SELECT s FROM Servicio s WHERE s.idServicio = :idServicio"),
     @NamedQuery(name = "Servicio.findByNombre", query = "SELECT s FROM Servicio s WHERE s.nombre = :nombre"),
     @NamedQuery(name = "Servicio.findByDescripcion", query = "SELECT s FROM Servicio s WHERE s.descripcion = :descripcion"),
-    @NamedQuery(name = "Servicio.findByCosto", query = "SELECT s FROM Servicio s WHERE s.costo = :costo")})
+    @NamedQuery(name = "Servicio.findByCosto", query = "SELECT s FROM Servicio s WHERE s.costo = :costo"),
+    @NamedQuery(name = "Servicio.findByServicioFoto", query = "SELECT s FROM Servicio s WHERE s.servicioFoto = :servicioFoto")})
 public class Servicio implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -52,7 +54,10 @@ public class Servicio implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "costo")
     private Float costo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "servicioIdServicio")
+    @Size(max = 255)
+    @Column(name = "servicio_foto")
+    private String servicioFoto;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "servicioIdServicio", fetch = FetchType.LAZY)
     private List<Cita> citaList;
 
     public Servicio() {
@@ -92,6 +97,14 @@ public class Servicio implements Serializable {
 
     public void setCosto(Float costo) {
         this.costo = costo;
+    }
+
+    public String getServicioFoto() {
+        return servicioFoto;
+    }
+
+    public void setServicioFoto(String servicioFoto) {
+        this.servicioFoto = servicioFoto;
     }
 
     @XmlTransient

@@ -4,7 +4,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      >
     <ui:composition>
         <p:growl id="growl" life="3000"/>
         <div class="container text-dark">
@@ -13,7 +14,6 @@
                     <div class="card " id="carta" style="width: 18rem;">
                         <h:form enctype="multipart/form-data">
                             
-
                             <h:graphicImage
                                 height="128px"
                                 width="128px"
@@ -22,18 +22,13 @@
                                 value="/ImgServlet/#{usuarioSesion.usuLog.usuFoto}">
                             </h:graphicImage>
 
-                            l<!-- <img
-                                src="#{request.contextPath}/resources/img/default.png" 
-                                class="card-img-top" 
-                                alt="..."
-                                />
-                            -->
-
                             <h:inputFile value="#{usuarioSesion.archivoFoto}" class="btn btn-info" >
                                 <!--Llamado asíncronico-->
                                 <f:ajax listener="#{usuarioSesion.cargarFotoPerfil()}"></f:ajax>
                             </h:inputFile>
+                            
                             <button style="display: none" type="reset" id="resetform" class="btn btn-dark">Reset</button>
+                        
                         </h:form>
 
                         <div class="card-body">

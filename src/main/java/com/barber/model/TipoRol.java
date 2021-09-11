@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -41,10 +43,12 @@ public class TipoRol implements Serializable {
     @Basic(optional = false)
     @Column(name = "numero_rol")
     private Integer numeroRol;
-    @Size(max = 45)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "descripcion")
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoRolNumeroRol")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoRolNumeroRol", fetch = FetchType.LAZY)
     private List<Usuario> usuarioList;
 
     public TipoRol() {
@@ -52,6 +56,11 @@ public class TipoRol implements Serializable {
 
     public TipoRol(Integer numeroRol) {
         this.numeroRol = numeroRol;
+    }
+
+    public TipoRol(Integer numeroRol, String descripcion) {
+        this.numeroRol = numeroRol;
+        this.descripcion = descripcion;
     }
 
     public Integer getNumeroRol() {
@@ -101,7 +110,7 @@ public class TipoRol implements Serializable {
 
     @Override
     public String toString() {
-        return descripcion ;
+        return descripcion;
     }
     
 }

@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -44,26 +46,42 @@ public class Proveedor implements Serializable {
     @Basic(optional = false)
     @Column(name = "numero_proveedor")
     private Integer numeroProveedor;
-    @Size(max = 100)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
     @Column(name = "nombre")
     private String nombre;
-    @Size(max = 100)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
     @Column(name = "apellidos")
     private String apellidos;
-    @Size(max = 300)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 300)
     @Column(name = "correo")
     private String correo;
-    @Size(max = 300)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 300)
     @Column(name = "direccion")
     private String direccion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proveedorNumeroProveedor")
-    private List<DetallePedido> detallePedidoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proveedorNumeroProveedor", fetch = FetchType.LAZY)
+    private List<Producto> productoList;
 
     public Proveedor() {
     }
 
     public Proveedor(Integer numeroProveedor) {
         this.numeroProveedor = numeroProveedor;
+    }
+
+    public Proveedor(Integer numeroProveedor, String nombre, String apellidos, String correo, String direccion) {
+        this.numeroProveedor = numeroProveedor;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.correo = correo;
+        this.direccion = direccion;
     }
 
     public Integer getNumeroProveedor() {
@@ -107,12 +125,12 @@ public class Proveedor implements Serializable {
     }
 
     @XmlTransient
-    public List<DetallePedido> getDetallePedidoList() {
-        return detallePedidoList;
+    public List<Producto> getProductoList() {
+        return productoList;
     }
 
-    public void setDetallePedidoList(List<DetallePedido> detallePedidoList) {
-        this.detallePedidoList = detallePedidoList;
+    public void setProductoList(List<Producto> productoList) {
+        this.productoList = productoList;
     }
 
     @Override

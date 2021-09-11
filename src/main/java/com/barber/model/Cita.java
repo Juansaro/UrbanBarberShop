@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,6 +24,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -45,19 +47,21 @@ public class Cita implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_cita")
     private Integer idCita;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "fecha_cita")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaCita;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "citaIdCita")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "citaIdCita", fetch = FetchType.LAZY)
     private List<Factura> facturaList;
     @JoinColumn(name = "estado_asignacion_id_estado_asignacion", referencedColumnName = "id_estado_asignacion")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private EstadoAsignacion estadoAsignacionIdEstadoAsignacion;
     @JoinColumn(name = "servicio_id_servicio", referencedColumnName = "id_servicio")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Servicio servicioIdServicio;
     @JoinColumn(name = "usuario_id_usuario", referencedColumnName = "id_usuario")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Usuario usuarioIdUsuario;
 
     public Cita() {
@@ -65,6 +69,11 @@ public class Cita implements Serializable {
 
     public Cita(Integer idCita) {
         this.idCita = idCita;
+    }
+
+    public Cita(Integer idCita, Date fechaCita) {
+        this.idCita = idCita;
+        this.fechaCita = fechaCita;
     }
 
     public Integer getIdCita() {
@@ -138,7 +147,7 @@ public class Cita implements Serializable {
 
     @Override
     public String toString() {
-        return "" + idCita;
+        return "" +fechaCita;
     }
-
+    
 }

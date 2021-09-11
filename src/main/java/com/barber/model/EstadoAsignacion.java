@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -41,10 +43,12 @@ public class EstadoAsignacion implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_estado_asignacion")
     private Integer idEstadoAsignacion;
-    @Size(max = 100)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
     @Column(name = "descripcion")
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "estadoAsignacionIdEstadoAsignacion")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "estadoAsignacionIdEstadoAsignacion", fetch = FetchType.LAZY)
     private List<Cita> citaList;
 
     public EstadoAsignacion() {
@@ -52,6 +56,11 @@ public class EstadoAsignacion implements Serializable {
 
     public EstadoAsignacion(Integer idEstadoAsignacion) {
         this.idEstadoAsignacion = idEstadoAsignacion;
+    }
+
+    public EstadoAsignacion(Integer idEstadoAsignacion, String descripcion) {
+        this.idEstadoAsignacion = idEstadoAsignacion;
+        this.descripcion = descripcion;
     }
 
     public Integer getIdEstadoAsignacion() {

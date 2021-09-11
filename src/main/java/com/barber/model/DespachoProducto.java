@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,6 +21,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -43,19 +45,24 @@ public class DespachoProducto implements Serializable {
     @Basic(optional = false)
     @Column(name = "numero_despacho_producto")
     private Integer numeroDespachoProducto;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "fecha_solicitud")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaSolicitud;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "cantidad_solicitada")
-    private Integer cantidadSolicitada;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    private int cantidadSolicitada;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "costo_total")
-    private Float costoTotal;
+    private float costoTotal;
     @JoinColumn(name = "usuario_id_usuario", referencedColumnName = "id_usuario")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Usuario usuarioIdUsuario;
     @JoinColumn(name = "producto_id_producto", referencedColumnName = "id_producto")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Producto productoIdProducto;
 
     public DespachoProducto() {
@@ -63,6 +70,13 @@ public class DespachoProducto implements Serializable {
 
     public DespachoProducto(Integer numeroDespachoProducto) {
         this.numeroDespachoProducto = numeroDespachoProducto;
+    }
+
+    public DespachoProducto(Integer numeroDespachoProducto, Date fechaSolicitud, int cantidadSolicitada, float costoTotal) {
+        this.numeroDespachoProducto = numeroDespachoProducto;
+        this.fechaSolicitud = fechaSolicitud;
+        this.cantidadSolicitada = cantidadSolicitada;
+        this.costoTotal = costoTotal;
     }
 
     public Integer getNumeroDespachoProducto() {
@@ -81,19 +95,19 @@ public class DespachoProducto implements Serializable {
         this.fechaSolicitud = fechaSolicitud;
     }
 
-    public Integer getCantidadSolicitada() {
+    public int getCantidadSolicitada() {
         return cantidadSolicitada;
     }
 
-    public void setCantidadSolicitada(Integer cantidadSolicitada) {
+    public void setCantidadSolicitada(int cantidadSolicitada) {
         this.cantidadSolicitada = cantidadSolicitada;
     }
 
-    public Float getCostoTotal() {
+    public float getCostoTotal() {
         return costoTotal;
     }
 
-    public void setCostoTotal(Float costoTotal) {
+    public void setCostoTotal(float costoTotal) {
         this.costoTotal = costoTotal;
     }
 
@@ -135,7 +149,7 @@ public class DespachoProducto implements Serializable {
 
     @Override
     public String toString() {
-        return "com.barber.model.DespachoProducto[ numeroDespachoProducto=" + numeroDespachoProducto + " ]";
+        return "" +fechaSolicitud;
     }
     
 }

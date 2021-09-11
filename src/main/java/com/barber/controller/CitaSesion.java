@@ -40,6 +40,8 @@ public class CitaSesion implements Serializable{
     @EJB
     private UsuarioFacadeLocal usuarioFacadeLocal;
     
+    private UsuarioSesion usu;
+    
     private Cita cita;
     
     @Inject
@@ -78,8 +80,8 @@ public class CitaSesion implements Serializable{
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cita registrada", "Cita registrada"));
             return "/ClienteVerEstadoCita.xhtml";
         } catch (Exception e) {
+            return null;
         }
-        return null;
     }
     
     //guardar temporal

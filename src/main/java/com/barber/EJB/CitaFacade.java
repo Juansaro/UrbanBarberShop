@@ -6,6 +6,7 @@
 package com.barber.EJB;
 
 import com.barber.model.Cita;
+import com.barber.model.Usuario;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -42,7 +43,26 @@ public class CitaFacade extends AbstractFacade<Cita> implements CitaFacadeLocal 
         } catch (Exception e) {
             return null;
         }
-
+    }
+    
+    @Override
+    public boolean crearCita(Cita citaIn, int fk_servicio, int estado_asignacion_id_estado_asignacion, Usuario usuIn) {
+        try {
+            Query c = em.createNativeQuery(
+                    "INSERT INTO cita "
+                    + "(fecha_cita, servicio_id_servicio, estado_asignacion_id_estado_asignacion, usuario_id_usuario) "
+                    + "VALUES (?, ?, ?, ?);"
+            );
+            c.setParameter(1, citaIn.getFechaCita());
+            c.setParameter(2, citaIn.getEstadoAsignacionIdEstadoAsignacion());
+            c.setParameter(3, citaIn.getUsuarioIdUsuario());
+            c.setParameter(4, citaIn.getIdCita());
+            
+            c.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
 }

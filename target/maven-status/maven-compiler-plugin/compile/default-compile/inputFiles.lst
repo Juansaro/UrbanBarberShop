@@ -38,6 +38,7 @@ C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\co
 C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\com\barber\EJB\CalificacionFacade.java
 C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\com\barber\model\Proveedor.java
 C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\com\barber\model\TipoRol.java
+C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\com\barber\utilidades\ImgServletServicio.java
 C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\com\barber\EJB\ProveedorFacadeLocal.java
 C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\com\barber\EJB\DespachoProductoFacade.java
 C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\com\barber\EJB\DetallePedidoFacade.java
@@ -46,7 +47,9 @@ C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\co
 C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\com\barber\controller\CalificacionSesion.java
 C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\com\barber\controller\ProveedorSesion.java
 C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\com\barber\utilidades\Mail.java
+C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\com\barber\utilidades\ImgServletProducto.java
 C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\com\barber\model\Servicio.java
+C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\com\barber\utilidades\CitaMail.java
 C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\com\barber\controller\FacturaSesion.java
 C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\com\barber\EJB\PedidoFacade.java
 C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\com\barber\EJB\ProductoFacade.java
