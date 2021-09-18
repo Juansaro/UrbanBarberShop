@@ -13,6 +13,10 @@ import com.barber.model.Cita;
 import com.barber.model.EstadoAsignacion;
 import com.barber.model.Servicio;
 import com.barber.model.Usuario;
+import com.barber.utilidades.CitaMail;
+import com.barber.utilidades.CitaMailAgendado;
+import com.barber.utilidades.CitaMailCancelado;
+import com.barber.utilidades.CitaMailEspera;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -29,8 +33,8 @@ import javax.inject.Named;
  */
 @Named(value = "citaSesion")
 @SessionScoped
-public class CitaSesion implements Serializable{
-    
+public class CitaSesion implements Serializable {
+
     @EJB
     private CitaFacadeLocal citaFacadeLocal;
     @EJB
@@ -39,89 +43,150 @@ public class CitaSesion implements Serializable{
     private ServicioFacadeLocal servicioFacadeLocal;
     @EJB
     private UsuarioFacadeLocal usuarioFacadeLocal;
-    
-    private UsuarioSesion usu;
-    
+
     private Cita cita;
-    
+
+    private CitaMail primerMail;
+
+    @Inject
+    private EstadoAsignacionRequest est;
+    @Inject
+    private UsuarioSesion usu;
     @Inject
     private EstadoAsignacion estadoAsignacion;
     @Inject
     private Servicio servicio;
     @Inject
     private Usuario usuario;
-    
+
     private List<Cita> citas;
     private List<EstadoAsignacion> estadoAsignaciones;
     private List<Servicio> servicios;
     private List<Usuario> usuarios;
-    
+
     private Cita cit = new Cita();
     private Cita citTemporal = new Cita();
-    
-    @PostConstruct 
-    public void init(){
+    private Servicio ser = new Servicio();
+
+    @PostConstruct
+    public void init() {
         citas = citaFacadeLocal.findAll();
         estadoAsignaciones = estadoAsignacionFacadeLocal.findAll();
         servicios = servicioFacadeLocal.findAll();
         usuarios = usuarioFacadeLocal.findAll();
         cita = new Cita();
     }
-    
+
     //Registrar cita
-    //Promesa --->Solo para el cliente<--- **Volver**
-    public String registrarCita(){
+    //Volver por estado de asignación
+    public void registrarCita() {
         try {
-            this.cit.setEstadoAsignacionIdEstadoAsignacion(estadoAsignacion);
-            this.cit.setServicioIdServicio(servicio);
-            this.cit.setUsuarioIdUsuario(usuario);
-            citaFacadeLocal.create(cit);
-            citas = citaFacadeLocal.findAll();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cita registrada", "Cita registrada"));
-            return "/ClienteVerEstadoCita.xhtml";
+            //Validación en procedimiento almacenado
+            if (citaFacadeLocal.validarFechaCita(cit.getFechaCita())) {
+                //Llave foranea por defecto "En espera"
+                this.cit.setEstadoAsignacionIdEstadoAsignacion(est.citaEspera());
+                this.cit.setServicioIdServicio(servicio);
+                //Se establece el usuario logeado con la inyección de dependencias desde el UsuarioSesion -> usuLog
+                this.cit.setUsuarioIdUsuario(usu.getUsuLog());
+                citaFacadeLocal.create(cit);
+                //Me permite leer SOLO las citas del cliente logeado
+                citas = citaFacadeLocal.leerTodos(usu.getUsuLog());
+                //Se envian los parámetros del nombre y correo desde el usuLog
+                CitaMail.correoCita(
+                        usu.getUsuLog().getNombre(),
+                        usu.getUsuLog().getApellido(),
+                        cit.getServicioIdServicio().getNombre(),
+                        usu.getUsuLog().getCorreo(),
+                        cit.getFechaCita()
+                );
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/cliente/consultarCita.xhtml");
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cita registrada", "Cita registrada"));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error de registro", "Error de registro"));
+            }
+
         } catch (Exception e) {
-            return null;
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error de registro", "Error de registro"));
         }
     }
-    
+
     //guardar temporal
-    public String guardarTemporal(Cita c){
+    public void guardarTemporal(Cita c) {
         citTemporal = c;
-        return "/RecepAsignarBarbero.xhtml";
     }
-    
+
     //Editar
-    public String editarCita(){
+    public void editarCita() {
         try {
+            this.citTemporal.setEstadoAsignacionIdEstadoAsignacion(estadoAsignacion);
+            this.citTemporal.setServicioIdServicio(servicio);
             citaFacadeLocal.edit(citTemporal);
-            this.cita = new Cita();
-            return "/RecepAsignarAgenda.xhtml";
+            citas = citaFacadeLocal.findAll();
+
+            //this.cita = new Cita();
         } catch (Exception e) {
+            System.out.println("Error");
         }
-        return null;
     }
-    //***Hacer más métodos aquí***
-    //Preparar página para 
-    public String prepararEliminar(){
-        citas = citaFacadeLocal.findAll();
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cita eliminada", "Cita eliminada"));
-        return "/ClienteVerEstadoCita.xhtml";
-        
-    }
-    
+
     //Eliminar
-    public void eliminarCita(Cita c){
-        try{
+    public void eliminarCita(Cita c) {
+        try {
             this.citaFacadeLocal.remove(c);
             this.cita = new Cita();
-            prepararEliminar();
-        }catch(Exception e){
+            citas = citaFacadeLocal.findAll();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cita eliminada", "Cita eliminada"));
+        } catch (Exception e) {
             e.printStackTrace();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de eliminación", "Error de eliminación"));
         }
-        
+
     }
     
+    public void avisarEmailCliente(Cita c) {
+        try {
+            switch (c.getEstadoAsignacionIdEstadoAsignacion().toString()) {
+                case "Agendado":
+                    CitaMailAgendado.correoCita(
+                            c.getUsuarioIdUsuario().getNombre(),
+                            c.getUsuarioIdUsuario().getApellido(),
+                            c.getServicioIdServicio().getNombre(),
+                            c.getUsuarioIdUsuario().getCorreo(),
+                            c.getFechaCita()
+                    );
+                    break;
+                case "Cancelado":
+                    CitaMailCancelado.correoCita(
+                            c.getUsuarioIdUsuario().getNombre(),
+                            c.getUsuarioIdUsuario().getApellido(),
+                            c.getServicioIdServicio().getNombre(),
+                            c.getUsuarioIdUsuario().getCorreo(),
+                            c.getFechaCita()
+                    );
+                    break;
+                case "Espera":
+                    CitaMailEspera.correoCita(
+                            c.getUsuarioIdUsuario().getNombre(),
+                            c.getUsuarioIdUsuario().getApellido(),
+                            c.getServicioIdServicio().getNombre(),
+                            c.getUsuarioIdUsuario().getCorreo(),
+                            c.getFechaCita()
+                    );
+                default:
+                    break;
+            }
+        } catch (Exception e) {
+            System.out.println("Error");
+        }
+    }
+
+    public List<Cita> leerTodos() {
+        return citaFacadeLocal.leerTodos(usu.getUsuLog());
+    }
+
+    public List<Cita> leerCitas() {
+        return citaFacadeLocal.generarFactura(getCita().getIdCita());
+    }
 
     public Cita getCita() {
         return cita;
@@ -210,6 +275,5 @@ public class CitaSesion implements Serializable{
     public void setCitTemporal(Cita citTemporal) {
         this.citTemporal = citTemporal;
     }
-    
-}
 
+}

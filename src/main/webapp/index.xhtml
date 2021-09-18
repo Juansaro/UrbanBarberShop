@@ -280,55 +280,56 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Registro</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Iniciar sesión.</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <h:form>
-
                         <div class="modal-body">
-                            <h:inputText value="#{usuarioSesion.usuReg.nombre}" required="true" html5:placeholder="Nombre" class="form-control"/>
-                            <br/>                              
-                            <h:inputText value="#{usuarioSesion.usuReg.apellido}" required="true" html5:placeholder="Apellido" class="form-control"/>
+                            <h:outputLabel value="Nombre:" for="nombre" />
                             <br/>
-                            <h:inputText value="#{usuarioSesion.usuReg.correo}" required="true" html5:placeholder="Correo" class="form-control"/>
+                            <h:inputText id="nombre" value="#{usuarioSesion.usuReg.nombre}" required="true" html5:placeholder="Nombre" class="form-control"/>
                             <br/>
-                            <h:inputText value="#{usuarioSesion.usuReg.contrasena}" required="true" html5:placeholder="contraseña" class="form-control"/>
+                            <h:outputLabel value="Apellido:" for="apellido" />
                             <br/>
-                            <h:outputLabel value="Tipo identificacion" for="tipoIdentificacionIdTipoIdentificacion" />
-                            <h:selectOneMenu id="tipoIdentificacionIdTipoIdentificacion" value="#{usuarioSesion.ciudad.numeroCiudad}" required="true" >
+                            <h:inputText id="apellido" value="#{usuarioSesion.usuReg.apellido}" required="true" html5:placeholder="Apellido" class="form-control"/>
+                            <br/>
+                            <h:outputLabel value="Correo:" for="correo" />
+                            <br/>
+                            <h:inputText id="correo" value="#{usuarioSesion.usuReg.correo}" required="true" html5:placeholder="Correo" class="form-control"/>
+                            <br/>
+                            <h:outputLabel value="Contrasena:" for="contrasena" />
+                            <br/>
+                            <h:inputText id="contrasena" value="#{usuarioSesion.usuReg.contrasena}" required="true" html5:placeholder="contraseña" class="form-control"/>
+                            <br/>
+                            <h:outputLabel value="Ciudad:" for="tipoIdentificacionIdTipoIdentificacion" />
+                            <h:selectOneMenu class="form-control" id="tipoIdentificacionIdTipoIdentificacion" value="#{usuarioSesion.ciudad.numeroCiudad}" required="true" >
                                 <f:selectItems value="#{usuarioSesion.ciudades}" var="ciu" itemLabel="#{ciu.nombreCiudad}" itemValue="#{ciu.numeroCiudad}"/>
                             </h:selectOneMenu>
-
-                            <h:outputLabel value="Tipo rol" for="ripoRol" />
-                            <h:selectOneMenu id="ripoRol" value="#{usuarioSesion.tipoRol.numeroRol}" required="true">
-                                <f:selectItems value="#{usuarioSesion.roles}" var="rol" itemLabel="#{rol.descripcion}" itemValue="#{rol.numeroRol}"/>
-                            </h:selectOneMenu>
-
-                            <h:outputLabel value="Tipo identificacion" for="tipoIdentificacion" />
-                            <h:selectOneMenu id="tipoIdentificacion" value="#{usuarioSesion.tipoIdentificacion.idTipoIdentificacion}" required="true">
+                            <br/>
+                            <h:outputLabel value="Tipo identificación:" for="tipoIdentificacion" />
+                            <h:selectOneMenu class="form-control" id="tipoIdentificacion" value="#{usuarioSesion.tipoIdentificacion.idTipoIdentificacion}" required="true">
                                 <f:selectItems value="#{usuarioSesion.tipoIdentificaciones}" var="ide" itemLabel="#{ide.descripcion}" itemValue="#{ide.idTipoIdentificacion}"/>
                             </h:selectOneMenu>
-
-                            <h:outputLabel value="Tipo telefono" for="tipoTelefono" />
-                            <h:selectOneMenu id="tipoTelefono" value="#{usuarioSesion.tipoTelefono.numeroTipoTelefono}" required="true">
+                            <br/>
+                            <h:outputLabel value="Número documento:" for="numDocumento" />
+                            <br/>
+                            <h:inputText id="numDocumento" value="#{usuarioSesion.usuReg.numeroDocumento}" required="true" html5:placeholder="Número documento" class="form-control"/>
+                            <br/>
+                            <h:outputLabel value="Tipo telefono:" for="tipoTelefono" />
+                            <h:selectOneMenu class="form-control" id="tipoTelefono" value="#{usuarioSesion.tipoTelefono.numeroTipoTelefono}" required="true">
                                 <f:selectItems value="#{usuarioSesion.tipoTelefonos}" var="tel" itemLabel="#{tel.descripcion}" itemValue="#{tel.numeroTipoTelefono}"/>
                             </h:selectOneMenu>
-
                             <br/>
-                            <h:inputText value="#{usuarioSesion.usuReg.numeroDocumento}" required="true" html5:placeholder="Número documento" class="form-control"/>
-                            <br/>
-
+                            <h:outputLabel value="Número telefono:" for="tipoTelefono" />
                             <br/>
                             <h:inputText value="#{usuarioSesion.usuReg.numeroTelefono}" required="true" html5:placeholder="Número telefono" class="form-control"/>
                             <br/>
-
+                            
+                            <h:commandLink action="#{usuarioSesion.registrarUsuario()}" class="btn btn-primary btn-lg btn-block text-white rounded-pill" value="Registrar.">
+                            </h:commandLink>
                         </div>
-
-                        <h:commandButton action="#{usuarioSesion.registrarUsuario()}" class="btn btn-primary" value="Registrar.">
-                        </h:commandButton>
-
                     </h:form>
 
                 </div>
@@ -368,9 +369,9 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-        
+
         <script src="#{request.contextPath}/resources/JS/idiomas.js"/>
-        
+
         <br />
 
     </h:body>

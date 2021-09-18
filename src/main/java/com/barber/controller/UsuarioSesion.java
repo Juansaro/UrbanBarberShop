@@ -20,6 +20,7 @@ import com.barber.model.TipoRol;
 import com.barber.model.TipoTelefono;
 import com.barber.model.Usuario;
 import com.barber.utilidades.Mail;
+import com.barber.utilidades.envioMasivoServicios;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -73,6 +74,8 @@ public class UsuarioSesion implements Serializable {
     private TipoTelefono tipoTelefono;
     @Inject
     private TipoIdentificacion tipoIdentificacion;
+    @Inject
+    private RolRequest r;
 
     //Lista local
     private List<Usuario> usuarios;
@@ -81,6 +84,7 @@ public class UsuarioSesion implements Serializable {
     private List<TipoTelefono> tipoTelefonos;
     private List<TipoRol> roles;
     private List<Ciudad> ciudades;
+    private List<String> correos;
 
     //Atributos de clase
     private String correoUsuario;
@@ -125,14 +129,17 @@ public class UsuarioSesion implements Serializable {
                             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("correo", correoUsuario);
                             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Bienvenido!", "Bienvenido!"));
                             FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/recepcionista/index.xhtml");
+                            break;
                         case "Cliente":
                             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("correo", correoUsuario);
                             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Bienvenido!", "Bienvenido!"));
                             FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/cliente/index.xhtml");
+                            break;
                         case "Barbero":
                             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("correo", correoUsuario);
                             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Bienvenido!", "Bienvenido!"));
                             FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/barbero/index.xhtml");
+                            break;
                         default:
                             break;
                     }
@@ -150,7 +157,8 @@ public class UsuarioSesion implements Serializable {
         try {
             //Usar esta estructura para las FK
             this.usuReg.setCiudadNumeroCiudad(ciudad);
-            this.usuReg.setTipoRolNumeroRol(tipoRol);
+            //Asignación del CLIENTE por inyeccion de despendencia
+            this.usuReg.setTipoRolNumeroRol(r.asignacionRolCliente());
             this.usuReg.setTipoIdentificacionIdTipoIdentificacion(tipoIdentificacion);
             this.usuReg.setTipoTelefonoNumeroTipoTelefono(tipoTelefono);
             //Principal
@@ -196,53 +204,16 @@ public class UsuarioSesion implements Serializable {
                     CSVReader reader = new CSVReaderBuilder(new FileReader("C:\\cdi\\administrador\\archivos\\" + archivoCarga.getSubmittedFileName())).withCSVParser(conPuntoyComa).build();
                     String[] nextline;
                     while ((nextline = reader.readNext()) != null) {
-                        /*tipoDocumento = nextline[0] 
-                        numeroDocumento= nextline[1] 
-                        nombres= nextline[2] 
-                        apellidos = nextline[3] 
-                        correo = nextline[4] 
-                        clave = nextline[5] 
-                        telefono = nextline[6] 
-                        direccion = nextline[7] 
-                        estado = nextline[8] 
-                        foto = nextline[9] 
-                        ;*/
-
-                        Usuario usuObj = usuarioFacadeLocal.validarSiExiste(nextline[4]);
+                        
+                        Usuario usuObj = usuarioFacadeLocal.validarSiExiste(nextline[3]);
                         if (usuObj == null) {
-                            /*
-                            Usuario objNew = new Usuario();
-                            objNew.setNombre(nextline[0]);
-                            objNew.setUsuNumerodocumento(BigInteger.valueOf(Long.parseLong(nextline[1])));
-                            objNew.setNombre(nextline[2]);
-                            objNew.setApellido(nextline[3]);
-                            objNew.setCorreo(nextline[4]);
-                            objNew.setContrasena(nextline[5]);
-                            objNew.setNumeroDocumento(nextline[6]);
-                            objNew.setNumeroTelefono(nextline[7]);
-                            objNew.(Short.parseShort(nextline[8]));
-                            objNew.setUsuFoto(nextline[9]);                            
-                            usuarioFacadeLocal.crearUsuario(objNew);
-/*
-                           
+                           usuarioFacadeLocal.crearUsuario(nextline[0], nextline[1], nextline[2], nextline[3], Integer.parseInt(nextline[4]), Integer.parseInt(nextline[5]), Integer.parseInt(nextline[6]), nextline[7], Integer.parseInt(nextline[8]), nextline[9]);
                         } else {             
-/*
-                            usuObj.setUsuTipodocumento(nextline[0]);
-                            usuObj.setUsuNumerodocumento(BigInteger.valueOf(Long.parseLong(nextline[1])));
-                            usuObj.setUsuNombres(nextline[2]);
-                            usuObj.setUsuApellidos(nextline[3]);
-                            usuObj.setUsuCorreo(nextline[4]);
-                            usuObj.setUsuClave(nextline[5]);
-                            usuObj.setUsuTelefono(nextline[6]);
-                            usuObj.setUsuDireccion(nextline[7]);
-                            usuObj.setUsuEstado(Short.parseShort(nextline[8]));
-                            usuObj.setUsuFoto(nextline[9]);                            
                             usuarioFacadeLocal.edit(usuObj);
-*/
                         }
                     }
                     reader.close();
-
+                    usuarios.clear();
                 } catch (Exception e) {
                     PrimeFaces.current().executeScript("Swal.fire({"
                             + "  title: 'Problemas !',"
@@ -268,7 +239,7 @@ public class UsuarioSesion implements Serializable {
                     + "  confirmButtonText: 'Ok'"
                     + "})");
         }
-
+        usuarios = usuarioFacadeLocal.findAll();
         PrimeFaces.current().executeScript("document.getElementById('resetform').click()");
 
     }
@@ -354,6 +325,19 @@ public class UsuarioSesion implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exepción de correo", "Exepción de correo"));
         }
 
+    }
+    
+    public void avisoServicios(){
+        try {
+            correos = usuarioFacadeLocal.leerCorreosClientes();
+
+            if (correos != null) {
+                envioMasivoServicios.recuperarCliente(correos);
+            } else {
+            }
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fallo al enviar", "Fallo al enviar"));
+        }
     }
 
     //Carga de foto de perfil
@@ -537,6 +521,14 @@ public class UsuarioSesion implements Serializable {
 
     public void setArchivoFoto(Part archivoFoto) {
         this.archivoFoto = archivoFoto;
+    }
+
+    public Part getArchivoCarga() {
+        return archivoCarga;
+    }
+
+    public void setArchivoCarga(Part archivoCarga) {
+        this.archivoCarga = archivoCarga;
     }
 
 }

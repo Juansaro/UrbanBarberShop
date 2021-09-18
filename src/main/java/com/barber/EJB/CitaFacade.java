@@ -7,10 +7,14 @@ package com.barber.EJB;
 
 import com.barber.model.Cita;
 import com.barber.model.Usuario;
+import java.util.Date;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.StoredProcedureQuery;
 
 /**
  *
@@ -30,21 +34,37 @@ public class CitaFacade extends AbstractFacade<Cita> implements CitaFacadeLocal 
     public CitaFacade() {
         super(Cita.class);
     }
-    
+
     @Override
-    public Object generarFactura(int idCitaIn) {
+    public List<Cita> generarFactura(int idCitaIn) {
         try {
             Query q = em.createNativeQuery("{CALL GENERAR_FACTURA(?);}");
             q.setParameter(1, idCitaIn);
             //Object no se sabe que devuelve
-            Object obj = q.getSingleResult();
+            //Object obj = q.getSingleResult();
 
-            return obj;
+            return q.getResultList();
         } catch (Exception e) {
             return null;
         }
     }
-    
+
+    @Override
+    public boolean validarFechaCita(Date CitaIn) {
+      
+            StoredProcedureQuery q = em.createStoredProcedureQuery("VALIDAR_CITA")
+                    .registerStoredProcedureParameter(1, Date.class,ParameterMode.IN)
+                    .registerStoredProcedureParameter(2, boolean.class,ParameterMode.OUT)
+                    .setParameter(1, CitaIn);
+
+            q.execute();
+
+            boolean commentCount =  (boolean) q.getOutputParameterValue(2);
+           
+            return commentCount;
+        
+    }
+
     @Override
     public boolean crearCita(Cita citaIn, int fk_servicio, int estado_asignacion_id_estado_asignacion, Usuario usuIn) {
         try {
@@ -57,11 +77,23 @@ public class CitaFacade extends AbstractFacade<Cita> implements CitaFacadeLocal 
             c.setParameter(2, citaIn.getEstadoAsignacionIdEstadoAsignacion());
             c.setParameter(3, citaIn.getUsuarioIdUsuario());
             c.setParameter(4, citaIn.getIdCita());
-            
+
             c.executeUpdate();
             return true;
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    @Override
+    public List<Cita> leerTodos(Usuario usu_cita) {
+        try {
+            em.getEntityManagerFactory().getCache().evictAll();
+            Query qt = em.createQuery("SELECT c FROM Cita c WHERE c.usuarioIdUsuario = :u");
+            qt.setParameter("u", usu_cita);
+            return qt.getResultList();
+        } catch (Exception e) {
+            return null;
         }
     }
 

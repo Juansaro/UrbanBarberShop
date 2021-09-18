@@ -14,7 +14,7 @@
                         <br/>
                         
                         <h:form id="frmPrincipal">
-                            <p:dataTable id="tabla" emptyMessage="Ninguna cita registrada" value="#{citaSesion.citas}" 
+                            <p:dataTable id="tabla" emptyMessage="Ninguna cita registrada" value="#{citaSesion.leerTodos()}" 
                                          var="item" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
                                          >
 

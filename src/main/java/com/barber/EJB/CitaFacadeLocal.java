@@ -7,6 +7,7 @@ package com.barber.EJB;
 
 import com.barber.model.Cita;
 import com.barber.model.Usuario;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -31,10 +32,14 @@ public interface CitaFacadeLocal {
 
     int count();
 
-    public Object generarFactura(int idCitaIn);
+    public List<Cita> generarFactura(int idCitaIn);
 
 //    public boolean crearCita(Cita citaIn, int fk_servicio, int estado_asignacion_id_estado_asignacion, int usuario_id_usuario);
 
     public boolean crearCita(Cita citaIn, int fk_servicio, int estado_asignacion_id_estado_asignacion, Usuario usuario_id_usuario);
+
+    public List<Cita> leerTodos(Usuario usu_cita);
+
+    public boolean validarFechaCita(Date CitaIn);
     
 }

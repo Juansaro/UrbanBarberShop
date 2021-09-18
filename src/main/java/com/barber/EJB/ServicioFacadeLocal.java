@@ -29,5 +29,9 @@ public interface ServicioFacadeLocal {
     List<Servicio> findRange(int[] range);
 
     int count();
+
+    public Servicio validarSiExiste(String nombreIn);
+
+    public boolean crearServicio(String ser_nombre, String ser_descripcion, float ser_costo);
     
 }

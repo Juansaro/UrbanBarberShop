@@ -53,7 +53,7 @@
 
                                 <p:column headerText=" " exportable="false" >
 
-                                    <h:commandLink class="btn btn-danger" action="#{citaSesion.eliminarCita(item)}" value="Eliminar"/>
+                                    <h:commandLink class="btn btn-primary rounded-pill" action="#{citaSesion.avisarEmailCliente(item)}" value="Avisar email"/>
 
                                 </p:column>  
 
@@ -63,6 +63,37 @@
                 </div>
             </div>
         </div>
+        
+        <div class="modal fade" id="exampleModalAct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Actualizar</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <h:form id="formActualizar">
+                        <div class="modal-body">
+
+                            <h:outputLabel class="card-text font-weight-bold text-white" value="Estado de asignación:" for="servicioIdServicio" />
+                            <br/>
+                            <h:selectOneMenu class="form-control" id="estado" value="#{citaSesion.estadoAsignacion.idEstadoAsignacion}" required="true">
+                                <f:selectItems value="#{citaSesion.estadoAsignaciones}" var="es" itemLabel="#{es.descripcion}" itemValue="#{es.idEstadoAsignacion}"/>
+                            </h:selectOneMenu>
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <h:commandButton action="#{citaSesion.editarCita()}" class="btn btn-primary" value="Editar">
+                            </h:commandButton>
+
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+        
     </ui:composition>
 </html>
 

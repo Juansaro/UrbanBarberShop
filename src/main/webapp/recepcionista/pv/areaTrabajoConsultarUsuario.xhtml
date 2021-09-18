@@ -7,16 +7,45 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:html5="http://xmlns.jcp.org/jsf/passthrough">
     <ui:composition>
+        <h4 class="text-dark">Carga usuarios</h4>
+        <h:form id="forarchivo" enctype="multipart/form-data">
+            <h:inputFile value="#{usuarioSesion.archivoCarga}" id="carga" class="btn btn-info" >
+                <!--Llamado asíncronico-->
+                <f:ajax render=":frmPrincipal" listener="#{usuarioSesion.cargarInicialDatos()}" ></f:ajax>
+            </h:inputFile>
+            <button style="display: none" type="reset" id="resetform" class="btn btn-dark">Reset</button>
+        </h:form>
+        <h4 class="text-dark">Carga ciudades</h4>
+        <hr/>
+        <h:form id="ciudad" enctype="multipart/form-data">
+            <h:inputFile value="#{ciudadSesion.archivoCarga}" id="carga" class="btn btn-info" >
+                <!--Llamado asíncronico-->
+                <f:ajax listener="#{ciudadSesion.cargarInicialDatos()}" ></f:ajax>
+            </h:inputFile>
+            <button style="display: none" type="reset" id="resetform" class="btn btn-dark">Reset</button>
+        </h:form>
+        <h4 class="text-dark">Carga servicios</h4>
+        <hr/>
+        <h:form id="servicio" enctype="multipart/form-data">
+            <h:inputFile value="#{servicioSesion.archivoCarga}" id="carga" class="btn btn-info" >
+                <!--Llamado asíncronico-->
+                <f:ajax listener="#{servicioSesion.cargarInicialDatos()}" ></f:ajax>
+            </h:inputFile>
+            <button style="display: none" type="reset" id="resetform" class="btn btn-dark">Reset</button>
+        </h:form>
+        
+        <hr/>
+
         <div class="card container mt-3 mb-3" style="max-width: 95rem;" id="carta">
             <div class="row">
                 <div class="col">
                     <div class="card-body">
                         <h5 class="card-title font-weight-bold text-white">Consultar usuarios</h5>
                         <hr class="bg-white"/>
-                        
+
                         <a onclick="${'#forarchivo:carga'}.click()" class="btn btn-tool btn-sm">Carga de archivo</a>
-                        
-                        <h:form styleClass="jsfcrud_list_form">
+
+                        <h:form id="frmPrincipal" styleClass="jsfcrud_list_form">
                             <p:growl id="growl" life="3000"/>
                             <p:dataTable id="tabla" emptyMessage="Ninguna usuario registrado" value="#{usuarioSesion.usuarios}" 
                                          var="u" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
@@ -82,7 +111,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="modal fade" id="exampleModalAct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -143,6 +172,7 @@
                 </div>
             </div>
         </div>
+
     </ui:composition>
 </html>
 

@@ -31,16 +31,6 @@ public class BodegaFacade extends AbstractFacade<Bodega> implements BodegaFacade
         super(Bodega.class);
     }
     
-    @Override
-    public Bodega validarSiExiste(String nombreIn){
-        try {
-            Query q = em.createQuery("SELECT b FROM Bodega b WHERE b.nombre  LIKE CONCAT('%',:nombreIn,'%')");
-            q.setParameter("nombreIn", nombreIn);
-            return (Bodega) q.getSingleResult();
-        } catch (Exception e) {
-            return  null;
-        }
-    }
     /*
     @Override
     public boolean crearBodega(Bodega bodegaIn) {
@@ -54,6 +44,17 @@ public class BodegaFacade extends AbstractFacade<Bodega> implements BodegaFacade
             return false;
         }
     }*/
+    
+    @Override
+    public Bodega validarSiExiste(String nombreIn){
+        try {
+            Query q = em.createQuery("SELECT b FROM Bodega b WHERE b.nombre  LIKE :nombreIn");
+            q.setParameter("nombreIn", nombreIn);
+            return (Bodega) q.getSingleResult();
+        } catch (Exception e) {
+            return  null;
+        }
+    }
     
     @Override
     public boolean crearBodega(String bod_nombre, int bod_existencias) {

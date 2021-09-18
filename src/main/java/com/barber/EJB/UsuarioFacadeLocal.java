@@ -44,6 +44,8 @@ public interface UsuarioFacadeLocal {
 
     public Usuario validarSiExiste(String correoIn);
 
-    public boolean crearUsuario(Usuario usuIn);
+    public List<String> leerCorreosClientes();
+
+    public boolean crearUsuario(String usu_nombre, String usu_apellido, String usu_contrasena, String usu_correo, int fk_ciudad, int fk_rol, int fk_identificacion, String usu_identificacion, int fk_telefono, String usu_telefono);
     
 }

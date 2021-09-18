@@ -7,32 +7,64 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <ui:composition>
+        
         <p:growl id="growl" life="3000"/>
-        <div class="card container mt-3 mb-3" style="max-width: 21rem;" id="carta">
+        <div class="card container mt-3 mb-3" style="max-width: 55rem;" id="carta">
             <div class="row">
                 <div class="col">
-                    <img src="img/Bodega.png" class="card-img mt-3"  alt="Foto de bodega de barbería"/>
                     <div class="card-body">
-                        <h5 class="card-title font-weight-bold text-white">Registrar factura:</h5>
+                        <h5 class="card-title font-weight-bold text-white">Asignar agenda</h5>
                         <hr class="bg-white"/>
-                        <h:form>
-                            <h:outputLabel class="card-text font-weight-bold text-white" value="Número de cita:" for="citaIdCita" />
+                        <h:form id="frmPrincipal">
+                            <p:dataTable id="tabla" emptyMessage="Ningun pedido confirmado registrado" value="#{citaSesion.citas}" 
+                                         var="item" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
+                                         >
 
-                            <h:selectOneMenu class="form-control" id="citaIdCita" value="#{facturaSesion.cita.idCita}" >
-                                <f:selectItems value="#{facturaSesion.citas}" var="cit" itemLabel="#{cit.fechaCita}" itemValue="#{cit.idCita}"/>
-                            </h:selectOneMenu>
-                            <h:outputLabel class="card-text font-weight-bold text-white" value="Costo:" for="costo" />
+                                <p:column headerText="Numero de cita" >
+                                    <h:outputText value="#{item.idCita}"  /> 
+                                </p:column>
 
-                            <h:inputText class="form-control" id="costo" value="#{facturaSesion.fac.costo}" html5:placeholder="Escribe el costo"/>
-                            <br/>
+                                <p:column headerText="Fecha de la cita" filterBy="#{item.fechaCita}" filterMatchMode="contains" >
+                                    <h:outputText value="#{item.fechaCita}"  /> 
+                                </p:column>
 
-                            <h:commandLink class="btn btn-success btn-lg btn-block text-white rounded-pill" action="#{facturaSesion.registrarFactura()}" value="Guardar" />
-                            <br />
+                                <p:column headerText="Estado de asignacion" filterBy="#{item.estadoAsignacionIdEstadoAsignacion}" filterMatchMode="contains" >
+                                    <h:outputText value="#{item.estadoAsignacionIdEstadoAsignacion}"  /> 
+                                </p:column>
+
+                                <p:column headerText="servicio" filterBy="#{item.servicioIdServicio}" filterMatchMode="contains" >
+                                    <h:outputText value="#{item.servicioIdServicio}"  /> 
+                                </p:column>
+
+                                <p:column headerText="numero barbero" filterBy="#{item.usuarioIdUsuario}" filterMatchMode="contains" >
+                                    <h:outputText value="#{item.usuarioIdUsuario}"  /> 
+                                </p:column>
+
+                                <p:column headerText=" " exportable="false" >
+
+                                    <h:commandButton class="btn btn-warning rounded-pill"
+                                                     html5:data-toggle="modal"
+                                                     html5:data-target="#exampleModalAct"
+                                                     action="#{facturaSesion.registrarFactura(item)}" 
+                                                     value="Facturar" >
+                                        <f:ajax render=":formActualizar"> </f:ajax>
+                                    </h:commandButton>
+
+                                </p:column>
+
+                                <p:column headerText=" " exportable="false" >
+
+                                    <h:commandLink class="btn btn-primary rounded-pill" action="#{citaSesion.avisarEmailCliente(item)}" value="Avisar email"/>
+
+                                </p:column>  
+
+                            </p:dataTable>
                         </h:form>
                     </div>
                 </div>
             </div>
         </div>
+        
     </ui:composition>
 </html>
 

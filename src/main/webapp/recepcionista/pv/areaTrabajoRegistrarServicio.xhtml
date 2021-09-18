@@ -16,12 +16,7 @@
                         <h5 class="card-title font-weight-bold text-white">Registrar servicio</h5>
                         <hr class="bg-white"/>
                         <h:form>
-                            
-                            <h:inputFile value="#{usuarioSesion.archivoFoto}" class="btn btn-info" >
-                                <!--Llamado asíncronico-->
-                                <f:ajax listener="#{usuarioSesion.cargarFotoPerfil()}"></f:ajax>
-                            </h:inputFile>
-                            
+
                             <h:inputText value="#{servicioSesion.ser.nombre}" required="true" html5:placeholder="Nombre" class="form-control"/><br/>
 
                             <h:inputText value="#{servicioSesion.ser.descripcion}" class="form-control" id="nombre" required="true" html5:placeholder="Descripción" /><br/>

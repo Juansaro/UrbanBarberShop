@@ -7,15 +7,19 @@ com\barber\EJB\BodegaFacadeLocal.class
 com\barber\model\Proveedor.class
 com\barber\utilidades\ImgServletServicio.class
 com\barber\model\Servicio_.class
+com\barber\utilidades\CitaMailCancelado.class
 com\barber\controller\ProveedorSesion.class
+com\barber\utilidades\CitaMailEspera$1.class
 com\barber\EJB\ProductoFacadeLocal.class
 com\barber\model\Cita_.class
 com\barber\model\Usuario.class
 com\barber\utilidades\ImgServletProducto.class
 com\barber\model\TipoRol_.class
+com\barber\utilidades\CitaMailAgendado$1.class
 com\barber\controller\DespachoSesion.class
 com\barber\utilidades\Mail$1.class
 com\barber\model\Factura_.class
+com\barber\utilidades\CitaMail$1.class
 com\barber\EJB\ServicioFacadeLocal.class
 com\barber\model\DetallePedido.class
 com\barber\model\Cita.class
@@ -29,9 +33,12 @@ com\barber\EJB\CitaFacade.class
 com\barber\model\Pedido.class
 com\barber\utilidades\CitaMail.class
 com\barber\EJB\FacturaFacade.class
+com\barber\controller\CiudadSesion.class
 com\barber\EJB\CiudadFacade.class
+com\barber\utilidades\CitaMailAgendado.class
 com\barber\model\Bodega.class
 com\barber\EJB\UsuarioFacadeLocal.class
+com\barber\controller\RolRequest.class
 com\barber\EJB\CalificacionFacadeLocal.class
 com\barber\EJB\ProveedorFacade.class
 com\barber\EJB\DespachoProductoFacadeLocal.class
@@ -51,6 +58,7 @@ com\barber\model\DespachoProducto_.class
 com\barber\EJB\TipoIdentificacionFacadeLocal.class
 com\barber\model\Producto.class
 com\barber\EJB\PedidoFacadeLocal.class
+com\barber\controller\EstadoAsignacionRequest.class
 com\barber\model\TipoTelefono_.class
 com\barber\model\Calificacion_.class
 com\barber\EJB\ProveedorFacadeLocal.class
@@ -65,6 +73,7 @@ com\barber\model\Ciudad.class
 com\barber\EJB\TipoRolFacadeLocal.class
 com\barber\model\Calificacion.class
 com\barber\controller\UsuarioSesion.class
+com\barber\utilidades\envioMasivoServicios$1.class
 com\barber\EJB\FacturaFacadeLocal.class
 com\barber\EJB\TipoTelefonoFacadeLocal.class
 com\barber\EJB\CalificacionFacade.class
@@ -72,6 +81,8 @@ com\barber\model\Factura.class
 com\barber\model\Producto_.class
 com\barber\model\TipoTelefono.class
 com\barber\EJB\TipoIdentificacionFacade.class
+com\barber\utilidades\envioMasivoServicios.class
+com\barber\utilidades\CitaMailCancelado$1.class
 com\barber\EJB\DetallePedidoFacade.class
 com\barber\controller\CitaSesion.class
 com\barber\controller\ServicioSesion.class
@@ -79,4 +90,5 @@ com\barber\EJB\ServicioFacade.class
 com\barber\model\Proveedor_.class
 com\barber\model\TipoIdentificacion.class
 com\barber\model\TipoRol.class
+com\barber\utilidades\CitaMailEspera.class
 com\barber\controller\ProductoSesion.class

@@ -12,7 +12,7 @@
 
             <h:inputFile value="#{bodegaSesion.archivoCarga}" id="carga" class="btn btn-info" >
                 <!--Llamado asíncronico-->
-                <f:ajax render="tabla" listener="#{bodegaSesion.cargarInicialDatos}" ></f:ajax>
+                <f:ajax render=":frmPrincipal" listener="#{bodegaSesion.cargarInicialDatos}" ></f:ajax>
             </h:inputFile>
             <button style="display: none" type="reset" id="resetform" class="btn btn-dark">Reset</button>
         </h:form>
@@ -23,8 +23,6 @@
                     <div class="card-body">
                         <h5 class="card-title font-weight-bold text-white lang" key="l">Lista de bodegas:</h5>
                         <br/>
-                        
-                        
                         <p:growl id="growl" life="3000"/>
                         <h:form id="frmPrincipal">
 

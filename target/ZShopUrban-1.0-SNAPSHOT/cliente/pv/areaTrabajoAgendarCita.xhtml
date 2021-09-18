@@ -24,21 +24,13 @@
                                 </h:outputText>
                             </p:dialog>
                             <br/>
-                            <h:outputLabel class="card-text font-weight-bold text-white" value="Estado de la cita:" for="estadoAsignacionIdEstadoAsignacion" />
-                            <br/>
-                            <h:selectOneMenu class="form-control" id="estadoAsignacionIdEstadoAsignacion" value="#{citaSesion.estadoAsignacion.idEstadoAsignacion}" required="true">
-                                <f:selectItems value="#{citaSesion.estadoAsignaciones}"  var="est" itemLabel="#{est.descripcion}" itemValue="#{est.idEstadoAsignacion}"/>
-                            </h:selectOneMenu>
-                            <br/>
                             <h:outputLabel class="card-text font-weight-bold text-white" value="Servicio:" for="servicioIdServicio" />
                             <br/>
                             <h:selectOneMenu class="form-control" id="servicioIdServicio" value="#{citaSesion.servicio.idServicio}" required="true">
-                                <f:selectItems value="#{citaSesion.servicios}" var="ser" itemLabel="#{ser.descripcion}" itemValue="#{ser.idServicio}"/>
+                                <f:selectItems value="#{citaSesion.servicios}" var="ser" itemLabel="#{ser.nombre}" itemValue="#{ser.idServicio}"/>
                             </h:selectOneMenu>
                             
-                            <h:selectOneMenu class="form-control" id="servicioIdServicio" value="#{citaSesion.usuario.idUsuario}" required="true">
-                                <f:selectItems value="#{usuarioSesion.usuLog}"/>
-                            </h:selectOneMenu>
+                            
                             <br />
                             <h:commandLink class="btn btn-success btn-lg btn-block text-white rounded-pill" action="#{citaSesion.registrarCita()}" value="Agendar" />
                             <br />

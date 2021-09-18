@@ -50,22 +50,21 @@ public class FacturaSesion implements Serializable{
     }
     
     //Registrar Factura
-    public String registrarFactura(){
+    public void registrarFactura(Cita c){
         try {
-            fac.setCitaIdCita(cita);
+            fac.setCitaIdCita(c);
             facturaFacadeLocal.create(fac);
             facturas = facturaFacadeLocal.findAll();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Factura registrada", "Factura registrada"));
             FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/recepcionista/consultarFactura.xhtml");
         } catch (Exception e) {
+            System.out.println("Error");
         }
-        return null;
     }
     
     //Guardar temporal
-    public String guardarTemporal(Factura f){
+    public void guardarTemporal(Factura f){
         facTemporal = f;
-        return "/RecepFacturaModificar.xhtml";
     }
     
     //Editar factura
