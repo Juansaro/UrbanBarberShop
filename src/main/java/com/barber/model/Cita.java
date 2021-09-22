@@ -17,6 +17,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -52,17 +54,26 @@ public class Cita implements Serializable {
     @Column(name = "fecha_cita")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaCita;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "costo")
+    private float costo;
+    @JoinTable(name = "servicio_has_cita", joinColumns = {
+        @JoinColumn(name = "cita_id_cita", referencedColumnName = "id_cita")}, inverseJoinColumns = {
+        @JoinColumn(name = "servicio_id_servicio", referencedColumnName = "id_servicio")})
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<Servicio> servicioList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "citaIdCita", fetch = FetchType.LAZY)
     private List<Factura> facturaList;
     @JoinColumn(name = "estado_asignacion_id_estado_asignacion", referencedColumnName = "id_estado_asignacion")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private EstadoAsignacion estadoAsignacionIdEstadoAsignacion;
-    @JoinColumn(name = "servicio_id_servicio", referencedColumnName = "id_servicio")
+    @JoinColumn(name = "id_cliente", referencedColumnName = "id_usuario")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Servicio servicioIdServicio;
-    @JoinColumn(name = "usuario_id_usuario", referencedColumnName = "id_usuario")
+    private Usuario idCliente;
+    @JoinColumn(name = "id_barbero", referencedColumnName = "id_usuario")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Usuario usuarioIdUsuario;
+    private Usuario idBarbero;
 
     public Cita() {
     }
@@ -93,6 +104,15 @@ public class Cita implements Serializable {
     }
 
     @XmlTransient
+    public List<Servicio> getServicioList() {
+        return servicioList;
+    }
+
+    public void setServicioList(List<Servicio> servicioList) {
+        this.servicioList = servicioList;
+    }
+
+    @XmlTransient
     public List<Factura> getFacturaList() {
         return facturaList;
     }
@@ -109,20 +129,29 @@ public class Cita implements Serializable {
         this.estadoAsignacionIdEstadoAsignacion = estadoAsignacionIdEstadoAsignacion;
     }
 
-    public Servicio getServicioIdServicio() {
-        return servicioIdServicio;
+    public Usuario getIdCliente() {
+        return idCliente;
     }
 
-    public void setServicioIdServicio(Servicio servicioIdServicio) {
-        this.servicioIdServicio = servicioIdServicio;
+    public void setIdCliente(Usuario idCliente) {
+        this.idCliente = idCliente;
     }
 
-    public Usuario getUsuarioIdUsuario() {
-        return usuarioIdUsuario;
+    public Usuario getIdBarbero() {
+        return idBarbero;
     }
 
-    public void setUsuarioIdUsuario(Usuario usuarioIdUsuario) {
-        this.usuarioIdUsuario = usuarioIdUsuario;
+    public void setIdBarbero(Usuario idBarbero) {
+        this.idBarbero = idBarbero;
+    }
+    
+    
+    public float getCosto() {
+        return costo;
+    }
+
+    public void setCosto(float costo) {
+        this.costo = costo;
     }
 
     @Override
@@ -147,7 +176,7 @@ public class Cita implements Serializable {
 
     @Override
     public String toString() {
-        return "" +fechaCita;
+        return "com.barber.model.Cita[ idCita=" + idCita + " ]";
     }
     
 }

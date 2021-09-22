@@ -155,7 +155,7 @@ public class Proveedor implements Serializable {
 
     @Override
     public String toString() {
-        return correo;
+        return "com.barber.model.Proveedor[ numeroProveedor=" + numeroProveedor + " ]";
     }
     
 }

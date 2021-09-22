@@ -100,8 +100,10 @@ public class Usuario implements Serializable {
     @JoinColumn(name = "tipo_telefono_numero_tipo_telefono", referencedColumnName = "numero_tipo_telefono")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private TipoTelefono tipoTelefonoNumeroTipoTelefono;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdUsuario", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCliente", fetch = FetchType.LAZY)
     private List<Cita> citaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idBarbero", fetch = FetchType.LAZY)
+    private List<Cita> citaList1;
 
     public Usuario() {
     }
@@ -241,6 +243,15 @@ public class Usuario implements Serializable {
 
     public void setCitaList(List<Cita> citaList) {
         this.citaList = citaList;
+    }
+
+    @XmlTransient
+    public List<Cita> getCitaList1() {
+        return citaList1;
+    }
+
+    public void setCitaList1(List<Cita> citaList1) {
+        this.citaList1 = citaList1;
     }
 
     @Override

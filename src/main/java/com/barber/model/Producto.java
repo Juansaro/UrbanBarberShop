@@ -200,7 +200,7 @@ public class Producto implements Serializable {
 
     @Override
     public String toString() {
-        return nombreProducto;
+        return "com.barber.model.Producto[ idProducto=" + idProducto + " ]";
     }
     
 }

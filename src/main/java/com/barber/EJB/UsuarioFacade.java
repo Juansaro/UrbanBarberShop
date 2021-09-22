@@ -5,6 +5,7 @@
  */
 package com.barber.EJB;
 
+import com.barber.model.TipoRol;
 import com.barber.model.Usuario;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -132,6 +133,21 @@ public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioFac
             return true;
         } catch (Exception e) {
             return false;
+        }
+    }
+    
+    /**
+     *
+     * @return
+     */
+    @Override
+    public List<Usuario> leerBarberos() {
+        try {
+            em.getEntityManagerFactory().getCache().evictAll();
+            Query qt = em.createQuery("SELECT u FROM Usuario u WHERE u.tipoRolNumeroRol = (?2)");
+            return qt.getResultList();
+        } catch (Exception e) {
+            return null;
         }
     }
     

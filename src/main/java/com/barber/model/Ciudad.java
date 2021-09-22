@@ -110,7 +110,7 @@ public class Ciudad implements Serializable {
 
     @Override
     public String toString() {
-        return nombreCiudad;
+        return "com.barber.model.Ciudad[ numeroCiudad=" + numeroCiudad + " ]";
     }
     
 }

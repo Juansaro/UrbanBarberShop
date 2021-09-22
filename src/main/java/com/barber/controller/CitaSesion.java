@@ -14,10 +14,9 @@ import com.barber.model.EstadoAsignacion;
 import com.barber.model.Servicio;
 import com.barber.model.Usuario;
 import com.barber.utilidades.CitaMail;
-import com.barber.utilidades.CitaMailAgendado;
-import com.barber.utilidades.CitaMailCancelado;
-import com.barber.utilidades.CitaMailEspera;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -58,15 +57,26 @@ public class CitaSesion implements Serializable {
     private Servicio servicio;
     @Inject
     private Usuario usuario;
+    @Inject
+    private RolRequest r_bar;
 
     private List<Cita> citas;
     private List<EstadoAsignacion> estadoAsignaciones;
     private List<Servicio> servicios;
     private List<Usuario> usuarios;
+    private List<Usuario> barberos;
+    private List<Servicio> listaServiciosAgendados = new ArrayList<>();
+    private List<Servicio> listaServiciosEspera = new ArrayList<>();
 
+    int fk_ciente;
+    int fk_servicio;
+
+    private float cit_costototal = 0;
+
+    private Servicio serTemporal = new Servicio();
     private Cita cit = new Cita();
     private Cita citTemporal = new Cita();
-    private Servicio ser = new Servicio();
+    //private Servicio ser = new Servicio();
 
     @PostConstruct
     public void init() {
@@ -74,37 +84,69 @@ public class CitaSesion implements Serializable {
         estadoAsignaciones = estadoAsignacionFacadeLocal.findAll();
         servicios = servicioFacadeLocal.findAll();
         usuarios = usuarioFacadeLocal.findAll();
+        citTemporal = new Cita();
+        listaServiciosAgendados.addAll(servicioFacadeLocal.findAll());
+        cit_costototal = 0;
         cita = new Cita();
     }
 
+    public void guardarServicioTemporal(Servicio srIn) {
+        this.serTemporal = srIn;
+    }
+
+    public void cargaServiciosSolicitados(Servicio srIn) {
+        listaServiciosEspera.add(srIn);
+        cit_costototal = cit_costototal + srIn.getCosto();
+    }
+
+    public void eliminarServicioTemporal(Servicio sTemporal) {
+        listaServiciosEspera.remove(sTemporal);
+        cit_costototal = cit_costototal - sTemporal.getCosto();
+    }
+
     //Registrar cita
-    //Volver por estado de asignación
     public void registrarCita() {
         try {
-            //Validación en procedimiento almacenado
+            //Validación en procedimiento almacenado de fechas pasadas y muy futuras, me retorna un boolean
             if (citaFacadeLocal.validarFechaCita(cit.getFechaCita())) {
-                //Llave foranea por defecto "En espera"
-                this.cit.setEstadoAsignacionIdEstadoAsignacion(est.citaEspera());
-                this.cit.setServicioIdServicio(servicio);
-                //Se establece el usuario logeado con la inyección de dependencias desde el UsuarioSesion -> usuLog
-                this.cit.setUsuarioIdUsuario(usu.getUsuLog());
-                citaFacadeLocal.create(cit);
-                //Me permite leer SOLO las citas del cliente logeado
-                citas = citaFacadeLocal.leerTodos(usu.getUsuLog());
-                //Se envian los parámetros del nombre y correo desde el usuLog
-                CitaMail.correoCita(
+                if (listaServiciosEspera.isEmpty()) {
+                    System.out.println("Error");
+                } else {
+                    this.cit.setEstadoAsignacionIdEstadoAsignacion(est.citaEspera());
+                    //Se establece el usuario logeado con la inyección de dependencias desde el UsuarioSesion -> usuLog
+                    this.cit.setIdCliente(usu.getUsuLog());
+                    this.cit.setIdBarbero(usuario);
+                    //Costo calculado del acumulador
+                    this.cit.setCosto(cit_costototal);
+                    citaFacadeLocal.create(cit);
+                    //Iterator para registrar datos en la colección de citas y servicios (Funciona)
+                    for (Iterator<Servicio> it = listaServiciosEspera.iterator(); it.hasNext();) {
+                        Servicio srIt = it.next();
+                        cit.setServicioList(listaServiciosEspera);
+                    }
+                    //Me permite leer SOLO las citas del cliente logeado
+                    citas = citaFacadeLocal.leerTodos(usu.getUsuLog());
+                    //Se envian los parámetros del nombre y correo desde el usuLog (Inutil hasta poder mandar la lista de las listas asignadas **)
+                    /*CitaMail.correoCita(
                         usu.getUsuLog().getNombre(),
                         usu.getUsuLog().getApellido(),
-                        cit.getServicioIdServicio().getNombre(),
+                        cit.getServicioIdServicio().getNombre(),//No funciona así toca con un filtro en la colección de 
                         usu.getUsuLog().getCorreo(),
                         cit.getFechaCita()
-                );
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/cliente/consultarCita.xhtml");
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cita registrada", "Cita registrada"));
+                    );*/
+                    //Limpieza del arrayList temporal
+                    listaServiciosEspera.clear();
+                    //Limpieza del acumulador del costo total en 0
+                    this.cit_costototal = 0;
+                    //Redirección
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/cliente/consultarCita.xhtml");
+                    //Mensaje
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cita registrada", "Cita registrada"));
+                }
             } else {
+                //Mensaje
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error de registro", "Error de registro"));
             }
-
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error de registro", "Error de registro"));
         }
@@ -119,7 +161,7 @@ public class CitaSesion implements Serializable {
     public void editarCita() {
         try {
             this.citTemporal.setEstadoAsignacionIdEstadoAsignacion(estadoAsignacion);
-            this.citTemporal.setServicioIdServicio(servicio);
+            //this.citTemporal.setServicioIdServicio(servicio);
             citaFacadeLocal.edit(citTemporal);
             citas = citaFacadeLocal.findAll();
 
@@ -142,7 +184,8 @@ public class CitaSesion implements Serializable {
         }
 
     }
-    
+
+    /*
     public void avisarEmailCliente(Cita c) {
         try {
             switch (c.getEstadoAsignacionIdEstadoAsignacion().toString()) {
@@ -178,6 +221,9 @@ public class CitaSesion implements Serializable {
         } catch (Exception e) {
             System.out.println("Error");
         }
+    }*/
+    public List<Usuario> leerBarberos() {
+        return citaFacadeLocal.leerBarberos(r_bar.getRolBarbero());
     }
 
     public List<Cita> leerTodos() {
@@ -274,6 +320,38 @@ public class CitaSesion implements Serializable {
 
     public void setCitTemporal(Cita citTemporal) {
         this.citTemporal = citTemporal;
+    }
+
+    public List<Servicio> getListaServiciosAgendados() {
+        return listaServiciosAgendados;
+    }
+
+    public void setListaServiciosAgendados(List<Servicio> listaServiciosAgendados) {
+        this.listaServiciosAgendados = listaServiciosAgendados;
+    }
+
+    public Servicio getSerTemporal() {
+        return serTemporal;
+    }
+
+    public void setSerTemporal(Servicio serTemporal) {
+        this.serTemporal = serTemporal;
+    }
+
+    public List<Servicio> getListaServiciosEspera() {
+        return listaServiciosEspera;
+    }
+
+    public void setListaServiciosEspera(List<Servicio> listaServiciosEspera) {
+        this.listaServiciosEspera = listaServiciosEspera;
+    }
+
+    public float getCit_costototal() {
+        return cit_costototal;
+    }
+
+    public void setCit_costototal(float cit_costototal) {
+        this.cit_costototal = cit_costototal;
     }
 
 }

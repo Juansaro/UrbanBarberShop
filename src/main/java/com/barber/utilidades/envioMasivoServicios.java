@@ -23,7 +23,7 @@ import javax.mail.internet.MimeMessage;
 
 public abstract class envioMasivoServicios {
 
-    public static void recuperarCliente(List<String> emailToAddresses) {
+    public static void recuperarCliente(List<String> correos) {
 
         // from email address
         final String username = "senaland066@gmail.com";
@@ -58,7 +58,7 @@ public abstract class envioMasivoServicios {
             message.setFrom(new InternetAddress(username));
 
             // set email subject
-            message.setSubject(emailToAddresses.get(0));
+            message.setSubject(correos.get(0));
 
             // set email message
             // this will send html mail to the intended recipients
@@ -67,41 +67,35 @@ public abstract class envioMasivoServicios {
             String content = "<html>\n<body>\n";
             content += "";
             content += "<br/>";
-            content += "<h1> Hola, "+ emailToAddresses +" </h1>";
+            content += "<h1> Hola, "+ correos +" </h1>";
             content += "<br/>";
             content += "Bienvenido a Urban barber shop!";
+            //Recordar servicios a los clientes en general
             content += "<br/>";
             content += "Donde los hombres se vuelven hombres.";
             content += "\n";
             content += "</body>\n</html>";
             message.setContent(content, "text/html");
 
-            // form all emails in a comma separated string
             StringBuilder sb = new StringBuilder();
 
             int i = 0;
-            for (String email : emailToAddresses) {
+            for (String email : correos) {
                 sb.append(email);
                 i++;
-                if (emailToAddresses.size() > i) {
+                if (correos.size() > i) {
                     sb.append(", ");
                 }
             }
 
             emails = sb.toString();
 
-            // set 'to email address'
-            // you can set also CC or TO for recipient type
             message.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(sb.toString()));
-
-            //System.out.println("Sending Email to " + emails + " from " + username + " with Subject - " + emailToAddresses.toString());
 
             // send the email
             Transport.send(message);
 
-            //System.out.println("Email successfully sent to " + emails);
         } catch (MessagingException e) {
-            System.out.println("Email sending failed to " + emails);
             System.out.println(e);
         }
     }

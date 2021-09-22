@@ -110,7 +110,7 @@ public class TipoIdentificacion implements Serializable {
 
     @Override
     public String toString() {
-        return descripcion;
+        return "com.barber.model.TipoIdentificacion[ idTipoIdentificacion=" + idTipoIdentificacion + " ]";
     }
     
 }

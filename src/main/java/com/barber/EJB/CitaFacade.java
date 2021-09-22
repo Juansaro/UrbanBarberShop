@@ -6,7 +6,9 @@
 package com.barber.EJB;
 
 import com.barber.model.Cita;
+import com.barber.model.TipoRol;
 import com.barber.model.Usuario;
+import com.barber.model.Servicio;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -58,7 +60,7 @@ public class CitaFacade extends AbstractFacade<Cita> implements CitaFacadeLocal 
                     .setParameter(1, CitaIn);
 
             q.execute();
-
+            //Out (2)
             boolean commentCount =  (boolean) q.getOutputParameterValue(2);
            
             return commentCount;
@@ -75,7 +77,7 @@ public class CitaFacade extends AbstractFacade<Cita> implements CitaFacadeLocal 
             );
             c.setParameter(1, citaIn.getFechaCita());
             c.setParameter(2, citaIn.getEstadoAsignacionIdEstadoAsignacion());
-            c.setParameter(3, citaIn.getUsuarioIdUsuario());
+            //c.setParameter(3, citaIn.getUsuarioIdUsuario());
             c.setParameter(4, citaIn.getIdCita());
 
             c.executeUpdate();
@@ -89,12 +91,35 @@ public class CitaFacade extends AbstractFacade<Cita> implements CitaFacadeLocal 
     public List<Cita> leerTodos(Usuario usu_cita) {
         try {
             em.getEntityManagerFactory().getCache().evictAll();
-            Query qt = em.createQuery("SELECT c FROM Cita c WHERE c.usuarioIdUsuario = :u");
-            qt.setParameter("u", usu_cita);
+            Query qt = em.createQuery("SELECT c FROM Cita c WHERE c.idCliente = :usu_cita");
+            qt.setParameter("usu_cita", usu_cita);
             return qt.getResultList();
         } catch (Exception e) {
             return null;
         }
     }
-
+    
+    @Override
+    public List<Usuario> leerBarberos(TipoRol r) {
+        try {
+            em.getEntityManagerFactory().getCache().evictAll();
+            Query qt = em.createQuery("SELECT u FROM Usuario u WHERE u.tipoRolNumeroRol = :r");
+            qt.setParameter("r", r);
+            return qt.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    /*
+    public List<Servicio> leerServiciosAgendados(Cita c){
+        try {
+            em.getEntityManagerFactory().getCache().evictAll();
+            Query qt = em.createQuery("SELECT s FROM Servicio s");
+            qt.setParameter(name, c);
+            return qt.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    */
 }

@@ -6,6 +6,7 @@
 package com.barber.EJB;
 
 import com.barber.model.Cita;
+import com.barber.model.TipoRol;
 import com.barber.model.Usuario;
 import java.util.Date;
 import java.util.List;
@@ -41,5 +42,7 @@ public interface CitaFacadeLocal {
     public List<Cita> leerTodos(Usuario usu_cita);
 
     public boolean validarFechaCita(Date CitaIn);
+
+    public List<Usuario> leerBarberos(TipoRol Rol);
     
 }

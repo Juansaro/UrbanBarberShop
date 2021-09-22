@@ -8,16 +8,15 @@ package com.barber.model;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -57,7 +56,7 @@ public class Servicio implements Serializable {
     @Size(max = 255)
     @Column(name = "servicio_foto")
     private String servicioFoto;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "servicioIdServicio", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "servicioList", fetch = FetchType.LAZY)
     private List<Cita> citaList;
 
     public Servicio() {
@@ -138,7 +137,7 @@ public class Servicio implements Serializable {
 
     @Override
     public String toString() {
-        return nombre;
+        return descripcion;
     }
     
 }

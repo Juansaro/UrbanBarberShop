@@ -121,7 +121,7 @@ public class Pedido implements Serializable {
 
     @Override
     public String toString() {
-        return "" +fechaRecibida;
+        return "com.barber.model.Pedido[ numeroPedido=" + numeroPedido + " ]";
     }
     
 }

@@ -33,12 +33,7 @@
                             <h:selectOneMenu class="form-control" id="tipoIdentificacionIdTipoIdentificacion" value="#{usuarioSesion.ciudad.numeroCiudad}" required="true" >
                                 <f:selectItems value="#{usuarioSesion.ciudades}" var="ciu" itemLabel="#{ciu.nombreCiudad}" itemValue="#{ciu.numeroCiudad}"/>
                             </h:selectOneMenu>
-
-                            <h:outputLabel value="Tipo rol:" for="ripoRol" />
-                            <h:selectOneMenu class="form-control" id="ripoRol" value="#{usuarioSesion.tipoRol.numeroRol}" required="true">
-                                <f:selectItems value="#{usuarioSesion.roles}" var="rol" itemLabel="#{rol.descripcion}" itemValue="#{rol.numeroRol}"/>
-                            </h:selectOneMenu>
-
+                           
                             <h:outputLabel value="Tipo identificacion:" for="tipoIdentificacion" />
                             <h:selectOneMenu class="form-control" id="tipoIdentificacion" value="#{usuarioSesion.tipoIdentificacion.idTipoIdentificacion}" required="true">
                                 <f:selectItems value="#{usuarioSesion.tipoIdentificaciones}" var="ide" itemLabel="#{ide.descripcion}" itemValue="#{ide.idTipoIdentificacion}"/>

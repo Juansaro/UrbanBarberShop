@@ -149,7 +149,7 @@ public class DespachoProducto implements Serializable {
 
     @Override
     public String toString() {
-        return "" +fechaSolicitud;
+        return "com.barber.model.DespachoProducto[ numeroDespachoProducto=" + numeroDespachoProducto + " ]";
     }
     
 }

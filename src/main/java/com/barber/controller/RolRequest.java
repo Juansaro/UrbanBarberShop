@@ -27,6 +27,8 @@ public class RolRequest implements Serializable{
     
     private List<TipoRol> roles;
     
+    private TipoRol rolBarbero = new TipoRol();
+    
     @PostConstruct
     private void init(){
         roles = tipoRolFacadeLocal.findAll();
@@ -51,6 +53,15 @@ public class RolRequest implements Serializable{
 
     public void setRoles(List<TipoRol> roles) {
         this.roles = roles;
+    }
+
+    public TipoRol getRolBarbero() {
+        rolBarbero.setNumeroRol(3);
+        return rolBarbero;
+    }
+
+    public void setRolBarbero(TipoRol rolBarbero) {
+        this.rolBarbero = rolBarbero;
     }
     
 }

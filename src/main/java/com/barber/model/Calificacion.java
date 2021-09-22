@@ -120,7 +120,7 @@ public class Calificacion implements Serializable {
 
     @Override
     public String toString() {
-        return "" +comentario;
+        return "com.barber.model.Calificacion[ idCalificacion=" + idCalificacion + " ]";
     }
     
 }
