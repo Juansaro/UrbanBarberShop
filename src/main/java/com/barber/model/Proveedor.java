@@ -66,6 +66,8 @@ public class Proveedor implements Serializable {
     @Size(min = 1, max = 300)
     @Column(name = "direccion")
     private String direccion;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "numeroProveedor", fetch = FetchType.LAZY)
+    private List<Compra> compraList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "proveedorNumeroProveedor", fetch = FetchType.LAZY)
     private List<Producto> productoList;
 
@@ -122,6 +124,15 @@ public class Proveedor implements Serializable {
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
+    }
+
+    @XmlTransient
+    public List<Compra> getCompraList() {
+        return compraList;
+    }
+
+    public void setCompraList(List<Compra> compraList) {
+        this.compraList = compraList;
     }
 
     @XmlTransient

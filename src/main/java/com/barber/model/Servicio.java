@@ -137,7 +137,7 @@ public class Servicio implements Serializable {
 
     @Override
     public String toString() {
-        return descripcion;
+        return "com.barber.model.Servicio[ idServicio=" + idServicio + " ]";
     }
     
 }

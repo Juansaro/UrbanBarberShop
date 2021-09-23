@@ -80,6 +80,8 @@ public class Producto implements Serializable {
     private List<DespachoProducto> despachoProductoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productoIdProducto", fetch = FetchType.LAZY)
     private List<DetallePedido> detallePedidoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productoIdProducto", fetch = FetchType.LAZY)
+    private List<DetalleCompra> detalleCompraList;
 
     public Producto() {
     }
@@ -176,6 +178,15 @@ public class Producto implements Serializable {
 
     public void setDetallePedidoList(List<DetallePedido> detallePedidoList) {
         this.detallePedidoList = detallePedidoList;
+    }
+
+    @XmlTransient
+    public List<DetalleCompra> getDetalleCompraList() {
+        return detalleCompraList;
+    }
+
+    public void setDetalleCompraList(List<DetalleCompra> detalleCompraList) {
+        this.detalleCompraList = detalleCompraList;
     }
 
     @Override

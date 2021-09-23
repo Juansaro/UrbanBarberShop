@@ -17,6 +17,7 @@ C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\co
 C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\com\barber\controller\DetallePedidoSesion.java
 C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\com\barber\model\Calificacion.java
 C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\com\barber\model\Bodega.java
+C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\com\barber\model\DetalleCompra.java
 C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\com\barber\EJB\TipoTelefonoFacadeLocal.java
 C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\com\barber\utilidades\envioMasivoServicios.java
 C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\com\barber\EJB\TipoTelefonoFacade.java
@@ -42,6 +43,7 @@ C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\co
 C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\com\barber\model\Factura.java
 C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\com\barber\model\TipoIdentificacion.java
 C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\com\barber\EJB\CalificacionFacade.java
+C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\com\barber\model\Compra.java
 C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\com\barber\model\Proveedor.java
 C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\com\barber\model\TipoRol.java
 C:\Users\juan\Documents\NetBeansProjects\ZUrban\UrbanBarberShop\src\main\java\com\barber\utilidades\ImgServletServicio.java

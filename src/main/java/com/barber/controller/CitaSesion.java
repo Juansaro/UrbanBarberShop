@@ -14,9 +14,15 @@ import com.barber.model.EstadoAsignacion;
 import com.barber.model.Servicio;
 import com.barber.model.Usuario;
 import com.barber.utilidades.CitaMail;
+import java.io.IOException;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -67,10 +73,9 @@ public class CitaSesion implements Serializable {
     private List<Usuario> barberos;
     private List<Servicio> listaServiciosAgendados = new ArrayList<>();
     private List<Servicio> listaServiciosEspera = new ArrayList<>();
+    private List<Cita> listaUltimaFecha = new ArrayList<>();
 
-    int fk_ciente;
-    int fk_servicio;
-
+    //Formato de fecha y hora actual
     private float cit_costototal = 0;
 
     private Servicio serTemporal = new Servicio();
@@ -86,6 +91,7 @@ public class CitaSesion implements Serializable {
         usuarios = usuarioFacadeLocal.findAll();
         citTemporal = new Cita();
         listaServiciosAgendados.addAll(servicioFacadeLocal.findAll());
+        listaUltimaFecha.addAll(citaFacadeLocal.findAll());
         cit_costototal = 0;
         cita = new Cita();
     }
@@ -104,11 +110,39 @@ public class CitaSesion implements Serializable {
         cit_costototal = cit_costototal - sTemporal.getCosto();
     }
 
+    public Date ObtenerFechaActual() {
+        try {
+            DateTimeFormatter d = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            String fechaActual = d.format(LocalDateTime.now());
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Date fechaFormateada = formato.parse(fechaActual);
+            return fechaFormateada;
+        } catch (ParseException e) {
+            return null;
+        }
+    }
+
+    public boolean validarCitaRepetida() {
+        listaUltimaFecha.addAll(citaFacadeLocal.findAll());
+        if (listaUltimaFecha != null && !listaUltimaFecha.isEmpty()) {
+            Cita item = listaUltimaFecha.get(listaUltimaFecha.size() - 1);
+            Date registro = item.getRegistroActual();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(registro);
+            calendar.add(Calendar.MINUTE, 30);
+            Date fechaSalida = calendar.getTime();
+            calendar.getTime();
+            return ObtenerFechaActual().after(fechaSalida);
+        } else {
+            return true;
+        }
+    }
+
     //Registrar cita
     public void registrarCita() {
         try {
             //Validación en procedimiento almacenado de fechas pasadas y muy futuras, me retorna un boolean
-            if (citaFacadeLocal.validarFechaCita(cit.getFechaCita())) {
+            if (citaFacadeLocal.validarFechaCita(cit.getFechaCita()) && validarCitaRepetida()) {
                 if (listaServiciosEspera.isEmpty()) {
                     System.out.println("Error");
                 } else {
@@ -116,12 +150,12 @@ public class CitaSesion implements Serializable {
                     //Se establece el usuario logeado con la inyección de dependencias desde el UsuarioSesion -> usuLog
                     this.cit.setIdCliente(usu.getUsuLog());
                     this.cit.setIdBarbero(usuario);
+                    this.cit.setRegistroActual(ObtenerFechaActual());
                     //Costo calculado del acumulador
                     this.cit.setCosto(cit_costototal);
                     citaFacadeLocal.create(cit);
                     //Iterator para registrar datos en la colección de citas y servicios (Funciona)
-                    for (Iterator<Servicio> it = listaServiciosEspera.iterator(); it.hasNext();) {
-                        Servicio srIt = it.next();
+                    for (Servicio srIt : listaServiciosEspera) {
                         cit.setServicioList(listaServiciosEspera);
                     }
                     //Me permite leer SOLO las citas del cliente logeado
@@ -136,6 +170,7 @@ public class CitaSesion implements Serializable {
                     );*/
                     //Limpieza del arrayList temporal
                     listaServiciosEspera.clear();
+                    listaUltimaFecha.clear();
                     //Limpieza del acumulador del costo total en 0
                     this.cit_costototal = 0;
                     //Redirección
@@ -147,7 +182,7 @@ public class CitaSesion implements Serializable {
                 //Mensaje
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error de registro", "Error de registro"));
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error de registro", "Error de registro"));
         }
     }
@@ -179,7 +214,6 @@ public class CitaSesion implements Serializable {
             citas = citaFacadeLocal.findAll();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cita eliminada", "Cita eliminada"));
         } catch (Exception e) {
-            e.printStackTrace();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de eliminación", "Error de eliminación"));
         }
 
@@ -352,6 +386,14 @@ public class CitaSesion implements Serializable {
 
     public void setCit_costototal(float cit_costototal) {
         this.cit_costototal = cit_costototal;
+    }
+
+    public List<Cita> getListaUltimaFecha() {
+        return listaUltimaFecha;
+    }
+
+    public void setListaUltimaFecha(List<Cita> listaUltimaFecha) {
+        this.listaUltimaFecha = listaUltimaFecha;
     }
 
 }

@@ -87,8 +87,6 @@ public class TipoRol implements Serializable {
     public void setUsuarioList(List<Usuario> usuarioList) {
         this.usuarioList = usuarioList;
     }
-    
-
 
     @Override
     public int hashCode() {

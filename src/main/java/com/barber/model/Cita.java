@@ -40,7 +40,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Cita.findAll", query = "SELECT c FROM Cita c"),
     @NamedQuery(name = "Cita.findByIdCita", query = "SELECT c FROM Cita c WHERE c.idCita = :idCita"),
-    @NamedQuery(name = "Cita.findByFechaCita", query = "SELECT c FROM Cita c WHERE c.fechaCita = :fechaCita")})
+    @NamedQuery(name = "Cita.findByFechaCita", query = "SELECT c FROM Cita c WHERE c.fechaCita = :fechaCita"),
+    @NamedQuery(name = "Cita.findByCosto", query = "SELECT c FROM Cita c WHERE c.costo = :costo"),
+    @NamedQuery(name = "Cita.findByRegistroActual", query = "SELECT c FROM Cita c WHERE c.registroActual = :registroActual")})
 public class Cita implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -58,6 +60,9 @@ public class Cita implements Serializable {
     @NotNull
     @Column(name = "costo")
     private float costo;
+    @Column(name = "registro_actual")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date registroActual;
     @JoinTable(name = "servicio_has_cita", joinColumns = {
         @JoinColumn(name = "cita_id_cita", referencedColumnName = "id_cita")}, inverseJoinColumns = {
         @JoinColumn(name = "servicio_id_servicio", referencedColumnName = "id_servicio")})
@@ -82,9 +87,10 @@ public class Cita implements Serializable {
         this.idCita = idCita;
     }
 
-    public Cita(Integer idCita, Date fechaCita) {
+    public Cita(Integer idCita, Date fechaCita, float costo) {
         this.idCita = idCita;
         this.fechaCita = fechaCita;
+        this.costo = costo;
     }
 
     public Integer getIdCita() {
@@ -101,6 +107,22 @@ public class Cita implements Serializable {
 
     public void setFechaCita(Date fechaCita) {
         this.fechaCita = fechaCita;
+    }
+
+    public float getCosto() {
+        return costo;
+    }
+
+    public void setCosto(float costo) {
+        this.costo = costo;
+    }
+
+    public Date getRegistroActual() {
+        return registroActual;
+    }
+
+    public void setRegistroActual(Date registroActual) {
+        this.registroActual = registroActual;
     }
 
     @XmlTransient
@@ -143,15 +165,6 @@ public class Cita implements Serializable {
 
     public void setIdBarbero(Usuario idBarbero) {
         this.idBarbero = idBarbero;
-    }
-    
-    
-    public float getCosto() {
-        return costo;
-    }
-
-    public void setCosto(float costo) {
-        this.costo = costo;
     }
 
     @Override

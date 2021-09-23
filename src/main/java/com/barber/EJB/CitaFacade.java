@@ -8,7 +8,6 @@ package com.barber.EJB;
 import com.barber.model.Cita;
 import com.barber.model.TipoRol;
 import com.barber.model.Usuario;
-import com.barber.model.Servicio;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -58,7 +57,7 @@ public class CitaFacade extends AbstractFacade<Cita> implements CitaFacadeLocal 
                     .registerStoredProcedureParameter(1, Date.class,ParameterMode.IN)
                     .registerStoredProcedureParameter(2, boolean.class,ParameterMode.OUT)
                     .setParameter(1, CitaIn);
-
+                    
             q.execute();
             //Out (2)
             boolean commentCount =  (boolean) q.getOutputParameterValue(2);

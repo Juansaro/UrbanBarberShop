@@ -110,7 +110,7 @@ public class TipoTelefono implements Serializable {
 
     @Override
     public String toString() {
-        return "com.barber.model.TipoTelefono[ numeroTipoTelefono=" + numeroTipoTelefono + " ]";
+        return descripcion;
     }
     
 }
