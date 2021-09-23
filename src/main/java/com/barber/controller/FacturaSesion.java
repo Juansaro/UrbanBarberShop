@@ -9,6 +9,7 @@ import com.barber.EJB.CitaFacadeLocal;
 import com.barber.EJB.FacturaFacadeLocal;
 import com.barber.model.Cita;
 import com.barber.model.Factura;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -53,12 +54,12 @@ public class FacturaSesion implements Serializable{
     public void registrarFactura(Cita c){
         try {
             fac.setCitaIdCita(c);
+            fac.setCosto(c.getCosto());
             facturaFacadeLocal.create(fac);
             facturas = facturaFacadeLocal.findAll();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Factura registrada", "Factura registrada"));
             FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/recepcionista/consultarFactura.xhtml");
-        } catch (Exception e) {
-            System.out.println("Error");
+        } catch (IOException e) {
         }
     }
     
@@ -95,7 +96,6 @@ public class FacturaSesion implements Serializable{
             //Colocar prepararEliminar()
             prepararEliminar();
         }catch(Exception e){
-            e.printStackTrace();
         }
     }
 

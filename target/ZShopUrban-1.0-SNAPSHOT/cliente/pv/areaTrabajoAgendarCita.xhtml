@@ -16,6 +16,7 @@
                             <h5 class="card-title font-weight-bold text-white">Agendar cita</h5>
                             <hr class="bg-white"/>
                             <h:form>
+                                <p:growl id="growl" life="6000"/>
                                 <h:commandButton class="btn btn-warning btn-lg btn-block text-white rounded-pill"
                                                  html5:data-toggle="modal"
                                                  html5:data-target="#servicios"
@@ -49,46 +50,46 @@
                     </div>
                 </div>
                 <div class="col-8">
-                   
-                        <div class="card container mt-3 mb-3" style="max-width: 33rem;" id="carta">
 
-                            <div class="card-body">
-                                <h5 class="card-title font-weight-bold text-white">Resumen de servicios seleccionados:</h5>
-                                <hr class="bg-white"/>
-                                <h:form>
+                    <div class="card container mt-3 mb-3" style="max-width: 33rem;" id="carta">
 
-                                    <p:dataTable id="tabla" emptyMessage="Ninguna servicio registrado" value="#{citaSesion.listaServiciosEspera}" 
-                                                 var="s" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
-                                                 >
+                        <div class="card-body">
+                            <h5 class="card-title font-weight-bold text-white">Resumen de servicios seleccionados:</h5>
+                            <hr class="bg-white"/>
+                            <h:form>
 
-                                        <p:column headerText="Nombre">
-                                            <h:outputText value="#{s.nombre}"  /> 
-                                        </p:column>
+                                <p:dataTable id="tabla" emptyMessage="Ninguna servicio registrado" value="#{citaSesion.listaServiciosEspera}" 
+                                             var="s" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
+                                             >
 
-                                        <p:column headerText="Descripción" >
-                                            <h:outputText value="#{s.descripcion}"  /> 
-                                        </p:column>
+                                    <p:column headerText="Nombre">
+                                        <h:outputText value="#{s.nombre}"  /> 
+                                    </p:column>
 
-                                        <p:column headerText="Costo" >
-                                            <h:outputText value="#{s.costo}"  /> 
-                                        </p:column>
-                                        
-                                        <p:column headerText="" >
-                                            <h:commandButton
-                                                class="btn btn-warning rounded-pill"
-                                                value="Eliminar"
-                                                action="#{citaSesion.eliminarServicioTemporal(s)}" 
-                                                /> 
-                                        </p:column>
+                                    <p:column headerText="Descripción" >
+                                        <h:outputText value="#{s.descripcion}"  /> 
+                                    </p:column>
 
-                                    </p:dataTable>
-                                    <br/>
-                                    <h3>Costo total de la cita: #{citaSesion.cit_costototal}</h3>
-                                </h:form>
-                            </div>
+                                    <p:column headerText="Costo" >
+                                        <h:outputText value="#{s.costo}"  /> 
+                                    </p:column>
 
+                                    <p:column headerText="" >
+                                        <h:commandButton
+                                            class="btn btn-warning rounded-pill"
+                                            value="Eliminar"
+                                            action="#{citaSesion.eliminarServicioTemporal(s)}" 
+                                            /> 
+                                    </p:column>
+
+                                </p:dataTable>
+                                <br/>
+                                <h3>Costo total de la cita: #{citaSesion.cit_costototal}</h3>
+                            </h:form>
                         </div>
-                   
+
+                    </div>
+
                 </div>
             </div>
         </div>

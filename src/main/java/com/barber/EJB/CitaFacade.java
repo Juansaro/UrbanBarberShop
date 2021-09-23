@@ -49,6 +49,18 @@ public class CitaFacade extends AbstractFacade<Cita> implements CitaFacadeLocal 
             return null;
         }
     }
+    
+    @Override
+    public boolean removerServicioCita(int fk_cita) {
+        try {
+            Query c = em.createNativeQuery("DELETE FROM servicio_has_cita  WHERE cita_id_cita = ?");
+            c.setParameter(1, fk_cita);
+            c.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
     @Override
     public boolean validarFechaCita(Date CitaIn) {
@@ -109,6 +121,18 @@ public class CitaFacade extends AbstractFacade<Cita> implements CitaFacadeLocal 
             return null;
         }
     }
+    /*
+    @Override
+    public List<Cita> leerServicios(TipoRol r) {
+        try {
+            em.getEntityManagerFactory().getCache().evictAll();
+            Query qt = em.createQuery("SELECT u FROM Usuario u WHERE u.tipoRolNumeroRol = :r");
+            qt.setParameter("r", r);
+            return qt.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }*/
     /*
     public List<Servicio> leerServiciosAgendados(Cita c){
         try {

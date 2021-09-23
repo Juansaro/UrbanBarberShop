@@ -44,5 +44,7 @@ public interface CitaFacadeLocal {
     public List<Usuario> leerBarberos(TipoRol Rol);
 
     public boolean validarFechaCita(Date CitaIn);
+
+    public boolean removerServicioCita(int fk_cita);
     
 }

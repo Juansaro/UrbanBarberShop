@@ -23,6 +23,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -142,45 +143,53 @@ public class CitaSesion implements Serializable {
     public void registrarCita() {
         try {
             //Validación en procedimiento almacenado de fechas pasadas y muy futuras, me retorna un boolean
-            if (citaFacadeLocal.validarFechaCita(cit.getFechaCita()) && validarCitaRepetida()) {
-                if (listaServiciosEspera.isEmpty()) {
-                    System.out.println("Error");
-                } else {
-                    this.cit.setEstadoAsignacionIdEstadoAsignacion(est.citaEspera());
-                    //Se establece el usuario logeado con la inyección de dependencias desde el UsuarioSesion -> usuLog
-                    this.cit.setIdCliente(usu.getUsuLog());
-                    this.cit.setIdBarbero(usuario);
-                    this.cit.setRegistroActual(ObtenerFechaActual());
-                    //Costo calculado del acumulador
-                    this.cit.setCosto(cit_costototal);
-                    citaFacadeLocal.create(cit);
-                    //Iterator para registrar datos en la colección de citas y servicios (Funciona)
-                    for (Servicio srIt : listaServiciosEspera) {
-                        cit.setServicioList(listaServiciosEspera);
-                    }
-                    //Me permite leer SOLO las citas del cliente logeado
-                    citas = citaFacadeLocal.leerTodos(usu.getUsuLog());
-                    //Se envian los parámetros del nombre y correo desde el usuLog (Inutil hasta poder mandar la lista de las listas asignadas **)
-                    /*CitaMail.correoCita(
+            if (validarCitaRepetida()) {
+                if (citaFacadeLocal.validarFechaCita(cit.getFechaCita())) {
+                    if (listaServiciosEspera.isEmpty()) {
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "No tienes ningun servicio seleccionado", "No tienes ningun servicio seleccionado"));
+                    } else {
+                        this.cit.setEstadoAsignacionIdEstadoAsignacion(est.citaEspera());
+                        //Se establece el usuario logeado con la inyección de dependencias desde el UsuarioSesion -> usuLog
+                        this.cit.setIdCliente(usu.getUsuLog());
+                        this.cit.setIdBarbero(usuario);
+                        this.cit.setRegistroActual(ObtenerFechaActual());
+                        //Costo calculado del acumulador
+                        this.cit.setCosto(cit_costototal);
+                        citaFacadeLocal.create(cit);
+                        //Iterator para registrar datos en la colección de citas y servicios (Funciona)
+                        for (Iterator<Servicio> it = listaServiciosEspera.iterator(); it.hasNext();) {
+                            Servicio srIt = it.next();
+                            cit.setServicioList(listaServiciosEspera);
+                        }
+                        //Me permite leer SOLO las citas del cliente logeado
+                        citas = citaFacadeLocal.leerTodos(usu.getUsuLog());
+                        //Se envian los parámetros del nombre y correo desde el usuLog (Inutil hasta poder mandar la lista de las listas asignadas **)
+                        /*CitaMail.correoCita(
                         usu.getUsuLog().getNombre(),
                         usu.getUsuLog().getApellido(),
                         cit.getServicioIdServicio().getNombre(),//No funciona así toca con un filtro en la colección de 
                         usu.getUsuLog().getCorreo(),
                         cit.getFechaCita()
                     );*/
-                    //Limpieza del arrayList temporal
+                        //Limpieza del arrayList temporal
+                        listaServiciosEspera.clear();
+                        listaUltimaFecha.clear();
+                        //Limpieza del acumulador del costo total en 0
+                        this.cit_costototal = 0;
+                        //Redirección
+                        FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/cliente/consultarCita.xhtml");
+                        //Mensaje
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cita registrada", "Cita registrada"));
+                    }
+                } else {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Ingresaste una fecha anterior a la anterior u otra mayor a una semana.", "Ingresaste una fecha anterior a la anterior u otra mayor a una semana."));
                     listaServiciosEspera.clear();
                     listaUltimaFecha.clear();
-                    //Limpieza del acumulador del costo total en 0
-                    this.cit_costototal = 0;
-                    //Redirección
-                    FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/cliente/consultarCita.xhtml");
-                    //Mensaje
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cita registrada", "Cita registrada"));
                 }
             } else {
-                //Mensaje
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error de registro", "Error de registro"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Acabaste de agendar una cita, espera media hora.", "Acabaste de agendar una cita, espera media hora."));
+                listaServiciosEspera.clear();
+                listaUltimaFecha.clear();
             }
         } catch (IOException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error de registro", "Error de registro"));
@@ -197,9 +206,9 @@ public class CitaSesion implements Serializable {
         try {
             this.citTemporal.setEstadoAsignacionIdEstadoAsignacion(estadoAsignacion);
             //this.citTemporal.setServicioIdServicio(servicio);
+            
             citaFacadeLocal.edit(citTemporal);
             citas = citaFacadeLocal.findAll();
-
             //this.cita = new Cita();
         } catch (Exception e) {
             System.out.println("Error");
@@ -210,7 +219,7 @@ public class CitaSesion implements Serializable {
     public void eliminarCita(Cita c) {
         try {
             this.citaFacadeLocal.remove(c);
-            this.cita = new Cita();
+            this.citaFacadeLocal.removerServicioCita(c.getIdCita());
             citas = citaFacadeLocal.findAll();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cita eliminada", "Cita eliminada"));
         } catch (Exception e) {

@@ -15,6 +15,7 @@
                         <br/>
                         
                         <h:form id="frmPrincipal">
+                            <p:growl id="growl" life="3000"/>
                             <p:dataTable id="tabla" emptyMessage="Ninguna cita registrada" value="#{citaSesion.leerTodos()}" 
                                          var="item" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
                                          >
