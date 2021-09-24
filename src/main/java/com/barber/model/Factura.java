@@ -6,7 +6,7 @@
 package com.barber.model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -49,7 +49,7 @@ public class Factura implements Serializable {
     @Column(name = "costo")
     private float costo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "facturaIdFactura", fetch = FetchType.LAZY)
-    private List<Calificacion> calificacionList;
+    private Collection<Calificacion> calificacionCollection;
     @JoinColumn(name = "cita_id_cita", referencedColumnName = "id_cita")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Cita citaIdCita;
@@ -83,12 +83,12 @@ public class Factura implements Serializable {
     }
 
     @XmlTransient
-    public List<Calificacion> getCalificacionList() {
-        return calificacionList;
+    public Collection<Calificacion> getCalificacionCollection() {
+        return calificacionCollection;
     }
 
-    public void setCalificacionList(List<Calificacion> calificacionList) {
-        this.calificacionList = calificacionList;
+    public void setCalificacionCollection(Collection<Calificacion> calificacionCollection) {
+        this.calificacionCollection = calificacionCollection;
     }
 
     public Cita getCitaIdCita() {

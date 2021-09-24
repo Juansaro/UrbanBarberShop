@@ -6,8 +6,8 @@
 package com.barber.model;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -66,7 +66,7 @@ public class DetallePedido implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Producto productoIdProducto;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "detallePedidoNumeroDetalle", fetch = FetchType.LAZY)
-    private List<Pedido> pedidoList;
+    private Collection<Pedido> pedidoCollection;
 
     public DetallePedido() {
     }
@@ -123,12 +123,12 @@ public class DetallePedido implements Serializable {
     }
 
     @XmlTransient
-    public List<Pedido> getPedidoList() {
-        return pedidoList;
+    public Collection<Pedido> getPedidoCollection() {
+        return pedidoCollection;
     }
 
-    public void setPedidoList(List<Pedido> pedidoList) {
-        this.pedidoList = pedidoList;
+    public void setPedidoCollection(Collection<Pedido> pedidoCollection) {
+        this.pedidoCollection = pedidoCollection;
     }
 
     @Override

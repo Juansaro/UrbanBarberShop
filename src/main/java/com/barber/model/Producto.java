@@ -6,7 +6,7 @@
 package com.barber.model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -77,11 +77,11 @@ public class Producto implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Proveedor proveedorNumeroProveedor;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productoIdProducto", fetch = FetchType.LAZY)
-    private List<DespachoProducto> despachoProductoList;
+    private Collection<DespachoProducto> despachoProductoCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productoIdProducto", fetch = FetchType.LAZY)
-    private List<DetallePedido> detallePedidoList;
+    private Collection<DetallePedido> detallePedidoCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productoIdProducto", fetch = FetchType.LAZY)
-    private List<DetalleCompra> detalleCompraList;
+    private Collection<DetalleCompra> detalleCompraCollection;
 
     public Producto() {
     }
@@ -163,30 +163,30 @@ public class Producto implements Serializable {
     }
 
     @XmlTransient
-    public List<DespachoProducto> getDespachoProductoList() {
-        return despachoProductoList;
+    public Collection<DespachoProducto> getDespachoProductoCollection() {
+        return despachoProductoCollection;
     }
 
-    public void setDespachoProductoList(List<DespachoProducto> despachoProductoList) {
-        this.despachoProductoList = despachoProductoList;
-    }
-
-    @XmlTransient
-    public List<DetallePedido> getDetallePedidoList() {
-        return detallePedidoList;
-    }
-
-    public void setDetallePedidoList(List<DetallePedido> detallePedidoList) {
-        this.detallePedidoList = detallePedidoList;
+    public void setDespachoProductoCollection(Collection<DespachoProducto> despachoProductoCollection) {
+        this.despachoProductoCollection = despachoProductoCollection;
     }
 
     @XmlTransient
-    public List<DetalleCompra> getDetalleCompraList() {
-        return detalleCompraList;
+    public Collection<DetallePedido> getDetallePedidoCollection() {
+        return detallePedidoCollection;
     }
 
-    public void setDetalleCompraList(List<DetalleCompra> detalleCompraList) {
-        this.detalleCompraList = detalleCompraList;
+    public void setDetallePedidoCollection(Collection<DetallePedido> detallePedidoCollection) {
+        this.detallePedidoCollection = detallePedidoCollection;
+    }
+
+    @XmlTransient
+    public Collection<DetalleCompra> getDetalleCompraCollection() {
+        return detalleCompraCollection;
+    }
+
+    public void setDetalleCompraCollection(Collection<DetalleCompra> detalleCompraCollection) {
+        this.detalleCompraCollection = detalleCompraCollection;
     }
 
     @Override

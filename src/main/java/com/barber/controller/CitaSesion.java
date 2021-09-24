@@ -159,7 +159,7 @@ public class CitaSesion implements Serializable {
                         //Iterator para registrar datos en la colección de citas y servicios (Funciona)
                         for (Iterator<Servicio> it = listaServiciosEspera.iterator(); it.hasNext();) {
                             Servicio srIt = it.next();
-                            cit.setServicioList(listaServiciosEspera);
+                            cit.setServicioCollection(listaServiciosEspera);
                         }
                         //Me permite leer SOLO las citas del cliente logeado
                         citas = citaFacadeLocal.leerTodos(usu.getUsuLog());
@@ -182,14 +182,16 @@ public class CitaSesion implements Serializable {
                         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cita registrada", "Cita registrada"));
                     }
                 } else {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Ingresaste una fecha anterior a la anterior u otra mayor a una semana.", "Ingresaste una fecha anterior a la anterior u otra mayor a una semana."));
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Ingresaste una fecha anterior u otra mayor a una semana.", "Ingresaste una fecha anterior u otra mayor a una semana."));
                     listaServiciosEspera.clear();
                     listaUltimaFecha.clear();
+                    this.cit_costototal = 0;
                 }
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Acabaste de agendar una cita, espera media hora.", "Acabaste de agendar una cita, espera media hora."));
                 listaServiciosEspera.clear();
                 listaUltimaFecha.clear();
+                this.cit_costototal = 0;
             }
         } catch (IOException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error de registro", "Error de registro"));

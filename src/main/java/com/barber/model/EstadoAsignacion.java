@@ -6,7 +6,7 @@
 package com.barber.model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -49,7 +49,7 @@ public class EstadoAsignacion implements Serializable {
     @Column(name = "descripcion")
     private String descripcion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "estadoAsignacionIdEstadoAsignacion", fetch = FetchType.LAZY)
-    private List<Cita> citaList;
+    private Collection<Cita> citaCollection;
 
     public EstadoAsignacion() {
     }
@@ -80,12 +80,12 @@ public class EstadoAsignacion implements Serializable {
     }
 
     @XmlTransient
-    public List<Cita> getCitaList() {
-        return citaList;
+    public Collection<Cita> getCitaCollection() {
+        return citaCollection;
     }
 
-    public void setCitaList(List<Cita> citaList) {
-        this.citaList = citaList;
+    public void setCitaCollection(Collection<Cita> citaCollection) {
+        this.citaCollection = citaCollection;
     }
 
     @Override
@@ -110,7 +110,7 @@ public class EstadoAsignacion implements Serializable {
 
     @Override
     public String toString() {
-        return descripcion;
+        return "com.barber.model.EstadoAsignacion[ idEstadoAsignacion=" + idEstadoAsignacion + " ]";
     }
     
 }

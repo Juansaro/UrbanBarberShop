@@ -30,8 +30,6 @@ public interface BodegaFacadeLocal {
 
     int count();
 
-//    public boolean crearBodega(Bodega bodegaIn);
-
     public Bodega validarSiExiste(String nombreIn);
 
     public boolean crearBodega(String bod_nombre, int bod_existencias);

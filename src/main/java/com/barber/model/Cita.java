@@ -6,8 +6,8 @@
 package com.barber.model;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -67,9 +67,9 @@ public class Cita implements Serializable {
         @JoinColumn(name = "cita_id_cita", referencedColumnName = "id_cita")}, inverseJoinColumns = {
         @JoinColumn(name = "servicio_id_servicio", referencedColumnName = "id_servicio")})
     @ManyToMany(fetch = FetchType.LAZY)
-    private List<Servicio> servicioList;
+    private Collection<Servicio> servicioCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "citaIdCita", fetch = FetchType.LAZY)
-    private List<Factura> facturaList;
+    private Collection<Factura> facturaCollection;
     @JoinColumn(name = "estado_asignacion_id_estado_asignacion", referencedColumnName = "id_estado_asignacion")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private EstadoAsignacion estadoAsignacionIdEstadoAsignacion;
@@ -126,21 +126,21 @@ public class Cita implements Serializable {
     }
 
     @XmlTransient
-    public List<Servicio> getServicioList() {
-        return servicioList;
+    public Collection<Servicio> getServicioCollection() {
+        return servicioCollection;
     }
 
-    public void setServicioList(List<Servicio> servicioList) {
-        this.servicioList = servicioList;
+    public void setServicioCollection(Collection<Servicio> servicioCollection) {
+        this.servicioCollection = servicioCollection;
     }
 
     @XmlTransient
-    public List<Factura> getFacturaList() {
-        return facturaList;
+    public Collection<Factura> getFacturaCollection() {
+        return facturaCollection;
     }
 
-    public void setFacturaList(List<Factura> facturaList) {
-        this.facturaList = facturaList;
+    public void setFacturaCollection(Collection<Factura> facturaCollection) {
+        this.facturaCollection = facturaCollection;
     }
 
     public EstadoAsignacion getEstadoAsignacionIdEstadoAsignacion() {

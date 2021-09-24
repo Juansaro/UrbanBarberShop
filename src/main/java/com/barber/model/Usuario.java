@@ -6,7 +6,7 @@
 package com.barber.model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -85,9 +85,9 @@ public class Usuario implements Serializable {
     @Column(name = "usu_foto")
     private String usuFoto;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdUsuario", fetch = FetchType.LAZY)
-    private List<DespachoProducto> despachoProductoList;
+    private Collection<DespachoProducto> despachoProductoCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdUsuario", fetch = FetchType.LAZY)
-    private List<Pedido> pedidoList;
+    private Collection<Pedido> pedidoCollection;
     @JoinColumn(name = "ciudad_numero_ciudad", referencedColumnName = "numero_ciudad")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Ciudad ciudadNumeroCiudad;
@@ -101,9 +101,9 @@ public class Usuario implements Serializable {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private TipoTelefono tipoTelefonoNumeroTipoTelefono;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCliente", fetch = FetchType.LAZY)
-    private List<Cita> citaList;
+    private Collection<Cita> citaCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idBarbero", fetch = FetchType.LAZY)
-    private List<Cita> citaList1;
+    private Collection<Cita> citaCollection1;
 
     public Usuario() {
     }
@@ -187,21 +187,21 @@ public class Usuario implements Serializable {
     }
 
     @XmlTransient
-    public List<DespachoProducto> getDespachoProductoList() {
-        return despachoProductoList;
+    public Collection<DespachoProducto> getDespachoProductoCollection() {
+        return despachoProductoCollection;
     }
 
-    public void setDespachoProductoList(List<DespachoProducto> despachoProductoList) {
-        this.despachoProductoList = despachoProductoList;
+    public void setDespachoProductoCollection(Collection<DespachoProducto> despachoProductoCollection) {
+        this.despachoProductoCollection = despachoProductoCollection;
     }
 
     @XmlTransient
-    public List<Pedido> getPedidoList() {
-        return pedidoList;
+    public Collection<Pedido> getPedidoCollection() {
+        return pedidoCollection;
     }
 
-    public void setPedidoList(List<Pedido> pedidoList) {
-        this.pedidoList = pedidoList;
+    public void setPedidoCollection(Collection<Pedido> pedidoCollection) {
+        this.pedidoCollection = pedidoCollection;
     }
 
     public Ciudad getCiudadNumeroCiudad() {
@@ -237,21 +237,21 @@ public class Usuario implements Serializable {
     }
 
     @XmlTransient
-    public List<Cita> getCitaList() {
-        return citaList;
+    public Collection<Cita> getCitaCollection() {
+        return citaCollection;
     }
 
-    public void setCitaList(List<Cita> citaList) {
-        this.citaList = citaList;
+    public void setCitaCollection(Collection<Cita> citaCollection) {
+        this.citaCollection = citaCollection;
     }
 
     @XmlTransient
-    public List<Cita> getCitaList1() {
-        return citaList1;
+    public Collection<Cita> getCitaCollection1() {
+        return citaCollection1;
     }
 
-    public void setCitaList1(List<Cita> citaList1) {
-        this.citaList1 = citaList1;
+    public void setCitaCollection1(Collection<Cita> citaCollection1) {
+        this.citaCollection1 = citaCollection1;
     }
 
     @Override

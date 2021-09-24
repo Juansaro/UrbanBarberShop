@@ -6,7 +6,7 @@
 package com.barber.model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -67,9 +67,9 @@ public class Proveedor implements Serializable {
     @Column(name = "direccion")
     private String direccion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "numeroProveedor", fetch = FetchType.LAZY)
-    private List<Compra> compraList;
+    private Collection<Compra> compraCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "proveedorNumeroProveedor", fetch = FetchType.LAZY)
-    private List<Producto> productoList;
+    private Collection<Producto> productoCollection;
 
     public Proveedor() {
     }
@@ -127,21 +127,21 @@ public class Proveedor implements Serializable {
     }
 
     @XmlTransient
-    public List<Compra> getCompraList() {
-        return compraList;
+    public Collection<Compra> getCompraCollection() {
+        return compraCollection;
     }
 
-    public void setCompraList(List<Compra> compraList) {
-        this.compraList = compraList;
+    public void setCompraCollection(Collection<Compra> compraCollection) {
+        this.compraCollection = compraCollection;
     }
 
     @XmlTransient
-    public List<Producto> getProductoList() {
-        return productoList;
+    public Collection<Producto> getProductoCollection() {
+        return productoCollection;
     }
 
-    public void setProductoList(List<Producto> productoList) {
-        this.productoList = productoList;
+    public void setProductoCollection(Collection<Producto> productoCollection) {
+        this.productoCollection = productoCollection;
     }
 
     @Override

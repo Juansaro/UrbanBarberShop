@@ -113,6 +113,7 @@ public class UsuarioSesion implements Serializable {
         roles = rolFacadeLocal.findAll();
         tipoTelefonos = tipoTelefonoFacadeLocal.findAll();
         tipoIdentificaciones = tipoIdentificacionFacadeLocal.findAll();
+        //usuLog = new Usuario();
         //Limpiar un formulario
         usuario = new Usuario();
     }

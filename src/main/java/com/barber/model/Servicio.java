@@ -6,7 +6,7 @@
 package com.barber.model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -56,8 +56,8 @@ public class Servicio implements Serializable {
     @Size(max = 255)
     @Column(name = "servicio_foto")
     private String servicioFoto;
-    @ManyToMany(mappedBy = "servicioList", fetch = FetchType.LAZY)
-    private List<Cita> citaList;
+    @ManyToMany(mappedBy = "servicioCollection", fetch = FetchType.LAZY)
+    private Collection<Cita> citaCollection;
 
     public Servicio() {
     }
@@ -107,12 +107,12 @@ public class Servicio implements Serializable {
     }
 
     @XmlTransient
-    public List<Cita> getCitaList() {
-        return citaList;
+    public Collection<Cita> getCitaCollection() {
+        return citaCollection;
     }
 
-    public void setCitaList(List<Cita> citaList) {
-        this.citaList = citaList;
+    public void setCitaCollection(Collection<Cita> citaCollection) {
+        this.citaCollection = citaCollection;
     }
 
     @Override
