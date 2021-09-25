@@ -60,10 +60,12 @@ public class Cita implements Serializable {
     @NotNull
     @Column(name = "costo")
     private float costo;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "registro_actual")
     @Temporal(TemporalType.TIMESTAMP)
     private Date registroActual;
-    @JoinTable(name = "servicio_has_cita", joinColumns = {
+    @JoinTable(name = "cita_has_servicio", joinColumns = {
         @JoinColumn(name = "cita_id_cita", referencedColumnName = "id_cita")}, inverseJoinColumns = {
         @JoinColumn(name = "servicio_id_servicio", referencedColumnName = "id_servicio")})
     @ManyToMany(fetch = FetchType.LAZY)
@@ -87,10 +89,11 @@ public class Cita implements Serializable {
         this.idCita = idCita;
     }
 
-    public Cita(Integer idCita, Date fechaCita, float costo) {
+    public Cita(Integer idCita, Date fechaCita, float costo, Date registroActual) {
         this.idCita = idCita;
         this.fechaCita = fechaCita;
         this.costo = costo;
+        this.registroActual = registroActual;
     }
 
     public Integer getIdCita() {

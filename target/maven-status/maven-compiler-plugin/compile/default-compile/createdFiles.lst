@@ -16,10 +16,13 @@ com\barber\EJB\EstadoAsignacionFacadeLocal.class
 com\barber\model\TipoIdentificacion_.class
 com\barber\utilidades\CitaMail.class
 com\barber\EJB\FacturaFacade.class
+com\barber\EJB\DetalleCompraFacadeLocal.class
 com\barber\utilidades\CitaMailAgendado.class
 com\barber\model\Bodega.class
+com\barber\controller\CompraSesion.class
 com\barber\EJB\CalificacionFacadeLocal.class
 com\barber\EJB\DespachoProductoFacadeLocal.class
+com\barber\EJB\CompraFacade.class
 com\barber\model\EstadoAsignacion_.class
 com\barber\controller\CalificacionSesion.class
 com\barber\model\DetalleCompra.class
@@ -36,6 +39,8 @@ com\barber\model\TipoTelefono_.class
 com\barber\EJB\UsuarioFacade.class
 com\barber\model\DespachoProducto.class
 com\barber\model\EstadoAsignacion.class
+com\barber\controller\DetalleCompraSesion.class
+com\barber\EJB\DetalleCompraFacade.class
 com\barber\EJB\AbstractFacade.class
 com\barber\controller\UsuarioSesion.class
 com\barber\EJB\FacturaFacadeLocal.class
@@ -63,6 +68,7 @@ com\barber\controller\DespachoSesion.class
 com\barber\model\DetallePedido.class
 com\barber\model\Cita.class
 com\barber\EJB\PedidoFacade.class
+com\barber\EJB\CompraFacadeLocal.class
 com\barber\model\Ciudad_.class
 com\barber\model\DetalleCompra_.class
 com\barber\EJB\CitaFacade.class

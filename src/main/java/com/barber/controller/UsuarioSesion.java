@@ -257,7 +257,7 @@ public class UsuarioSesion implements Serializable {
             //usuTemporal sirve para el ciclo de vida de SOLO la edición
             //Estructura FK'S
             this.usuTemporal.setCiudadNumeroCiudad(ciudad);
-            this.usuTemporal.setTipoRolNumeroRol(r.asignacionRolCliente());
+            this.usuTemporal.setTipoRolNumeroRol(tipoRol);
             this.usuTemporal.setTipoIdentificacionIdTipoIdentificacion(tipoIdentificacion);
             this.usuTemporal.setTipoTelefonoNumeroTipoTelefono(tipoTelefono);
             //El parámetro que usea para editar es usuTemporal
