@@ -182,13 +182,13 @@ public class BodegaSesion implements Serializable{
         FacesContext facesContext = FacesContext.getCurrentInstance();
         ExternalContext context = facesContext.getExternalContext();
         HttpServletResponse response = (HttpServletResponse) context.getResponse();
-        File jasper = new File(context.getRealPath("/reportes/categorias.jasper"));
+        File jasper = new File(context.getRealPath("/reportes/bodega.jasper"));
         try {
             JasperPrint jp = JasperFillManager.fillReport(jasper.getPath(), new HashMap(), dataSource.getConnection());
             switch (tipoArchivo) {
                 case "pdf":
                     response.setContentType("application/pdf");
-                    response.addHeader("Content-disposition", "attachment; filename=Lista categorias.pdf");
+                    response.addHeader("Content-disposition", "attachment; filename=Lista bodega.pdf");
                     OutputStream os = response.getOutputStream();
                     JasperExportManager.exportReportToPdfStream(jp, os);
                     os.flush();
@@ -197,7 +197,7 @@ public class BodegaSesion implements Serializable{
 
                 case "xlsx":
                     response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-                    response.addHeader("Content-disposition", "attachment; filename=Lista categorias.xlsx");
+                    response.addHeader("Content-disposition", "attachment; filename=Lista bodega.xlsx");
 
                     JRXlsxExporter exporter = new JRXlsxExporter(); // initialize exporter 
                     exporter.setExporterInput(new SimpleExporterInput(jp)); // set compiled report as input
@@ -206,23 +206,23 @@ public class BodegaSesion implements Serializable{
                     SimpleXlsxReportConfiguration configuration = new SimpleXlsxReportConfiguration();
                     configuration.setOnePagePerSheet(true); // setup configuration
                     configuration.setDetectCellType(true);
-                    configuration.setSheetNames(new String[]{"Categorias"});
+                    configuration.setSheetNames(new String[]{"bodega"});
                     exporter.setConfiguration(configuration); // set configuration    
                     exporter.exportReport();
                     break;
 
                 case "docx":
                     response.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-                    response.addHeader("Content-disposition", "attachment; filename=Lista categorias.docx");
+                    response.addHeader("Content-disposition", "attachment; filename=Lista bodega.docx");
 
                     JRDocxExporter exporterDoc = new JRDocxExporter(); // initialize exporter 
                     exporterDoc.setExporterInput(new SimpleExporterInput(jp)); // set compiled report as input
                     exporterDoc.setExporterOutput(new SimpleOutputStreamExporterOutput(response.getOutputStream()));
 
                     SimpleDocxExporterConfiguration configurationDoc = new SimpleDocxExporterConfiguration();
-                    configurationDoc.setMetadataAuthor("Jose Luis Sarta A."); // setup configuration
-                    configurationDoc.setMetadataTitle("Reporte de categorias");
-                    configurationDoc.setMetadataSubject("Listado de categorias");
+                    configurationDoc.setMetadataAuthor("Urban barber shop."); // setup configuration
+                    configurationDoc.setMetadataTitle("Reporte de bodega");
+                    configurationDoc.setMetadataSubject("Listado de bodega");
 
                     exporterDoc.setConfiguration(configurationDoc); // set configuration    
                     exporterDoc.exportReport();

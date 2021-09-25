@@ -17,6 +17,12 @@
             <button style="display: none" type="reset" id="resetform" class="btn btn-dark">Reset</button>
         </h:form>
 
+        <h:form>
+            <h:commandButton action="#{bodegaSesion.generarArchivo('pdf')}"  class=" ml-2 btn btn-sm btn-dark" value=".pdf"></h:commandButton>
+            <h:commandButton action="#{bodegaSesion.generarArchivo('xlsx')}"  class=" ml-2 btn btn-sm btn-dark" value=".xlsx"></h:commandButton>
+            <h:commandButton action="#{bodegaSesion.generarArchivo('docx')}"  class=" ml-2 btn btn-sm btn-dark" value=".docx"></h:commandButton>
+        </h:form>
+
         <div class="card container mt-3 mb-3" style="max-width: 55rem;" id="carta">
             <div class="row">
                 <div class="col">
