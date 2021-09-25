@@ -123,6 +123,9 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
+                    
+                     
+                            
                     <h:form id="formActualizar">
                         <div class="modal-body">
 
@@ -142,7 +145,7 @@
                             <h:selectOneMenu class="form-control" id="barbero" value="#{compraSesion.proveedor.numeroProveedor}" required="true">
                                 <f:selectItems value="#{compraSesion.proveedores}" var="pro" itemLabel="#{pro.correo}" itemValue="#{pro.numeroProveedor}"/>
                             </h:selectOneMenu>
-
+                            
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>

@@ -5,11 +5,14 @@ import com.barber.EJB.CompraFacadeLocal;
 import com.barber.EJB.ProveedorFacadeLocal;
 import com.barber.model.Compra;
 import com.barber.model.Proveedor;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -43,12 +46,15 @@ public class CompraSesion implements Serializable{
             this.com.setNumeroProveedor(proveedor);
             compraFacadeLocal.create(com);
             compras = compraFacadeLocal.findAll();
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/recepcionista/registrarOrdenCompra.xhtml");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Bodega registrada", "Bodega registrada"));
         } catch (Exception e) {
         }
     }
     
-    public void guardarTemporal(Compra c){
+    public void guardarTemporal(Compra c) throws IOException{
         comTemporal = c;
+       FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/recepcionista/editarCompra.xhtml"); 
     }
     
     public void editarCompra(){
@@ -56,6 +62,8 @@ public class CompraSesion implements Serializable{
             this.com.setNumeroProveedor(proveedor);
             compraFacadeLocal.edit(comTemporal);
             compras = compraFacadeLocal.findAll();
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/recepcionista/registrarOrdenCompra.xhtml");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Bodega registrada", "Bodega registrada"));
         } catch (Exception e) {
         }
     }
