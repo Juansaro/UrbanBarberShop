@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:html5="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition>
+        <div class="card container mt-3 mb-3" style="max-width: 21rem;" id="carta">
+            <div class="row">
+                <div class="col">
+                    <div class="card-body">
+                        <h5 class="card-title font-weight-bold text-white">Registrar proveedor:</h5>
+                        <hr class="bg-white"/>
+                        <p:growl id="growl" life="3000"/>
+                        <h:form>
+                            <h:outputLabel class="card-text font-weight-bold text-white" value="Nombre" for="nombre" />
+                            <br/>
+                            <h:inputText class="form-control" id="nombre" value="#{proveedorSesion.pro.nombre}" html5:placeholder="Nombre del proveedor" />
+                            <br/>
+                            <h:outputLabel class="card-text font-weight-bold text-white" value="Apellidos:" for="apellidos" />
+                            <br/>
+                            <h:inputText class="form-control" id="apellidos" value="#{proveedorSesion.pro.apellidos}" html5:placeholder="Apellidos del proveedor" />
+                            <br/>
+                            <h:outputLabel class="card-text font-weight-bold text-white" value="Correo:" for="correo" />
+                            <br/>
+                            <h:inputText class="form-control" id="correo" value="#{proveedorSesion.pro.correo}" html5:placeholder="Correo del proveedor" />
+                            <br/>
+                            <h:outputLabel class="card-text font-weight-bold text-white" value="Dirección:" for="direccion" />
+                            <br/>
+                            <h:inputText class="form-control" id="direccion" value="#{proveedorSesion.pro.direccion}" html5:placeholder="Dirección del proveedor" />
+                            <br />
+                            <h:commandLink class="btn btn-success btn-lg btn-block text-white rounded-pill" action="#{proveedorSesion.registrarProveedor()}" value="Guardar" />
+                            <br />
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:composition>
+</html>
+

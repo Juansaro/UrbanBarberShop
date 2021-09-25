@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:html5="http://xmlns.jcp.org/jsf/passthrough">
+    <ui:composition>
+        <div class="card container mt-3 mb-3" style="max-width: 21rem;" id="carta">
+            <div class="row">
+                <div class="col">
+
+                    <div class="card-body">
+                        <h5 class="card-title font-weight-bold text-white">Despacho</h5>
+                        <hr class="bg-white"/>
+                        <h:form>
+                            <h:outputLabel class="card-text font-weight-bold text-white" value="Fecha de despacho" for="fechaDesapacho" />
+
+                            <p:calendar id="fechaDesapacho" value="#{despachoSesion.des.fechaSolicitud}" pattern="MM/dd/yyyy HH:mm:ss" html5:placeholder="Fecha de despacho"/>
+
+                            <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
+                                <h:outputText value="Datetime:"/>
+                                <h:outputText value="#{calendarView.date10}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss"/>
+                                </h:outputText>
+                            </p:dialog>
+
+                            <h:outputLabel class="card-text font-weight-bold text-white" value="Usuario:" for="usuarioIdUsuario" />
+
+                            <h:selectOneMenu class="form-control" id="usuarioIdUsuario" value="#{despachoSesion.usuario.idUsuario}" >
+                                <f:selectItems value="#{despachoSesion.usuarios}" var="usu" itemLabel="#{usu.correo}" itemValue="#{usu.idUsuario}"/>
+                            </h:selectOneMenu>
+
+                            <h:outputLabel class="card-text font-weight-bold text-white" value="Producto:" for="productoIdProducto" />
+
+                            <h:selectOneMenu class="form-control" id="productoIdProducto" value="#{despachoSesion.producto.idProducto}" >
+                                <f:selectItems value="#{productoSesion.productos}" var="pro" itemLabel="#{pro.nombreProducto}" itemValue="#{pro.idProducto}"/>
+                            </h:selectOneMenu>
+                            <h:outputLabel class="card-text font-weight-bold text-white" value="Cantidad:" for="cantidadSolicitada" />
+
+                            <h:inputText class="form-control" id="cantidadSolicitada" value="#{despachoSesion.des.cantidadSolicitada}" html5:placeholder="digita la cantidad solicitada"/>
+
+                            <h:outputLabel class="card-text font-weight-bold text-white" value="Costo total:" for="costoTotal" />
+
+                            <h:inputText class="form-control" id="costoTotal" value="#{despachoSesion.des.costoTotal}" html5:placeholder="Escribe el costo total"/>
+                            <br/>
+                            <h:commandLink class="btn btn-success btn-lg btn-block text-white rounded-pill" action="#{despachoSesion.registrarDespachoProducto()}" value="Despachar" />
+
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:composition>
+</html>
+
