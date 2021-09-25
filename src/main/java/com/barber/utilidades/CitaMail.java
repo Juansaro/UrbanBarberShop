@@ -23,7 +23,7 @@ import javax.mail.internet.MimeMessage;
 
 public abstract class CitaMail {
 
-    public static void correoCita(String nombre, String apellido, String nombreServicio, String correoPara, Date fechaCita) {
+    public static void correoCita(String nombre, String apellido, String correoPara, Date fechaCita) {
         final String usuario = "senaland066@gmail.com";
         final String clave = "sennaland 432";
 
@@ -53,8 +53,6 @@ public abstract class CitaMail {
                     + "<br/>"
                     + "<h1> Hola, " + nombre + " " + apellido + " </h1>"
                     + "Has registrado tu cita para el día: " + fechaCita
-                    + "<br/>"
-                    + "Tu servicio agendado es: " + nombreServicio
                     + "<br/>",
                     "text/html");
             Transport.send(mensage);

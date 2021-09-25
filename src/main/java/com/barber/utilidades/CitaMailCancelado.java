@@ -21,7 +21,7 @@ import javax.mail.internet.MimeMessage;
  */
 public class CitaMailCancelado {
     
-    public static void correoCita(String nombre, String apellido, String nombreServicio ,String correoPara, Date fechaCita) {
+    public static void correoCita(String nombre, String apellido, String correoPara, Date fechaCita) {
         final String usuario = "senaland066@gmail.com";
         final String clave = "sennaland 432";
 
@@ -51,8 +51,6 @@ public class CitaMailCancelado {
                     + "<br/>"
                     + "<h1> Hola, "+ nombre + " " + apellido + " </h1>"
                     + "Tu cita ha sido eliminada de la fecha: " + fechaCita
-                    + "<br/>"
-                    + "Tu servicio agendado era: " + nombreServicio + " ."
                     + "<br/>"
                     + "Recuerda que urban barber shop puede volver a agendar tu cita."
                     + "<br/>"

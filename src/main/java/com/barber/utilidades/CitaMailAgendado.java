@@ -21,7 +21,7 @@ import javax.mail.internet.MimeMessage;
  */
 public class CitaMailAgendado {
     
-    public static void correoCita(String nombre, String apellido, String nombreServicio ,String correoPara, Date fechaCita) {
+    public static void correoCita(String nombre, String apellido, String correoPara, Date fechaCita) {
         final String usuario = "senaland066@gmail.com";
         final String clave = "sennaland 432";
 
@@ -44,15 +44,14 @@ public class CitaMailAgendado {
             MimeMessage mensage = new MimeMessage(session);
             mensage.setFrom(new InternetAddress(usuario));
             mensage.addRecipient(Message.RecipientType.TO, new InternetAddress(correoPara));
-            mensage.setSubject("Hola " +nombre + " Tu cita ha cido agendada.");
+            mensage.setSubject("Hola " +nombre + " Tu cita ha sido agendada.");
             mensage.setContent("<center> "
                     + "<img src='https://thumbs.dreamstime.com/b/protecci%C3%B3n-de-la-clave-de-la-seguridad-de-la-contrase%C3%B1a-de-los-datos-de-usuario-79323179.jpg' width='200px' height='200px' >"
                     + "</center>"
                     + "<br/>"
-                    + "<h1> Hola, "+ nombre +" </h1>"
+                    + "<h1> Hola, "+ nombre + " " + apellido +" </h1>"
                     + "Tu cita ha sido agendada para el día: " + fechaCita
                     + "<br/>"
-                    + "Tu servicio agendado es: " + nombreServicio
                     + "<br/>",
                     "text/html");
             Transport.send(mensage);

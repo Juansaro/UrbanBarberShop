@@ -211,7 +211,7 @@ public class Producto implements Serializable {
 
     @Override
     public String toString() {
-        return "com.barber.model.Producto[ idProducto=" + idProducto + " ]";
+        return descripcion;
     }
     
 }

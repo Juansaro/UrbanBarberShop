@@ -192,7 +192,7 @@ public class Cita implements Serializable {
 
     @Override
     public String toString() {
-        return "com.barber.model.Cita[ idCita=" + idCita + " ]";
+        return "" + fechaCita;
     }
     
 }

@@ -110,7 +110,7 @@ public class EstadoAsignacion implements Serializable {
 
     @Override
     public String toString() {
-        return "com.barber.model.EstadoAsignacion[ idEstadoAsignacion=" + idEstadoAsignacion + " ]";
+        return descripcion;
     }
     
 }

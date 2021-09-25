@@ -67,12 +67,14 @@ public abstract class envioMasivoServicios {
             String content = "<html>\n<body>\n";
             content += "";
             content += "<br/>";
-            content += "<h1> Hola, "+ correos +" </h1>";
+            content += "<h2> Hola, Recuerda que en Urban barber Shop tenemos los mejores servicios para ti!</h2>";
+            content += "<br/>";content += "<br/>";
+            content += "Donde los hombres se vuelven hombres.";
             content += "<br/>";
-            content += "Bienvenido a Urban barber shop!";
+            content += "Puedes agendar distintos tipos de servicios en la barbería";
             //Recordar servicios a los clientes en general
             content += "<br/>";
-            content += "Donde los hombres se vuelven hombres.";
+            content += "Puedes cortar tu cabello, arreglar tu barba o teñirla.";
             content += "\n";
             content += "</body>\n</html>";
             message.setContent(content, "text/html");

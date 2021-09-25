@@ -3,8 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:html5="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Urban barber shop</title>
         <h:outputStylesheet name="css/jsfcrud.css"/>
@@ -26,8 +25,6 @@
             <header class="blog-header py-3">
                 <div class="row flex-nowrap justify-content-between align-items-center">
                     <div class="col-4 pt-1">
-                        <button class="translate" id="es">Español</button>
-                        <button class="translate" id="en"> English</button>
                         <h:link >
                             <div class="lang btn btn-sm btn-outline-success" style="cursor: pointer;" key="iniciarSesion"><a  data-toggle="modal" data-target="#exampleModal2" href="#">Iniciar sesion</a>
                             </div>
@@ -63,9 +60,9 @@
             <div class="nav-scroller py-1 mb-2">
                 <nav class="nav d-flex justify-content-between">
                     <a class="lang p-2 text-muted" key="inicio" href="index.html"><b>Inicio</b></a>
-                    <h:link outcome="servicios">
+                    
                         <div class="lang p-2 text-danger" key="servicios" href="servicios.html"><b>Servicios</b></div>
-                    </h:link>
+                    
                     <a class="lang p-2 text-danger" key="agendarTuCita" href="iniciarsesion.html"><b>Agenda tu cita</b></a>
                     <a class="lang p-2 text-danger" key="nuestroEquipo" href="404.html"><b>Nuestro equipo</b></a>
                     <a class="lang p-2 text-danger" key="contacto" href="contacto.html"><b>Contacto</b></a>
@@ -253,7 +250,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Registro</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Iniciar sesión</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -263,8 +260,9 @@
                         <br/>
                         <h:inputSecret value="#{usuarioSesion.contrasena}" requiredMessage="Se requiere una clave valido !!"  required="true" html5:placeholder="Clave" class="form-control" />
                         <br/>
-                        <h:commandButton action="#{usuarioSesion.validarUsuario()}" class="button" value="Ingresar">
+                        <h:commandButton action="#{usuarioSesion.validarUsuario()}" class="btn btn-primary btn-block text-white rounded-pill" value="Ingresar">
                         </h:commandButton>
+                        <br/>
                     </h:form>
                     <h:link >
                         <div class="lang btn btn-sm btn-outline-success" style="cursor: pointer;" key="recu"><a  data-toggle="modal" data-target="#recuperar" href="#">Recuperar clave</a>

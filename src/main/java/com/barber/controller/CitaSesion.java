@@ -14,6 +14,9 @@ import com.barber.model.EstadoAsignacion;
 import com.barber.model.Servicio;
 import com.barber.model.Usuario;
 import com.barber.utilidades.CitaMail;
+import com.barber.utilidades.CitaMailAgendado;
+import com.barber.utilidades.CitaMailCancelado;
+import com.barber.utilidades.CitaMailEspera;
 import java.io.IOException;
 import java.io.Serializable;
 import java.text.ParseException;
@@ -164,13 +167,13 @@ public class CitaSesion implements Serializable {
                         //Me permite leer SOLO las citas del cliente logeado
                         citas = citaFacadeLocal.leerTodos(usu.getUsuLog());
                         //Se envian los parámetros del nombre y correo desde el usuLog (Inutil hasta poder mandar la lista de las listas asignadas **)
-                        /*CitaMail.correoCita(
+                        CitaMail.correoCita(
                         usu.getUsuLog().getNombre(),
                         usu.getUsuLog().getApellido(),
-                        cit.getServicioIdServicio().getNombre(),//No funciona así toca con un filtro en la colección de 
+                        //cit.getServicioIdServicio().getNombre(),//No funciona así toca con un filtro en la colección de 
                         usu.getUsuLog().getCorreo(),
                         cit.getFechaCita()
-                    );*/
+                    );
                         //Limpieza del arrayList temporal
                         listaServiciosEspera.clear();
                         listaUltimaFecha.clear();
@@ -206,11 +209,15 @@ public class CitaSesion implements Serializable {
     //Editar
     public void editarCita() {
         try {
-            this.citTemporal.setEstadoAsignacionIdEstadoAsignacion(estadoAsignacion);
+            citTemporal.setEstadoAsignacionIdEstadoAsignacion(estadoAsignacion);
             //this.citTemporal.setServicioIdServicio(servicio);
             
             citaFacadeLocal.edit(citTemporal);
+            
+            citTemporal = new Cita();
+            estadoAsignacion = new EstadoAsignacion();
             citas = citaFacadeLocal.findAll();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Se cambio el estado", "Se cambio el estado"));
             //this.cita = new Cita();
         } catch (Exception e) {
             System.out.println("Error");
@@ -230,34 +237,34 @@ public class CitaSesion implements Serializable {
 
     }
 
-    /*
+    
     public void avisarEmailCliente(Cita c) {
         try {
             switch (c.getEstadoAsignacionIdEstadoAsignacion().toString()) {
                 case "Agendado":
                     CitaMailAgendado.correoCita(
-                            c.getUsuarioIdUsuario().getNombre(),
-                            c.getUsuarioIdUsuario().getApellido(),
-                            c.getServicioIdServicio().getNombre(),
-                            c.getUsuarioIdUsuario().getCorreo(),
+                            c.getIdCliente().getNombre(),
+                            c.getIdCliente().getApellido(),
+                            //c.getServicioIdServicio().getNombre(),
+                            c.getIdCliente().getCorreo(),
                             c.getFechaCita()
                     );
                     break;
                 case "Cancelado":
                     CitaMailCancelado.correoCita(
-                            c.getUsuarioIdUsuario().getNombre(),
-                            c.getUsuarioIdUsuario().getApellido(),
-                            c.getServicioIdServicio().getNombre(),
-                            c.getUsuarioIdUsuario().getCorreo(),
+                            c.getIdCliente().getNombre(),
+                            c.getIdCliente().getApellido(),
+                            //c.getServicioIdServicio().getNombre(),
+                            c.getIdCliente().getCorreo(),
                             c.getFechaCita()
                     );
                     break;
                 case "Espera":
                     CitaMailEspera.correoCita(
-                            c.getUsuarioIdUsuario().getNombre(),
-                            c.getUsuarioIdUsuario().getApellido(),
-                            c.getServicioIdServicio().getNombre(),
-                            c.getUsuarioIdUsuario().getCorreo(),
+                            c.getIdCliente().getNombre(),
+                            c.getIdCliente().getApellido(),
+                            //c.getServicioIdServicio().getNombre(),
+                            c.getIdCliente().getCorreo(),
                             c.getFechaCita()
                     );
                 default:
@@ -266,7 +273,7 @@ public class CitaSesion implements Serializable {
         } catch (Exception e) {
             System.out.println("Error");
         }
-    }*/
+    }
     public List<Usuario> leerBarberos() {
         return citaFacadeLocal.leerBarberos(r_bar.getRolBarbero());
     }

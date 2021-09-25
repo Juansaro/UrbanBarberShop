@@ -121,7 +121,7 @@ public class Factura implements Serializable {
 
     @Override
     public String toString() {
-        return "com.barber.model.Factura[ idFactura=" + idFactura + " ]";
+        return "" +idFactura;
     }
     
 }

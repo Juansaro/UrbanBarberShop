@@ -21,7 +21,7 @@ import javax.mail.internet.MimeMessage;
  */
 public class CitaMailEspera {
     
-    public static void correoCita(String nombre, String apellido, String nombreServicio ,String correoPara, Date fechaCita) {
+    public static void correoCita(String nombre, String apellido ,String correoPara, Date fechaCita) {
         final String usuario = "senaland066@gmail.com";
         final String clave = "sennaland 432";
 
@@ -52,8 +52,6 @@ public class CitaMailEspera {
                     + "<h1> Hola, "+ nombre + " " + apellido + " </h1>"
                     + "Tu cita sigue en espera."
                     + "<br/> la fecha de la fecha es: " + fechaCita
-                    + "<br/>"
-                    + "Tu servicio agendado es: " + nombreServicio + " ."
                     + "<br/>"
                     + "Recuerda esperar que tu cita sea agendada."
                     + "<br/>"
