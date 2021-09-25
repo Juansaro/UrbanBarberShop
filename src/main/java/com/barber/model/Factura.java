@@ -6,11 +6,12 @@
 package com.barber.model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,6 +21,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -42,13 +44,14 @@ public class Factura implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_factura")
     private Integer idFactura;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "costo")
-    private Float costo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "facturaIdFactura")
-    private List<Calificacion> calificacionList;
+    private float costo;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "facturaIdFactura", fetch = FetchType.LAZY)
+    private Collection<Calificacion> calificacionCollection;
     @JoinColumn(name = "cita_id_cita", referencedColumnName = "id_cita")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Cita citaIdCita;
 
     public Factura() {
@@ -56,6 +59,11 @@ public class Factura implements Serializable {
 
     public Factura(Integer idFactura) {
         this.idFactura = idFactura;
+    }
+
+    public Factura(Integer idFactura, float costo) {
+        this.idFactura = idFactura;
+        this.costo = costo;
     }
 
     public Integer getIdFactura() {
@@ -66,21 +74,21 @@ public class Factura implements Serializable {
         this.idFactura = idFactura;
     }
 
-    public Float getCosto() {
+    public float getCosto() {
         return costo;
     }
 
-    public void setCosto(Float costo) {
+    public void setCosto(float costo) {
         this.costo = costo;
     }
 
     @XmlTransient
-    public List<Calificacion> getCalificacionList() {
-        return calificacionList;
+    public Collection<Calificacion> getCalificacionCollection() {
+        return calificacionCollection;
     }
 
-    public void setCalificacionList(List<Calificacion> calificacionList) {
-        this.calificacionList = calificacionList;
+    public void setCalificacionCollection(Collection<Calificacion> calificacionCollection) {
+        this.calificacionCollection = calificacionCollection;
     }
 
     public Cita getCitaIdCita() {
@@ -113,7 +121,7 @@ public class Factura implements Serializable {
 
     @Override
     public String toString() {
-        return ""+idFactura;
+        return "com.barber.model.Factura[ idFactura=" + idFactura + " ]";
     }
     
 }

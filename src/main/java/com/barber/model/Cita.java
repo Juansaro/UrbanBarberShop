@@ -6,16 +6,19 @@
 package com.barber.model;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -23,6 +26,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -36,7 +40,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Cita.findAll", query = "SELECT c FROM Cita c"),
     @NamedQuery(name = "Cita.findByIdCita", query = "SELECT c FROM Cita c WHERE c.idCita = :idCita"),
-    @NamedQuery(name = "Cita.findByFechaCita", query = "SELECT c FROM Cita c WHERE c.fechaCita = :fechaCita")})
+    @NamedQuery(name = "Cita.findByFechaCita", query = "SELECT c FROM Cita c WHERE c.fechaCita = :fechaCita"),
+    @NamedQuery(name = "Cita.findByCosto", query = "SELECT c FROM Cita c WHERE c.costo = :costo"),
+    @NamedQuery(name = "Cita.findByRegistroActual", query = "SELECT c FROM Cita c WHERE c.registroActual = :registroActual")})
 public class Cita implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,26 +51,49 @@ public class Cita implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_cita")
     private Integer idCita;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "fecha_cita")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaCita;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "citaIdCita")
-    private List<Factura> facturaList;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "costo")
+    private float costo;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "registro_actual")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date registroActual;
+    @JoinTable(name = "cita_has_servicio", joinColumns = {
+        @JoinColumn(name = "cita_id_cita", referencedColumnName = "id_cita")}, inverseJoinColumns = {
+        @JoinColumn(name = "servicio_id_servicio", referencedColumnName = "id_servicio")})
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Collection<Servicio> servicioCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "citaIdCita", fetch = FetchType.LAZY)
+    private Collection<Factura> facturaCollection;
     @JoinColumn(name = "estado_asignacion_id_estado_asignacion", referencedColumnName = "id_estado_asignacion")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private EstadoAsignacion estadoAsignacionIdEstadoAsignacion;
-    @JoinColumn(name = "servicio_id_servicio", referencedColumnName = "id_servicio")
-    @ManyToOne(optional = false)
-    private Servicio servicioIdServicio;
-    @JoinColumn(name = "usuario_id_usuario", referencedColumnName = "id_usuario")
-    @ManyToOne(optional = false)
-    private Usuario usuarioIdUsuario;
+    @JoinColumn(name = "id_cliente", referencedColumnName = "id_usuario")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Usuario idCliente;
+    @JoinColumn(name = "id_barbero", referencedColumnName = "id_usuario")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Usuario idBarbero;
 
     public Cita() {
     }
 
     public Cita(Integer idCita) {
         this.idCita = idCita;
+    }
+
+    public Cita(Integer idCita, Date fechaCita, float costo, Date registroActual) {
+        this.idCita = idCita;
+        this.fechaCita = fechaCita;
+        this.costo = costo;
+        this.registroActual = registroActual;
     }
 
     public Integer getIdCita() {
@@ -83,13 +112,38 @@ public class Cita implements Serializable {
         this.fechaCita = fechaCita;
     }
 
-    @XmlTransient
-    public List<Factura> getFacturaList() {
-        return facturaList;
+    public float getCosto() {
+        return costo;
     }
 
-    public void setFacturaList(List<Factura> facturaList) {
-        this.facturaList = facturaList;
+    public void setCosto(float costo) {
+        this.costo = costo;
+    }
+
+    public Date getRegistroActual() {
+        return registroActual;
+    }
+
+    public void setRegistroActual(Date registroActual) {
+        this.registroActual = registroActual;
+    }
+
+    @XmlTransient
+    public Collection<Servicio> getServicioCollection() {
+        return servicioCollection;
+    }
+
+    public void setServicioCollection(Collection<Servicio> servicioCollection) {
+        this.servicioCollection = servicioCollection;
+    }
+
+    @XmlTransient
+    public Collection<Factura> getFacturaCollection() {
+        return facturaCollection;
+    }
+
+    public void setFacturaCollection(Collection<Factura> facturaCollection) {
+        this.facturaCollection = facturaCollection;
     }
 
     public EstadoAsignacion getEstadoAsignacionIdEstadoAsignacion() {
@@ -100,20 +154,20 @@ public class Cita implements Serializable {
         this.estadoAsignacionIdEstadoAsignacion = estadoAsignacionIdEstadoAsignacion;
     }
 
-    public Servicio getServicioIdServicio() {
-        return servicioIdServicio;
+    public Usuario getIdCliente() {
+        return idCliente;
     }
 
-    public void setServicioIdServicio(Servicio servicioIdServicio) {
-        this.servicioIdServicio = servicioIdServicio;
+    public void setIdCliente(Usuario idCliente) {
+        this.idCliente = idCliente;
     }
 
-    public Usuario getUsuarioIdUsuario() {
-        return usuarioIdUsuario;
+    public Usuario getIdBarbero() {
+        return idBarbero;
     }
 
-    public void setUsuarioIdUsuario(Usuario usuarioIdUsuario) {
-        this.usuarioIdUsuario = usuarioIdUsuario;
+    public void setIdBarbero(Usuario idBarbero) {
+        this.idBarbero = idBarbero;
     }
 
     @Override
@@ -138,7 +192,7 @@ public class Cita implements Serializable {
 
     @Override
     public String toString() {
-        return ""+idCita;
+        return "com.barber.model.Cita[ idCita=" + idCita + " ]";
     }
     
 }

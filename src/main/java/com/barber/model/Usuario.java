@@ -6,11 +6,12 @@
 package com.barber.model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,6 +21,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -39,7 +41,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Usuario.findByContrasena", query = "SELECT u FROM Usuario u WHERE u.contrasena = :contrasena"),
     @NamedQuery(name = "Usuario.findByCorreo", query = "SELECT u FROM Usuario u WHERE u.correo = :correo"),
     @NamedQuery(name = "Usuario.findByNumeroDocumento", query = "SELECT u FROM Usuario u WHERE u.numeroDocumento = :numeroDocumento"),
-    @NamedQuery(name = "Usuario.findByNumeroTelefono", query = "SELECT u FROM Usuario u WHERE u.numeroTelefono = :numeroTelefono")})
+    @NamedQuery(name = "Usuario.findByNumeroTelefono", query = "SELECT u FROM Usuario u WHERE u.numeroTelefono = :numeroTelefono"),
+    @NamedQuery(name = "Usuario.findByUsuFoto", query = "SELECT u FROM Usuario u WHERE u.usuFoto = :usuFoto")})
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,48 +51,75 @@ public class Usuario implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_usuario")
     private Integer idUsuario;
-    @Size(max = 100)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
     @Column(name = "nombre")
     private String nombre;
-    @Size(max = 100)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
     @Column(name = "apellido")
     private String apellido;
-    @Size(max = 150)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 150)
     @Column(name = "contrasena")
     private String contrasena;
-    @Size(max = 300)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 300)
     @Column(name = "correo")
     private String correo;
-    @Size(max = 150)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 150)
     @Column(name = "numero_documento")
     private String numeroDocumento;
-    @Size(max = 150)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 150)
     @Column(name = "numero_telefono")
     private String numeroTelefono;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdUsuario")
-    private List<DespachoProducto> despachoProductoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdUsuario")
-    private List<Pedido> pedidoList;
+    @Size(max = 255)
+    @Column(name = "usu_foto")
+    private String usuFoto;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdUsuario", fetch = FetchType.LAZY)
+    private Collection<DespachoProducto> despachoProductoCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdUsuario", fetch = FetchType.LAZY)
+    private Collection<Pedido> pedidoCollection;
     @JoinColumn(name = "ciudad_numero_ciudad", referencedColumnName = "numero_ciudad")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Ciudad ciudadNumeroCiudad;
     @JoinColumn(name = "tipo_identificacion_id_tipo_identificacion", referencedColumnName = "id_tipo_identificacion")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private TipoIdentificacion tipoIdentificacionIdTipoIdentificacion;
     @JoinColumn(name = "tipo_rol_numero_rol", referencedColumnName = "numero_rol")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private TipoRol tipoRolNumeroRol;
     @JoinColumn(name = "tipo_telefono_numero_tipo_telefono", referencedColumnName = "numero_tipo_telefono")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private TipoTelefono tipoTelefonoNumeroTipoTelefono;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdUsuario")
-    private List<Cita> citaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCliente", fetch = FetchType.LAZY)
+    private Collection<Cita> citaCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idBarbero", fetch = FetchType.LAZY)
+    private Collection<Cita> citaCollection1;
 
     public Usuario() {
     }
 
     public Usuario(Integer idUsuario) {
         this.idUsuario = idUsuario;
+    }
+
+    public Usuario(Integer idUsuario, String nombre, String apellido, String contrasena, String correo, String numeroDocumento, String numeroTelefono) {
+        this.idUsuario = idUsuario;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.contrasena = contrasena;
+        this.correo = correo;
+        this.numeroDocumento = numeroDocumento;
+        this.numeroTelefono = numeroTelefono;
     }
 
     public Integer getIdUsuario() {
@@ -148,22 +178,30 @@ public class Usuario implements Serializable {
         this.numeroTelefono = numeroTelefono;
     }
 
+    public String getUsuFoto() {
+        return usuFoto;
+    }
+
+    public void setUsuFoto(String usuFoto) {
+        this.usuFoto = usuFoto;
+    }
+
     @XmlTransient
-    public List<DespachoProducto> getDespachoProductoList() {
-        return despachoProductoList;
+    public Collection<DespachoProducto> getDespachoProductoCollection() {
+        return despachoProductoCollection;
     }
 
-    public void setDespachoProductoList(List<DespachoProducto> despachoProductoList) {
-        this.despachoProductoList = despachoProductoList;
+    public void setDespachoProductoCollection(Collection<DespachoProducto> despachoProductoCollection) {
+        this.despachoProductoCollection = despachoProductoCollection;
     }
 
     @XmlTransient
-    public List<Pedido> getPedidoList() {
-        return pedidoList;
+    public Collection<Pedido> getPedidoCollection() {
+        return pedidoCollection;
     }
 
-    public void setPedidoList(List<Pedido> pedidoList) {
-        this.pedidoList = pedidoList;
+    public void setPedidoCollection(Collection<Pedido> pedidoCollection) {
+        this.pedidoCollection = pedidoCollection;
     }
 
     public Ciudad getCiudadNumeroCiudad() {
@@ -199,12 +237,21 @@ public class Usuario implements Serializable {
     }
 
     @XmlTransient
-    public List<Cita> getCitaList() {
-        return citaList;
+    public Collection<Cita> getCitaCollection() {
+        return citaCollection;
     }
 
-    public void setCitaList(List<Cita> citaList) {
-        this.citaList = citaList;
+    public void setCitaCollection(Collection<Cita> citaCollection) {
+        this.citaCollection = citaCollection;
+    }
+
+    @XmlTransient
+    public Collection<Cita> getCitaCollection1() {
+        return citaCollection1;
+    }
+
+    public void setCitaCollection1(Collection<Cita> citaCollection1) {
+        this.citaCollection1 = citaCollection1;
     }
 
     @Override

@@ -29,5 +29,7 @@ public interface EstadoAsignacionFacadeLocal {
     List<EstadoAsignacion> findRange(int[] range);
 
     int count();
+
+    public EstadoAsignacion asignacionCitaInicial();
     
 }

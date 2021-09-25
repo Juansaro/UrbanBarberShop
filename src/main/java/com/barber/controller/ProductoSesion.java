@@ -7,8 +7,10 @@ package com.barber.controller;
 
 import com.barber.EJB.BodegaFacadeLocal;
 import com.barber.EJB.ProductoFacadeLocal;
+import com.barber.EJB.ProveedorFacadeLocal;
 import com.barber.model.Bodega;
 import com.barber.model.Producto;
+import com.barber.model.Proveedor;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -31,14 +33,19 @@ public class ProductoSesion implements Serializable{
     private ProductoFacadeLocal productoFacadeLocal;
     @EJB
     private BodegaFacadeLocal bodegaFacadeLocal;
+    @EJB
+    private ProveedorFacadeLocal proveedorFacadeLocal;
     
     private Producto producto;
     
     @Inject
     private Bodega bodega;
+    @Inject
+    private Proveedor proveedor;
     
     private List<Producto> productos;
     private List<Bodega> bodegas;
+    private List<Proveedor> proveedores;
     
     private Producto pro = new Producto();
     private Producto proTemporal = new Producto();
@@ -48,49 +55,40 @@ public class ProductoSesion implements Serializable{
     private void init(){
         productos = productoFacadeLocal.findAll();
         bodegas = bodegaFacadeLocal.findAll();
+        proveedores = proveedorFacadeLocal.findAll();
         producto = new Producto();
     }
     
     //Registrar producto
-    public String registrarProducto(){
+    public void registrarProducto(){
         try {
             pro.setBodegaIdBodega(bodega);
+            pro.setProveedorNumeroProveedor(proveedor);
             productoFacadeLocal.create(pro);
             productos = productoFacadeLocal.findAll();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Producto registrado", "Producto registrado"));
-            return "/RecepProductosConsultarEliminar.xhtml";
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/recepcionista/consultarProducto.xhtml");
         } catch (Exception e) {
         }
-        return null;
     }
     
     //Recupera datos del producto al cual se va a editar
-     public String guardarTemporal(Producto p) {
+     public void guardarTemporal(Producto p) {
         proTemporal = p;
-        return "/RecepProductoModificar.xhtml";
     }
 
     //Editar usuario (En el modal)
-    public String editarProducto() {
+    public void editarProducto() {
         try {
             this.proTemporal.setBodegaIdBodega(bodega);
+            this.proTemporal.setProveedorNumeroProveedor(proveedor);
             productoFacadeLocal.edit(proTemporal);
-            proTemporal = new Producto();
-            bodega = new Bodega();
-            prepararEliminar();
+            productos = productoFacadeLocal.findAll();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Producto editado", "Producto editado"));
-            return "/RecepProductosConsultarEliminar.xhtml";
         } catch (Exception e) {
             
         }
-        return null;
-    }
-    
-    
-    //Preparar página para eliminar
-    public String prepararEliminar(){
-        productos = productoFacadeLocal.findAll();
-        return "/RecepConsultarUsuarios.xhtml";
+        //return null;
     }
     
     //Eliminar
@@ -98,10 +96,8 @@ public class ProductoSesion implements Serializable{
         try{
             this.productoFacadeLocal.remove(p);
             this.producto = new Producto();
-            //Colocar prepararEliminar()
+            productos = productoFacadeLocal.findAll();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Producto eliminado", "Producto eliminado"));
-            prepararEliminar();
-            
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -163,6 +159,22 @@ public class ProductoSesion implements Serializable{
 
     public void setBodTemporal(Bodega bodTemporal) {
         this.bodTemporal = bodTemporal;
+    }
+
+    public Proveedor getProveedor() {
+        return proveedor;
+    }
+
+    public void setProveedor(Proveedor proveedor) {
+        this.proveedor = proveedor;
+    }
+
+    public List<Proveedor> getProveedores() {
+        return proveedores;
+    }
+
+    public void setProveedores(List<Proveedor> proveedores) {
+        this.proveedores = proveedores;
     }
     
 }

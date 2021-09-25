@@ -11,6 +11,7 @@ import com.barber.EJB.UsuarioFacadeLocal;
 import com.barber.model.DespachoProducto;
 import com.barber.model.Producto;
 import com.barber.model.Usuario;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -59,17 +60,16 @@ public class DespachoSesion implements Serializable{
     }
     
     //Registrar
-    public String registrarDespachoProducto(){
+    public void registrarDespachoProducto(){
         try {
             des.setProductoIdProducto(producto);
             des.setUsuarioIdUsuario(usuario);
             despachoProductoFacadeLocal.create(des);
             despachoProductos = despachoProductoFacadeLocal.findAll();
-            return "/RecepDespachoConsultar.xhtml";
-        } catch (Exception e) {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/recepcionista/consultarDespacho.xhtml");
+        } catch (IOException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de registro", "Error de registro"));
         }
-        return null;
     }
     
     //Guardar temportal
@@ -103,7 +103,6 @@ public class DespachoSesion implements Serializable{
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Proveedor eliminado", "Proveedor eliminado"));
             prepararEliminar();
         }catch(Exception e){
-            e.printStackTrace();
         }
     }
     

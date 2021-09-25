@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:html5="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+        <p:growl id="growl" life="3000"/>
+        <div class="card container mt-3 mb-3" style="max-width: 21rem; max-height: 43rem;" id="carta">
+            <div class="row">
+                <div class="col">
+                    <img src="resources/img/Bodega.png" class="card-img mt-3"  alt="Foto de bodega de barbería"/>
+                    <div class="card-body">
+                        <h5 class="card-title font-weight-bold text-white">Editar compra</h5>
+                        <hr class="bg-white"/>
+                        
+                        <h:form id="formActualizar">
+                        <div class="modal-body">
+
+                            <h:outputLabel value="Fecha de solicitud:" for="fechaSolicitud" />
+                            <br/>
+                            <p:calendar id="fechaSolicitud" value="#{compraSesion.comTemporal.fechaSolicitud}" pattern="MM/dd/yyyy HH:mm:ss"/>
+                            <br/>
+                            <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
+                                <h:outputText value="Datetime:"/>
+                                <h:outputText value="#{calendarView.date10}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss"/>
+                                </h:outputText>
+                            </p:dialog>
+
+                            <h:outputLabel class="card-text font-weight-bold text-white" value="Proveedor:" for="servicioIdServicio" />
+                            <br/>
+                            <h:selectOneMenu class="form-control" id="barbero" value="#{compraSesion.proveedor.numeroProveedor}" required="true">
+                                <f:selectItems value="#{compraSesion.proveedores}" var="pro" itemLabel="#{pro.correo}" itemValue="#{pro.numeroProveedor}"/>
+                            </h:selectOneMenu>
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <h:commandButton action="#{compraSesion.editarCompra()}" class="btn btn-primary" value="Editar.">
+                            </h:commandButton>
+                        </div>
+                    </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:composition>
+</html>
+

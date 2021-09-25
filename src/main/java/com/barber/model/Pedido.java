@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,6 +21,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -41,14 +43,16 @@ public class Pedido implements Serializable {
     @Basic(optional = false)
     @Column(name = "numero_pedido")
     private Integer numeroPedido;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "fecha_recibida")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaRecibida;
     @JoinColumn(name = "detalle_pedido_numero_detalle", referencedColumnName = "numero_detalle")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private DetallePedido detallePedidoNumeroDetalle;
     @JoinColumn(name = "usuario_id_usuario", referencedColumnName = "id_usuario")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Usuario usuarioIdUsuario;
 
     public Pedido() {
@@ -56,6 +60,11 @@ public class Pedido implements Serializable {
 
     public Pedido(Integer numeroPedido) {
         this.numeroPedido = numeroPedido;
+    }
+
+    public Pedido(Integer numeroPedido, Date fechaRecibida) {
+        this.numeroPedido = numeroPedido;
+        this.fechaRecibida = fechaRecibida;
     }
 
     public Integer getNumeroPedido() {

@@ -6,11 +6,12 @@
 package com.barber.model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -41,17 +43,24 @@ public class EstadoAsignacion implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_estado_asignacion")
     private Integer idEstadoAsignacion;
-    @Size(max = 100)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
     @Column(name = "descripcion")
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "estadoAsignacionIdEstadoAsignacion")
-    private List<Cita> citaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "estadoAsignacionIdEstadoAsignacion", fetch = FetchType.LAZY)
+    private Collection<Cita> citaCollection;
 
     public EstadoAsignacion() {
     }
 
     public EstadoAsignacion(Integer idEstadoAsignacion) {
         this.idEstadoAsignacion = idEstadoAsignacion;
+    }
+
+    public EstadoAsignacion(Integer idEstadoAsignacion, String descripcion) {
+        this.idEstadoAsignacion = idEstadoAsignacion;
+        this.descripcion = descripcion;
     }
 
     public Integer getIdEstadoAsignacion() {
@@ -71,12 +80,12 @@ public class EstadoAsignacion implements Serializable {
     }
 
     @XmlTransient
-    public List<Cita> getCitaList() {
-        return citaList;
+    public Collection<Cita> getCitaCollection() {
+        return citaCollection;
     }
 
-    public void setCitaList(List<Cita> citaList) {
-        this.citaList = citaList;
+    public void setCitaCollection(Collection<Cita> citaCollection) {
+        this.citaCollection = citaCollection;
     }
 
     @Override
@@ -101,7 +110,7 @@ public class EstadoAsignacion implements Serializable {
 
     @Override
     public String toString() {
-        return descripcion;
+        return "com.barber.model.EstadoAsignacion[ idEstadoAsignacion=" + idEstadoAsignacion + " ]";
     }
     
 }

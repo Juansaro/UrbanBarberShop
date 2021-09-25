@@ -5,6 +5,10 @@
  */
 package com.barber.controller;
 
+import com.opencsv.CSVParser;
+import com.opencsv.CSVParserBuilder;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 import com.barber.EJB.CiudadFacadeLocal;
 import com.barber.EJB.TipoIdentificacionFacadeLocal;
 import com.barber.EJB.TipoRolFacadeLocal;
@@ -16,7 +20,16 @@ import com.barber.model.TipoRol;
 import com.barber.model.TipoTelefono;
 import com.barber.model.Usuario;
 import com.barber.utilidades.Mail;
+import com.barber.utilidades.envioMasivoServicios;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -25,7 +38,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.Part;
 import org.primefaces.PrimeFaces;
+import org.primefaces.shaded.commons.io.FilenameUtils;
 
 /**
  *
@@ -59,19 +74,28 @@ public class UsuarioSesion implements Serializable {
     private TipoTelefono tipoTelefono;
     @Inject
     private TipoIdentificacion tipoIdentificacion;
+    @Inject
+    private RolRequest r;
 
-    //Usar esta estructura para las FK (Listar)
+    //Lista local
     private List<Usuario> usuarios;
+    //Usar esta estructura para las FK (Listar)
     private List<TipoIdentificacion> tipoIdentificaciones;
     private List<TipoTelefono> tipoTelefonos;
     private List<TipoRol> roles;
     private List<Ciudad> ciudades;
+    private List<String> correos;
 
     //Atributos de clase
     private String correoUsuario;
     private String contrasena;
     private String correoIn;
     private String claveIn;
+    //Archivos (carga)
+    private Part archivoFoto;
+    private Part archivoCarga;
+    //Format
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 
     //------>Instacías de sesión<------
     private Usuario usuReg = new Usuario();
@@ -82,32 +106,20 @@ public class UsuarioSesion implements Serializable {
     //Este código me permite mostrar los datos en un select de un formulario (Me lista los datos en la vista)
     @PostConstruct
     public void init() {
-        //Usar esta estructura para las FK
+        //Usar esto para la estructura local
         usuarios = usuarioFacadeLocal.findAll();
+        //Usar esta estructura para las FK
         ciudades = ciudadFacadeLocal.findAll();
         roles = rolFacadeLocal.findAll();
         tipoTelefonos = tipoTelefonoFacadeLocal.findAll();
         tipoIdentificaciones = tipoIdentificacionFacadeLocal.findAll();
+        //usuLog = new Usuario();
+        //Limpiar un formulario
         usuario = new Usuario();
     }
 
-    //Registrar usuario
-    public void registrarUsuario() {
-        try {
-            //Usar esta estructura para las FK
-            this.usuReg.setCiudadNumeroCiudad(ciudad);
-            this.usuReg.setTipoRolNumeroRol(tipoRol);
-            this.usuReg.setTipoIdentificacionIdTipoIdentificacion(tipoIdentificacion);
-            this.usuReg.setTipoTelefonoNumeroTipoTelefono(tipoTelefono);
-            //Principal
-            usuarioFacadeLocal.create(usuReg);
-            usuarios = usuarioFacadeLocal.findAll();
-        } catch (Exception e) {
-        }
-    }
-
     //Login
-    public String validarUsuario() {
+    public void validarUsuario() throws IOException {
         usuLog = usuarioFacadeLocal.encontrarUsuarioCorreo(correoUsuario);
         //rol = ejbFacade.encontrarRol(numeroRol);
         if (usuLog != null) {
@@ -117,79 +129,175 @@ public class UsuarioSesion implements Serializable {
                         case "Recepcionista":
                             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("correo", correoUsuario);
                             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Bienvenido!", "Bienvenido!"));
-                            return "/RecepInicio.xhtml";
+                            FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/recepcionista/index.xhtml");
+                            break;
                         case "Cliente":
                             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("correo", correoUsuario);
-                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Clave incorrecta", "Clave incorrecta"));
-                            return "/ClienteInicio.xhtml";
+                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Bienvenido!", "Bienvenido!"));
+                            FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/cliente/index.xhtml");
+                            break;
                         case "Barbero":
                             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("correo", correoUsuario);
-                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Clave incorrecta", "Clave incorrecta"));
-                            return "/BarberInicio.xhtml";
+                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Bienvenido!", "Bienvenido!"));
+                            FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/barbero/index.xhtml");
+                            break;
                         default:
                             break;
                     }
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "No dispones de un rol en el sistema", "No dispones de un rol en el sistema"));
-                    return null;
-
                 }
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Clave incorrecta", "Clave incorrecta"));
-                return null;
             }
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "El usuario no existe", "El usuario no existe"));
-            return null;
         }
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "El usuario no existe", "El usuario no existe"));
-        return null;
+    }
+
+    //Registrar usuario
+    public void registrarUsuario() {
+        try {
+            //Usar esta estructura para las FK
+            this.usuReg.setCiudadNumeroCiudad(ciudad);
+            //Asignación del CLIENTE por inyeccion de despendencia
+            this.usuReg.setTipoRolNumeroRol(r.asignacionRolCliente());
+            this.usuReg.setTipoIdentificacionIdTipoIdentificacion(tipoIdentificacion);
+            this.usuReg.setTipoTelefonoNumeroTipoTelefono(tipoTelefono);
+            //Principal
+            usuarioFacadeLocal.create(usuReg);
+            //Limpiar formulario de registro
+            usuReg = new Usuario();
+            //Encontrar datos
+            usuarios = usuarioFacadeLocal.findAll();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario registrado", "Usuario registrado"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al registrar usuario", "Error al registrar usuario"));
+        }
     }
 
     //Cerrar sesion
-    public String cerrarSesion() {
+    public void cerrarSesion() throws IOException {
         //Se destruye la información almacenada en el FacesContext (Dentro del método validarUsuario())
+        usuLog = null;
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Has cerrado sesión", "Has cerrado sesión"));
-        return "/index.xhtml";
+        FacesContext.getCurrentInstance().getExternalContext().redirect("../index.xhtml");
+    }
+    
+    //Carga inicial de datos de usuario
+    public void cargarInicialDatos() {
+        if (archivoCarga != null) {
+            if (archivoCarga.getSize() > 700000) {
+                PrimeFaces.current().executeScript("Swal.fire({"
+                        + "  title: 'El archivo !',"
+                        + "  text: 'No se puede cargar por el tamaño !!!',"
+                        + "  icon: 'error',"
+                        + "  confirmButtonText: 'Ok'"
+                        + "})");
+            } else if (archivoCarga.getContentType().equalsIgnoreCase("application/vnd.ms-excel")) {
+
+                try (InputStream is = archivoCarga.getInputStream()) {
+                    File carpeta = new File("C:\\cdi\\administrador\\archivos");
+                    if (!carpeta.exists()) {
+                        carpeta.mkdirs();
+                    }
+                    Files.copy(is, (new File(carpeta, archivoCarga.getSubmittedFileName())).toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    CSVParser conPuntoyComa = new CSVParserBuilder().withSeparator(';').build();
+                    CSVReader reader = new CSVReaderBuilder(new FileReader("C:\\cdi\\administrador\\archivos\\" + archivoCarga.getSubmittedFileName())).withCSVParser(conPuntoyComa).build();
+                    String[] nextline;
+                    while ((nextline = reader.readNext()) != null) {
+                        
+                        Usuario usuObj = usuarioFacadeLocal.validarSiExiste(nextline[3]);
+                        if (usuObj == null) {
+                           usuarioFacadeLocal.crearUsuario(nextline[0], nextline[1], nextline[2], nextline[3], Integer.parseInt(nextline[4]), Integer.parseInt(nextline[5]), Integer.parseInt(nextline[6]), nextline[7], Integer.parseInt(nextline[8]), nextline[9]);
+                        } else {             
+                            usuarioFacadeLocal.edit(usuObj);
+                        }
+                    }
+                    reader.close();
+                    usuarios.clear();
+                } catch (Exception e) {
+                    PrimeFaces.current().executeScript("Swal.fire({"
+                            + "  title: 'Problemas !',"
+                            + "  text: 'No se puede realizar esta accion',"
+                            + "  icon: 'error',"
+                            + "  confirmButtonText: 'Ok'"
+                            + "})");
+                }
+            } else {
+                PrimeFaces.current().executeScript("Swal.fire({"
+                        + "  title: 'El archivo !',"
+                        + "  text: 'No es una imagen .png o .jpeg !!!',"
+                        + "  icon: 'error',"
+                        + "  confirmButtonText: 'Ok'"
+                        + "})");
+            }
+
+        } else {
+            PrimeFaces.current().executeScript("Swal.fire({"
+                    + "  title: 'Problemas !',"
+                    + "  text: 'No se puede realizar esta accion',"
+                    + "  icon: 'error',"
+                    + "  confirmButtonText: 'Ok'"
+                    + "})");
+        }
+        usuarios = usuarioFacadeLocal.findAll();
+        PrimeFaces.current().executeScript("document.getElementById('resetform').click()");
 
     }
 
+
     //Recupera datos del usuario al cual se va a editar
-    public String guardarTemporal(Usuario u) {
+    public void guardarTemporal(Usuario u) {
         usuTemporal = u;
-        return "/RecepModificarUsuarios.xhtml";
     }
 
     //Editar usuario (En el modal)
-    public String editarUsuario() {
-
+    public void editarUsuario() {
         try {
+            //usuTemporal sirve para el ciclo de vida de SOLO la edición
+            //Estructura FK'S
             this.usuTemporal.setCiudadNumeroCiudad(ciudad);
             this.usuTemporal.setTipoRolNumeroRol(tipoRol);
             this.usuTemporal.setTipoIdentificacionIdTipoIdentificacion(tipoIdentificacion);
             this.usuTemporal.setTipoTelefonoNumeroTipoTelefono(tipoTelefono);
-
+            //El parámetro que usea para editar es usuTemporal
             usuarioFacadeLocal.edit(usuTemporal);
             //Limpieza local
             usuTemporal = new Usuario();
-            ciudad = new Ciudad();
-            tipoRol = new TipoRol();
-            tipoIdentificacion = new TipoIdentificacion();
-            tipoTelefono = new TipoTelefono();
+            //Limpieza de las FK'S
+            
             usuarios = usuarioFacadeLocal.findAll();
             //Mensaje
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario modificado", "Usuario modificado"));
-            //Redirección para carga de datos
-            return "/RecepConsultarUsuarios.xhtml";
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de edición", "Error de edición"));
         }
-        return null;
+    }
+    
+    public void editarCliente() {
+        try {
+            //usuTemporal sirve para el ciclo de vida de SOLO la edición
+            //Estructura FK'S
+            this.usuLog.setCiudadNumeroCiudad(ciudad);
+            this.usuLog.setTipoRolNumeroRol(tipoRol);
+            this.usuLog.setTipoIdentificacionIdTipoIdentificacion(tipoIdentificacion);
+            this.usuLog.setTipoTelefonoNumeroTipoTelefono(tipoTelefono);
+            //El parámetro que usea para editar es usuTemporal
+            usuarioFacadeLocal.edit(usuLog);
+            
+            usuarios = usuarioFacadeLocal.findAll();
+            //Mensaje
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario modificado", "Usuario modificado"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de edición", "Error de edición"));
+        }
     }
 
     //Preparar página para eliminar
     public String prepararEliminar() {
         usuario = new Usuario();
 
-        return "/RecepConsultarUsuarios.xhtml";
+        return "/.xhtml";
     }
 
     //Eliminar
@@ -197,9 +305,10 @@ public class UsuarioSesion implements Serializable {
         try {
             this.usuarioFacadeLocal.remove(u);
             //Colocar prepararEliminar()
-            prepararEliminar();
+            usuarios = usuarioFacadeLocal.findAll();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario eliminado", "Usuario eliminado"));
         } catch (Exception e) {
-
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error al eliminar", "Error al eliminar"));
         }
     }
 
@@ -207,10 +316,8 @@ public class UsuarioSesion implements Serializable {
         try {
             usuReg = usuarioFacadeLocal.recuperarClave(correoIn);
             if (usuReg != null) {
-                
-            Mail.recuperarClaves(usuReg.getNombre(), usuReg.getCorreo()  , usuReg.getContrasena());
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correo enviado", "Correo enviado"));
-            
+                Mail.recuperarClaves(usuReg.getNombre(), usuReg.getCorreo(), usuReg.getContrasena());
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correo enviado", "Correo enviado"));
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "No se encontró el correo", "No se encontró el correo"));
             }
@@ -221,7 +328,56 @@ public class UsuarioSesion implements Serializable {
 
     }
     
-    
+    public void avisoServicios(){
+        try {
+            correos = usuarioFacadeLocal.leerCorreosClientes();
+
+            if (correos != null) {
+                envioMasivoServicios.recuperarCliente(correos);
+            } else {
+            }
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fallo al enviar", "Fallo al enviar"));
+        }
+    }
+
+    //Carga de foto de perfil
+    public void cargarFotoPerfil() {
+        if (archivoFoto != null) {
+            if (archivoFoto.getSize() > 70000) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "El archivo es muy grande", "El archivo es muy grande"));
+            } else if (archivoFoto.getContentType().equalsIgnoreCase("image/png") || archivoFoto.getContentType().equalsIgnoreCase("image/jpeg")) {
+                try (InputStream is = archivoFoto.getInputStream()) {
+                    File carpeta = new File("C:\\ubs\\usuarios\\fotoperfil");
+                    //Comprobación si no exite
+                    if (!carpeta.exists()) {
+                        //Creación de carpeta
+                        carpeta.mkdirs();
+                    }
+                    Calendar hoy = Calendar.getInstance();
+                    //Guardar la fecha con la fecha exacta
+                    String nuevoNombre = sdf.format(hoy.getTime()) + ".";
+                    //Recargue (concatenación) filesnameutils me permite traer la extención
+                    nuevoNombre += FilenameUtils.getExtension(archivoFoto.getSubmittedFileName());
+                    //**parámetros** Fuente , salida, sobreescribir
+                    Files.copy(is, (new File(carpeta, nuevoNombre)).toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    //Recoger la imagen y actualizar el usuario con el nombre de la imagen
+                    usuLog.setUsuFoto(nuevoNombre);
+                    usuarioFacadeLocal.edit(usuLog);
+                    //Resetear
+                    PrimeFaces.current().executeScript("document.getElementById('resetform').click()");
+                } catch (Exception e) {
+                    System.out.println("error");
+                }
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "El formato no esta permitido", "El formato no esta permitido"));
+            }
+        } else {
+            //Mensaje
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de carga", "Error de carga"));
+        }
+        System.out.println("Llegó");
+    }
 
     //Getters y Setters
     public Usuario getUsuReg() {
@@ -358,6 +514,22 @@ public class UsuarioSesion implements Serializable {
 
     public void setClaveIn(String claveIn) {
         this.claveIn = claveIn;
+    }
+
+    public Part getArchivoFoto() {
+        return archivoFoto;
+    }
+
+    public void setArchivoFoto(Part archivoFoto) {
+        this.archivoFoto = archivoFoto;
+    }
+
+    public Part getArchivoCarga() {
+        return archivoCarga;
+    }
+
+    public void setArchivoCarga(Part archivoCarga) {
+        this.archivoCarga = archivoCarga;
     }
 
 }
