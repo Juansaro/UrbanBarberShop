@@ -95,18 +95,15 @@ public class CitaSesion implements Serializable {
         usuarios = usuarioFacadeLocal.findAll();
         citTemporal = new Cita();
         listaServiciosAgendados.addAll(servicioFacadeLocal.findAll());
-        listaUltimaFecha.addAll(citaFacadeLocal.findAll());
+        listaServiciosEspera = new ArrayList<>();
         cit_costototal = 0;
         cita = new Cita();
-    }
-
-    public void guardarServicioTemporal(Servicio srIn) {
-        this.serTemporal = srIn;
     }
 
     public void cargaServiciosSolicitados(Servicio srIn) {
         listaServiciosEspera.add(srIn);
         cit_costototal = cit_costototal + srIn.getCosto();
+        serTemporal = srIn;
     }
 
     public void eliminarServicioTemporal(Servicio sTemporal) {
@@ -127,7 +124,7 @@ public class CitaSesion implements Serializable {
     }
 
     public boolean validarCitaRepetida() {
-        listaUltimaFecha.addAll(citaFacadeLocal.findAll());
+        listaUltimaFecha.addAll(citaFacadeLocal.leerTodos(usu.getUsuLog()));
         if (listaUltimaFecha != null && !listaUltimaFecha.isEmpty()) {
             Cita item = listaUltimaFecha.get(listaUltimaFecha.size() - 1);
             Date registro = item.getRegistroActual();
@@ -160,25 +157,30 @@ public class CitaSesion implements Serializable {
                         this.cit.setCosto(cit_costototal);
                         citaFacadeLocal.create(cit);
                         //Iterator para registrar datos en la colección de citas y servicios (Funciona)
+
                         for (Iterator<Servicio> it = listaServiciosEspera.iterator(); it.hasNext();) {
                             Servicio srIt = it.next();
                             cit.setServicioCollection(listaServiciosEspera);
+                            //citaFacadeLocal.registrarCitaServicio(cit.getIdCita(), listaServiciosEspera.get(1).getIdServicio());
                         }
+
                         //Me permite leer SOLO las citas del cliente logeado
                         citas = citaFacadeLocal.leerTodos(usu.getUsuLog());
                         //Se envian los parámetros del nombre y correo desde el usuLog (Inutil hasta poder mandar la lista de las listas asignadas **)
                         CitaMail.correoCita(
-                        usu.getUsuLog().getNombre(),
-                        usu.getUsuLog().getApellido(),
-                        //cit.getServicioIdServicio().getNombre(),//No funciona así toca con un filtro en la colección de 
-                        usu.getUsuLog().getCorreo(),
-                        cit.getFechaCita()
-                    );
+                                usu.getUsuLog().getNombre(),
+                                usu.getUsuLog().getApellido(),
+                                //cit.getServicioIdServicio().getNombre(),//No funciona así toca con un filtro en la colección de 
+                                usu.getUsuLog().getCorreo(),
+                                cit.getFechaCita()
+                        );
                         //Limpieza del arrayList temporal
                         listaServiciosEspera.clear();
                         listaUltimaFecha.clear();
                         //Limpieza del acumulador del costo total en 0
                         this.cit_costototal = 0;
+                        //Limpieza servicios
+                        serTemporal = new Servicio();
                         //Redirección
                         FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/cliente/consultarCita.xhtml");
                         //Mensaje
@@ -211,9 +213,9 @@ public class CitaSesion implements Serializable {
         try {
             citTemporal.setEstadoAsignacionIdEstadoAsignacion(estadoAsignacion);
             //this.citTemporal.setServicioIdServicio(servicio);
-            
+
             citaFacadeLocal.edit(citTemporal);
-            
+
             citTemporal = new Cita();
             estadoAsignacion = new EstadoAsignacion();
             citas = citaFacadeLocal.findAll();
@@ -237,7 +239,6 @@ public class CitaSesion implements Serializable {
 
     }
 
-    
     public void avisarEmailCliente(Cita c) {
         try {
             switch (c.getEstadoAsignacionIdEstadoAsignacion().toString()) {
@@ -274,6 +275,7 @@ public class CitaSesion implements Serializable {
             System.out.println("Error");
         }
     }
+
     public List<Usuario> leerBarberos() {
         return citaFacadeLocal.leerBarberos(r_bar.getRolBarbero());
     }

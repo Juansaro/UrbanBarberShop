@@ -46,5 +46,7 @@ public interface CitaFacadeLocal {
     public boolean validarFechaCita(Date CitaIn);
 
     public boolean removerServicioCita(int fk_cita);
+
+    public void registrarCitaServicio(int fk_idCita, int fk_idServicio);
     
 }

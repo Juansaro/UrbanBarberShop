@@ -265,7 +265,7 @@ public class UsuarioSesion implements Serializable {
             //Limpieza local
             usuTemporal = new Usuario();
             //Limpieza de las FK'S
-            
+            tipoRol = new TipoRol();
             usuarios = usuarioFacadeLocal.findAll();
             //Mensaje
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario modificado", "Usuario modificado"));

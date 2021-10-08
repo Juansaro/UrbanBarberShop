@@ -49,7 +49,7 @@ public class CitaFacade extends AbstractFacade<Cita> implements CitaFacadeLocal 
             return null;
         }
     }
-    
+
     @Override
     public boolean removerServicioCita(int fk_cita) {
         try {
@@ -64,18 +64,18 @@ public class CitaFacade extends AbstractFacade<Cita> implements CitaFacadeLocal 
 
     @Override
     public boolean validarFechaCita(Date CitaIn) {
-      
-            StoredProcedureQuery q = em.createStoredProcedureQuery("VALIDAR_CITA")
-                    .registerStoredProcedureParameter(1, Date.class,ParameterMode.IN)
-                    .registerStoredProcedureParameter(2, boolean.class,ParameterMode.OUT)
-                    .setParameter(1, CitaIn);
-                    
-            q.execute();
-            //Out (2)
-            boolean commentCount =  (boolean) q.getOutputParameterValue(2);
-           
-            return commentCount;
-        
+
+        StoredProcedureQuery q = em.createStoredProcedureQuery("VALIDAR_CITA")
+                .registerStoredProcedureParameter(1, Date.class, ParameterMode.IN)
+                .registerStoredProcedureParameter(2, boolean.class, ParameterMode.OUT)
+                .setParameter(1, CitaIn);
+
+        q.execute();
+        //Out (2)
+        boolean commentCount = (boolean) q.getOutputParameterValue(2);
+
+        return commentCount;
+
     }
 
     @Override
@@ -109,7 +109,7 @@ public class CitaFacade extends AbstractFacade<Cita> implements CitaFacadeLocal 
             return null;
         }
     }
-    
+
     @Override
     public List<Usuario> leerBarberos(TipoRol r) {
         try {
@@ -121,6 +121,19 @@ public class CitaFacade extends AbstractFacade<Cita> implements CitaFacadeLocal 
             return null;
         }
     }
+
+    @Override
+    public void registrarCitaServicio(int fk_idCita, int fk_idServicio) {
+        try {
+            Query q = em.createNativeQuery("INSERT INTO cita_has_servicio (cita_id_cita, servicio_id_servicio) VALUES (?, ?)");
+            q.setParameter(1, fk_idCita);
+            q.setParameter(2, fk_idServicio);
+            
+        } catch (Exception e) {
+
+        }
+    }
+
     /*
     @Override
     public List<Cita> leerServicios(TipoRol r) {
@@ -133,16 +146,5 @@ public class CitaFacade extends AbstractFacade<Cita> implements CitaFacadeLocal 
             return null;
         }
     }*/
-    /*
-    public List<Servicio> leerServiciosAgendados(Cita c){
-        try {
-            em.getEntityManagerFactory().getCache().evictAll();
-            Query qt = em.createQuery("SELECT s FROM Servicio s");
-            qt.setParameter(name, c);
-            return qt.getResultList();
-        } catch (Exception e) {
-            return null;
-        }
-    }
-    */
+     
 }

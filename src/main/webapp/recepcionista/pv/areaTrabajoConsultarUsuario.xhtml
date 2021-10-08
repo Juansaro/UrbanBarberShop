@@ -73,7 +73,11 @@
                                 <p:column headerText="Numero de telefono:" filterBy="#{u.numeroTelefono}" filterMatchMode="contains" >
                                     <h:outputText value="#{u.numeroTelefono}"  /> 
                                 </p:column>
-
+                                
+                                <p:column headerText="Ciudad" filterBy="#{u.tipoRolNumeroRol}" filterMatchMode="contains" >
+                                    <h:outputText value="#{u.tipoRolNumeroRol}"  /> 
+                                </p:column>
+                                
                                 <p:column headerText="Ciudad" filterBy="#{u.ciudadNumeroCiudad}" filterMatchMode="contains" >
                                     <h:outputText value="#{u.ciudadNumeroCiudad}"  /> 
                                 </p:column>
