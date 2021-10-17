@@ -136,10 +136,6 @@ public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioFac
         }
     }
     
-    /**
-     *
-     * @return
-     */
     @Override
     public List<Usuario> leerBarberos() {
         try {

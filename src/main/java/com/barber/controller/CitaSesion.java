@@ -232,7 +232,10 @@ public class CitaSesion implements Serializable {
             this.citaFacadeLocal.remove(c);
             this.citaFacadeLocal.removerServicioCita(c.getIdCita());
             citas = citaFacadeLocal.findAll();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cita eliminada", "Cita eliminada"));
+            FacesContext.getCurrentInstance()
+            .addMessage(null, new FacesMessage
+                (FacesMessage.SEVERITY_INFO, "Cita eliminada", "Cita eliminada")
+            );
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de eliminación", "Error de eliminación"));
         }
