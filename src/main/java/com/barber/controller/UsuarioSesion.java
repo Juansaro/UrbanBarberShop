@@ -152,6 +152,15 @@ public class UsuarioSesion implements Serializable {
         }
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "El usuario no existe", "El usuario no existe"));
     }
+    
+    public void validarUsuarioSesion() throws IOException {
+
+        if (usuLog == null || usuLog.getCorreo() == null) {
+            FacesContext fc = FacesContext.getCurrentInstance();
+            fc.getExternalContext().invalidateSession();
+            fc.getExternalContext().redirect("../index.xhtml");
+        }
+    }
 
     //Registrar usuario
     public void registrarUsuario() {

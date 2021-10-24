@@ -85,6 +85,7 @@ com\barber\EJB\TipoIdentificacionFacadeLocal.class
 com\barber\model\Producto.class
 com\barber\EJB\PedidoFacadeLocal.class
 com\barber\controller\EstadoAsignacionRequest.class
+com\hotel\utilidades\ImgProServlet.class
 com\barber\model\Calificacion_.class
 com\barber\EJB\ProveedorFacadeLocal.class
 com\barber\model\Bodega_.class
