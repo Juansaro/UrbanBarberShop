@@ -44,7 +44,7 @@
 
                                 <p:column headerText="Servicios"> 
                                     <ui:repeat value="#{item.servicioCollection}" var="servicios">
-                                        <h:outputText value="#{servicios.costo}" /><br/>
+                                        <h:outputText value="#{servicios.toString()}" /><br/>
                                     </ui:repeat>
                                 </p:column>
 

@@ -127,18 +127,18 @@ public class UsuarioSesion implements Serializable {
                 if (usuLog.getContrasena().equals(contrasena)) {
                     switch (usuLog.getTipoRolNumeroRol().toString()) {
                         case "Recepcionista":
-                            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("correo", correoUsuario);
-                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Bienvenido!", "Bienvenido!"));
+                            FacesContext fc = FacesContext.getCurrentInstance();
+                            //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Bienvenido!", "Bienvenido!"));
                             FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/recepcionista/index.xhtml");
                             break;
                         case "Cliente":
-                            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("correo", correoUsuario);
-                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Bienvenido!", "Bienvenido!"));
+                            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("correo", usuLog);
+                            //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Bienvenido!", "Bienvenido!"));
                             FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/cliente/index.xhtml");
                             break;
                         case "Barbero":
-                            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("correo", correoUsuario);
-                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Bienvenido!", "Bienvenido!"));
+                            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("correo", usuLog);
+                            //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Bienvenido!", "Bienvenido!"));
                             FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/barbero/index.xhtml");
                             break;
                         default:

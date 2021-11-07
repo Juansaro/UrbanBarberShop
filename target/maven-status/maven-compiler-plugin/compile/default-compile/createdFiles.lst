@@ -99,7 +99,5 @@ com\barber\model\Producto_.class
 com\barber\model\TipoTelefono.class
 com\barber\EJB\TipoIdentificacionFacade.class
 com\barber\controller\CitaSesion.class
-com\barber\controller\ServicioSesion.class
 com\barber\model\Proveedor_.class
 com\barber\utilidades\CitaMailEspera.class
-com\barber\controller\ProductoSesion.class

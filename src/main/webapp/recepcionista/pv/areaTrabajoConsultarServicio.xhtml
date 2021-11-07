@@ -16,7 +16,7 @@
                         <br/>
                         
                         <h:form id="frmPrincipal">
-                            <p:dataTable id="tabla" emptyMessage="Ninguna servicio registrado" value="#{servicioSesion.servicios}" 
+                            <p:dataTable id="tabla" emptyMessage="Ninguna servicio registrado" value="#{servicioView.servicios}" 
                                          var="s" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
                                          >
 
@@ -37,7 +37,7 @@
                                     <h:commandButton class="btn btn-warning rounded-pill"
                                                      html5:data-toggle="modal"
                                                      html5:data-target="#exampleModal"
-                                                     action="#{servicioSesion.guardarTemporal(s)}"  
+                                                     action="#{servicioView.guardarTemporal(s)}"  
                                                      value="Editar" >
                                         <f:ajax render=":formActualizar"> </f:ajax>
                                     </h:commandButton>
@@ -46,7 +46,7 @@
 
                                 <p:column headerText=" " exportable="false" >
 
-                                    <h:commandLink class="btn btn-danger rounded-pill" action="#{servicioSesion.eliminarServicio(s)}" value="Eliminar"/>
+                                    <h:commandLink class="btn btn-danger rounded-pill" action="#{servicioView.eliminarServicio(s)}" value="Eliminar"/>
 
                                 </p:column>  
 
@@ -69,16 +69,16 @@
                     </div>
                     <h:form>
                         <div class="modal-body">
-                            <h:inputText value="#{servicioSesion.serTemporal.nombre}" required="true" html5:placeholder="Nombre" class="form-control"/><br/>
+                            <h:inputText value="#{servicioView.serTemporal.nombre}" required="true" html5:placeholder="Nombre" class="form-control"/><br/>
 
-                            <h:inputText value="#{servicioSesion.serTemporal.descripcion}" class="form-control" id="nombre" required="true" html5:placeholder="Descripción" /><br/>
+                            <h:inputText value="#{servicioView.serTemporal.descripcion}" class="form-control" id="nombre" required="true" html5:placeholder="Descripción" /><br/>
 
-                            <h:inputText value="#{servicioSesion.serTemporal.costo}" class="form-control" id="descripcion" html5:placeholder="Costo" /><br/>
+                            <h:inputText value="#{servicioView.serTemporal.costo}" class="form-control" id="descripcion" html5:placeholder="Costo" /><br/>
 
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <h:commandButton action="#{servicioSesion.editarServicio()}" class="btn btn-primary" value="Editar.">
+                            <h:commandButton action="#{servicioView.editarServicio()}" class="btn btn-primary" value="Editar.">
                             </h:commandButton>
                         </div>
                     </h:form>

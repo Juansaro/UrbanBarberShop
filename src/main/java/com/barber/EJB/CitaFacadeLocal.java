@@ -6,6 +6,7 @@
 package com.barber.EJB;
 
 import com.barber.model.Cita;
+import com.barber.model.Servicio;
 import com.barber.model.TipoRol;
 import com.barber.model.Usuario;
 import java.util.Date;
@@ -47,6 +48,8 @@ public interface CitaFacadeLocal {
 
     public boolean removerServicioCita(int fk_cita);
 
-    public void registrarCitaServicio(int fk_idCita, int fk_idServicio);
-    
+    public List<Cita> leerClientes(Usuario usu_barbero);
+
+    public void registrarCitaServicio(int fk_idCita, Servicio fk_idServicio);
+
 }

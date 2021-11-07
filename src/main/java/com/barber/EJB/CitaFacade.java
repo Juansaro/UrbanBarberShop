@@ -6,6 +6,7 @@
 package com.barber.EJB;
 
 import com.barber.model.Cita;
+import com.barber.model.Servicio;
 import com.barber.model.TipoRol;
 import com.barber.model.Usuario;
 import java.util.Date;
@@ -97,13 +98,45 @@ public class CitaFacade extends AbstractFacade<Cita> implements CitaFacadeLocal 
             return false;
         }
     }
+    /*
+    @Override
+    public boolean crearCitaHasServicio(Cita citaIn, int fk_servicio, int estado_asignacion_id_estado_asignacion, Usuario usuIn) {
+        try {
+            Query c = em.createNativeQuery(
+                    "INSERT INTO cita "
+                    + "(fecha_cita, servicio_id_servicio, estado_asignacion_id_estado_asignacion, usuario_id_usuario) "
+                    + "VALUES (?, ?, ?, ?);"
+            );
+            c.setParameter(1, citaIn.getFechaCita());
+            c.setParameter(2, citaIn.getEstadoAsignacionIdEstadoAsignacion());
+            //c.setParameter(3, citaIn.getUsuarioIdUsuario());
+            c.setParameter(4, citaIn.getIdCita());
 
+            c.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+*/
     @Override
     public List<Cita> leerTodos(Usuario usu_cita) {
         try {
             em.getEntityManagerFactory().getCache().evictAll();
             Query qt = em.createQuery("SELECT c FROM Cita c WHERE c.idCliente = :usu_cita");
             qt.setParameter("usu_cita", usu_cita);
+            return qt.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+    @Override
+    public List<Cita> leerClientes(Usuario usu_barbero) {
+        try {
+            em.getEntityManagerFactory().getCache().evictAll();
+            Query qt = em.createQuery("SELECT c FROM Cita c WHERE c.idBarbero = :usu_barbero");
+            qt.setParameter("usu_barbero", usu_barbero);
             return qt.getResultList();
         } catch (Exception e) {
             return null;
@@ -123,12 +156,12 @@ public class CitaFacade extends AbstractFacade<Cita> implements CitaFacadeLocal 
     }
 
     @Override
-    public void registrarCitaServicio(int fk_idCita, int fk_idServicio) {
+    public void registrarCitaServicio(int fk_idCita, Servicio fk_idServicio) {
         try {
             Query q = em.createNativeQuery("INSERT INTO cita_has_servicio (cita_id_cita, servicio_id_servicio) VALUES (?, ?)");
             q.setParameter(1, fk_idCita);
-            q.setParameter(2, fk_idServicio);
-            
+            q.setParameter(2, fk_idServicio.getIdServicio());
+            q.executeUpdate();
         } catch (Exception e) {
 
         }

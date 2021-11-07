@@ -82,22 +82,28 @@ public class CitaSesion implements Serializable {
     //Formato de fecha y hora actual
     private float cit_costototal = 0;
 
-    private Servicio serTemporal = new Servicio();
-    private Cita cit = new Cita();
-    private Cita citTemporal = new Cita();
+    private Servicio serTemporal;
+    private Cita cit;
+    private Cita citTemporal;
     //private Servicio ser = new Servicio();
 
     @PostConstruct
     public void init() {
+        cit = new Cita();
+        citTemporal = new Cita();
         citas = citaFacadeLocal.findAll();
         estadoAsignaciones = estadoAsignacionFacadeLocal.findAll();
         servicios = servicioFacadeLocal.findAll();
         usuarios = usuarioFacadeLocal.findAll();
         citTemporal = new Cita();
+        serTemporal = new Servicio();
         listaServiciosAgendados.addAll(servicioFacadeLocal.findAll());
-        listaServiciosEspera = new ArrayList<>();
         cit_costototal = 0;
         cita = new Cita();
+        listaServiciosEspera.clear();
+        listaUltimaFecha.clear();
+        //Limpieza del acumulador del costo total en 0
+        cit_costototal = 0;
     }
 
     public void cargaServiciosSolicitados(Servicio srIn) {
@@ -148,6 +154,7 @@ public class CitaSesion implements Serializable {
                     if (listaServiciosEspera.isEmpty()) {
                         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "No tienes ningun servicio seleccionado", "No tienes ningun servicio seleccionado"));
                     } else {
+                        //List<Servicio> servicios = new List<Servicio>;
                         this.cit.setEstadoAsignacionIdEstadoAsignacion(est.citaEspera());
                         //Se establece el usuario logeado con la inyección de dependencias desde el UsuarioSesion -> usuLog
                         this.cit.setIdCliente(usu.getUsuLog());
@@ -157,13 +164,17 @@ public class CitaSesion implements Serializable {
                         this.cit.setCosto(cit_costototal);
                         citaFacadeLocal.create(cit);
                         //Iterator para registrar datos en la colección de citas y servicios (Funciona)
-
+                        int contador = 0;
                         for (Iterator<Servicio> it = listaServiciosEspera.iterator(); it.hasNext();) {
                             Servicio srIt = it.next();
-                            cit.setServicioCollection(listaServiciosEspera);
+                            servicios = listaServiciosEspera;
+                            citaFacadeLocal.registrarCitaServicio(cit.getIdCita(), servicios.get(contador));
+                            contador++;
+                            //System.out.println(listaServiciosEspera.get(0) + " " + listaServiciosAgendados.get(1));
+                            //cit.setServicioCollection(listaServiciosEspera);
                             //citaFacadeLocal.registrarCitaServicio(cit.getIdCita(), listaServiciosEspera.get(1).getIdServicio());
                         }
-
+                        
                         //Me permite leer SOLO las citas del cliente logeado
                         citas = citaFacadeLocal.leerTodos(usu.getUsuLog());
                         //Se envian los parámetros del nombre y correo desde el usuLog (Inutil hasta poder mandar la lista de las listas asignadas **)
@@ -179,6 +190,7 @@ public class CitaSesion implements Serializable {
                         listaUltimaFecha.clear();
                         //Limpieza del acumulador del costo total en 0
                         this.cit_costototal = 0;
+                        contador = 0;
                         //Limpieza servicios
                         serTemporal = new Servicio();
                         //Redirección
@@ -233,9 +245,8 @@ public class CitaSesion implements Serializable {
             this.citaFacadeLocal.removerServicioCita(c.getIdCita());
             citas = citaFacadeLocal.findAll();
             FacesContext.getCurrentInstance()
-            .addMessage(null, new FacesMessage
-                (FacesMessage.SEVERITY_INFO, "Cita eliminada", "Cita eliminada")
-            );
+                    .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cita eliminada", "Cita eliminada")
+                    );
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de eliminación", "Error de eliminación"));
         }
@@ -285,6 +296,10 @@ public class CitaSesion implements Serializable {
 
     public List<Cita> leerTodos() {
         return citaFacadeLocal.leerTodos(usu.getUsuLog());
+    }
+
+    public List<Cita> leerClientes() {
+        return citaFacadeLocal.leerClientes(usu.getUsuLog());
     }
 
     public List<Cita> leerCitas() {
