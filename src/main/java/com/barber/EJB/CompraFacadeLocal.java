@@ -6,6 +6,7 @@
 package com.barber.EJB;
 
 import com.barber.model.Compra;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -29,5 +30,7 @@ public interface CompraFacadeLocal {
     List<Compra> findRange(int[] range);
 
     int count();
+
+    public boolean registrarCompra(Date fechaIn, int proveedorIn);
     
 }

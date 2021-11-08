@@ -33,5 +33,9 @@ public interface ServicioFacadeLocal {
     public Servicio validarSiExiste(String nombreIn);
 
     public boolean crearServicio(String ser_nombre, String ser_descripcion, float ser_costo);
+
+    public Servicio encontrarServicio(int idServicio);
+
+    public boolean actualizarServicios(int ser, float costo);
     
 }

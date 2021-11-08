@@ -129,7 +129,7 @@ public class UsuarioSesion implements Serializable {
                         case "Recepcionista":
                             FacesContext fc = FacesContext.getCurrentInstance();
                             //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Bienvenido!", "Bienvenido!"));
-                            FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/recepcionista/index.xhtml");
+                            fc.getExternalContext().redirect("/UrbanBarberShop/faces/recepcionista/index.xhtml");
                             break;
                         case "Cliente":
                             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("correo", usuLog);

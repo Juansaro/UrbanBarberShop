@@ -165,8 +165,7 @@ public class CitaSesion implements Serializable {
                         citaFacadeLocal.create(cit);
                         //Iterator para registrar datos en la colección de citas y servicios (Funciona)
                         int contador = 0;
-                        for (Iterator<Servicio> it = listaServiciosEspera.iterator(); it.hasNext();) {
-                            Servicio srIt = it.next();
+                        for (Servicio srIt : listaServiciosEspera) {
                             servicios = listaServiciosEspera;
                             citaFacadeLocal.registrarCitaServicio(cit.getIdCita(), servicios.get(contador));
                             contador++;

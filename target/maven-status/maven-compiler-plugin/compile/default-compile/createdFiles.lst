@@ -7,6 +7,7 @@ com\barber\utilidades\CitaMailEspera$1.class
 com\barber\model\Usuario.class
 com\barber\utilidades\ImgServletProducto.class
 com\barber\utilidades\Mail$1.class
+com\barber\controller\ServicioView.class
 com\barber\model\Factura_.class
 com\barber\utilidades\CitaMail$1.class
 com\barber\EJB\ServicioFacadeLocal.class
@@ -92,6 +93,7 @@ com\barber\model\Bodega_.class
 com\barber\controller\BodegaSesion.class
 com\barber\EJB\BodegaFacade.class
 com\barber\model\Ciudad.class
+com\barber\controller\ProductoView.class
 com\barber\EJB\TipoRolFacadeLocal.class
 com\barber\model\Calificacion.class
 com\barber\utilidades\envioMasivoServicios$1.class

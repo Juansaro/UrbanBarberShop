@@ -6,6 +6,7 @@
 package com.barber.EJB;
 
 import com.barber.model.Servicio;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -53,5 +54,31 @@ public class ServicioFacade extends AbstractFacade<Servicio> implements Servicio
         } catch (Exception e) {
             return false;
         }    
-    } 
+    }
+    
+    @Override
+    public boolean actualizarServicios(int ser, float costo) {
+        try {
+            Query qr = em.createNativeQuery("UPDATE servicio SET costo = ? WHERE (id_servicio = ?)");
+            qr.setParameter(1, costo);
+            qr.setParameter(2, ser);
+            qr.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
+    
+    @Override
+    public Servicio encontrarServicio(int idServicio){
+        try {
+            em.getEntityManagerFactory().getCache().evictAll();
+            Query qt = em.createQuery("SELECT s FROM Servicio s WHERE s.idServicio = :s");
+            qt.setParameter("s", idServicio);
+            return (Servicio) qt.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

@@ -6,6 +6,7 @@
 package com.barber.EJB;
 
 import com.barber.model.DetalleCompra;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -29,5 +30,7 @@ public interface DetalleCompraFacadeLocal {
     List<DetalleCompra> findRange(int[] range);
 
     int count();
+
+    public void registrarDetalleCompra(int fkCompra, int cantidadSolicitada, Date fechaRecibido, int fkProducto, float costoTotal);
     
 }

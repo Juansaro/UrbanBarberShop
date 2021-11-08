@@ -6,9 +6,11 @@
 package com.barber.EJB;
 
 import com.barber.model.Compra;
+import java.util.Date;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +29,19 @@ public class CompraFacade extends AbstractFacade<Compra> implements CompraFacade
 
     public CompraFacade() {
         super(Compra.class);
+    }
+    
+    @Override
+    public boolean registrarCompra(Date fechaIn, int proveedorIn){
+        try {
+            Query qr = em.createNativeQuery("INSERT INTO compra (fecha_solicitud, numero_proveedor) VALUES (?, ?)");
+            qr.setParameter(1, fechaIn);
+            qr.setParameter(2, proveedorIn);
+            qr.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
     
 }
