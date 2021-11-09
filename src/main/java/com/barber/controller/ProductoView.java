@@ -54,9 +54,9 @@ public class ProductoView implements Serializable{
     
     @PostConstruct
     private void init(){
-        productos = productoFacadeLocal.findAll();
-        bodegas = bodegaFacadeLocal.findAll();
-        proveedores = proveedorFacadeLocal.findAll();
+        productos = productoFacadeLocal.leerTodos();
+        bodegas = bodegaFacadeLocal.leerTodos();
+        proveedores = proveedorFacadeLocal.leerTodos();
         producto = new Producto();
     }
     

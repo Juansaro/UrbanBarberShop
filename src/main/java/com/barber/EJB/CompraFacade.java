@@ -7,6 +7,7 @@ package com.barber.EJB;
 
 import com.barber.model.Compra;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -41,6 +42,17 @@ public class CompraFacade extends AbstractFacade<Compra> implements CompraFacade
             return true;
         } catch (Exception e) {
             return false;
+        }
+    }
+    
+    @Override
+    public List<Compra> leerTodos() {
+        try {
+            em.getEntityManagerFactory().getCache().evictAll();
+            Query qt = em.createQuery("SELECT c FROM Compra c");
+            return qt.getResultList();
+        } catch (Exception e) {
+            return null;
         }
     }
     

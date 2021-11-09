@@ -33,5 +33,7 @@ public interface BodegaFacadeLocal {
     public Bodega validarSiExiste(String nombreIn);
 
     public boolean crearBodega(String bod_nombre, int bod_existencias);
+
+    public List<Bodega> leerTodos();
     
 }

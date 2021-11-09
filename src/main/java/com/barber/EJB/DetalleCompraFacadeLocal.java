@@ -32,5 +32,7 @@ public interface DetalleCompraFacadeLocal {
     int count();
 
     public void registrarDetalleCompra(int fkCompra, int cantidadSolicitada, Date fechaRecibido, int fkProducto, float costoTotal);
+
+    public List<DetalleCompra> leerTodos();
     
 }

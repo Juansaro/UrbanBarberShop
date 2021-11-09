@@ -71,7 +71,7 @@ public class BodegaSesion implements Serializable{
     
     @PostConstruct
     public void init(){
-        bodegas = bodegaFacadeLocal.findAll();
+        bodegas = bodegaFacadeLocal.leerTodos();
         bodega = new Bodega();
     }
     

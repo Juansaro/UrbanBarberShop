@@ -1,4 +1,3 @@
-
 package com.barber.controller;
 
 import com.barber.EJB.CompraFacadeLocal;
@@ -10,18 +9,25 @@ import com.barber.model.DetalleCompra;
 import com.barber.model.Producto;
 import com.barber.model.Proveedor;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named(value = "compraSesion")
 @SessionScoped
-public class CompraSesion implements Serializable{
-    
+public class CompraSesion implements Serializable {
+
     @EJB
     private CompraFacadeLocal compraFacadeLocal;
     @EJB
@@ -30,7 +36,7 @@ public class CompraSesion implements Serializable{
     private DetalleCompraFacadeLocal detalleCompraFacadeLocal;
     @EJB
     private ProductoFacadeLocal ProductoFacadeLocal;
-    
+
     private Compra compra;
     @Inject
     private Proveedor proveedor;
@@ -38,69 +44,128 @@ public class CompraSesion implements Serializable{
     private DetalleCompra detalleIn;
     @Inject
     private Producto productoIn;
-    
+
     private List<Compra> compras;
     private List<Proveedor> proveedores;
     private List<DetalleCompra> detalles;
+    private List<Producto> productosTemporales;
+    private List<Producto> productosSolicitados;
     private List<DetalleCompra> detallesTotales;
     private List<Producto> productos;
-    
-    private Compra com = new Compra();
-    private Compra comTemporal = new Compra();
-    
-    private float acumuladorCostoTotal = 0;
-    
+
+    private Compra com;
+    private Compra comTemporal;
+
+    private float acumuladorCostoTotal;
+
     @PostConstruct
-    public void init(){
+    public void init() {
+        productosSolicitados = ProductoFacadeLocal.leerTodos();
+        productosTemporales = new ArrayList<>();
         detalles = new ArrayList<>();
-        compras = compraFacadeLocal.findAll();
-        proveedores = proveedorFacadeLocal.findAll();
-        productos = ProductoFacadeLocal.findAll();
-    }
-    
-    public void guardarDetallesTemporales(DetalleCompra detIn){
-        //Parseo de Integer a float para poder hacer el calculo de cantidades * costo del producto
-        Integer parse = detIn.getCantidadSolicitada();
-        float cantidadParseada = parse.floatValue();
-        //Cálculo
-        acumuladorCostoTotal = acumuladorCostoTotal + cantidadParseada * detIn.getProductoIdProducto().getPrecio();
-        detIn.setCostoTotal(acumuladorCostoTotal);
-        //Agregación
-        detalles.add(detIn);
-    }
-    
-    public void eliminarTemporal(DetalleCompra detIn){
-        //Cálculo
-        acumuladorCostoTotal = acumuladorCostoTotal - detIn.getCostoTotal();
-        detIn.setCostoTotal(acumuladorCostoTotal);
-        //Agregación
-        detalles.remove(detIn);
+        proveedorFacadeLocal.leerTodos();
+        compras = compraFacadeLocal.leerTodos();
+        proveedores = proveedorFacadeLocal.leerTodos();
+        productos = ProductoFacadeLocal.leerTodos();
+        com = new Compra();
+        com.setFechaSolicitud(ObtenerFechaActual());
+        comTemporal = new Compra();
     }
 
-    public void registrarCompra(){
+    public void guardarProveedorTemporal(Proveedor provIn) {
+        proveedor = provIn;
+    }
+
+    public void guardarProductoTemporal(Producto prodIn) {
+        productoIn = prodIn;
+    }
+
+    public Date ObtenerFechaActual() {
+        try {
+            DateTimeFormatter d = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            String fechaActual = d.format(LocalDateTime.now());
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            Date fechaFormateada = formato.parse(fechaActual);
+            return fechaFormateada;
+        } catch (ParseException e) {
+            return null;
+        }
+    }
+
+    public void guardarDetallesTemporales() {
+        if (productoIn.getIdProducto() != null) {
+            if (detalleIn.getCantidadSolicitada() != 0) {
+                detalleIn.setProductoIdProducto(productoIn);
+                detalleIn.setFechaRecibido(ObtenerFechaActual());
+                //Parseo de Integer a float para poder hacer el calculo de cantidades * costo del producto
+                Integer parse = detalleIn.getCantidadSolicitada();
+                float cantidadParseada = parse.floatValue();
+                //Cálculo
+                float acum = 0;
+                acum = acum + cantidadParseada * detalleIn.getProductoIdProducto().getPrecio();
+                detalleIn.setCostoTotal(acum);
+                //Agregación
+                acumuladorCostoTotal = acumuladorCostoTotal + acum;
+                detalles.add(detalleIn);
+                detalleIn = new DetalleCompra();
+                productoIn = new Producto();
+            } else {
+                detalleIn = new DetalleCompra();
+                productoIn = new Producto();
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Escribe una cantidad", "Escribe una cantidad"));
+            }
+        } else {
+            detalleIn = new DetalleCompra();
+            productoIn = new Producto();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Ingresa un producto", "Ingresa un producto"));
+        }
+
+    }
+
+    public void eliminarTemporal(DetalleCompra detIn) {
+        //Cálculo
+        float acum = 0;
+        acum = acum + detIn.getCostoTotal();
+        //Agregación
+        detalles.remove(detIn);
+        acumuladorCostoTotal = acumuladorCostoTotal - acum;
+    }
+
+    public void registrarCompra() {
         try {
             int contador = 0;
-            for (DetalleCompra it: detalles){
-                detalleIn = detalles.get(contador);
-                detalleCompraFacadeLocal.registrarDetalleCompra(detalleIn.getNumeroCompra().getNumeroCompra(), detalleIn.getCantidadSolicitada(), detalleIn.getFechaRecibido(), detalleIn.getProductoIdProducto().getIdProducto(), detalleIn.getCostoTotal()
-                );
-            }
-            compraFacadeLocal.registrarCompra(com.getFechaSolicitud(), proveedor.getNumeroProveedor());
             
+            com.setNumeroProveedor(proveedor);
+            //compraFacadeLocal.registrarCompra(com.getFechaSolicitud(), proveedor.getNumeroProveedor());
+            compraFacadeLocal.create(com);
+            int idCompra = com.getNumeroCompra();
+            for (DetalleCompra it : detalles) {
+                detalleIn = detalles.get(contador);
+                int cantidad = detalleIn.getCantidadSolicitada();
+                Date fechaRecibido = detalleIn.getFechaRecibido();
+                int pIn = detalleIn.getProductoIdProducto().getIdProducto();
+                float costo = detalleIn.getCostoTotal();
+                detalleIn.setNumeroCompra(com);
+                detalleCompraFacadeLocal.registrarDetalleCompra(idCompra, cantidad, fechaRecibido, pIn, costo);
+                contador++;
+            }
+            contador = 0;
             acumuladorCostoTotal = 0;
             detalles = new ArrayList<>();
             detalleIn = new DetalleCompra();
-            detallesTotales = detalleCompraFacadeLocal.findAll();
-            compras = compraFacadeLocal.findAll();
+            proveedor = new Proveedor();
+            detalles = new ArrayList<>();
+            compras = compraFacadeLocal.leerTodos();
         } catch (Exception e) {
+        
         }
     }
-    
-    public void guardarTemporal(Compra c){
+
+    public void guardarTemporal(Compra c) {
         comTemporal = c;
     }
-    
-    public void editarCompra(){
+
+    public void editarCompra() {
         try {
             this.com.setNumeroProveedor(proveedor);
             compraFacadeLocal.edit(comTemporal);
@@ -108,15 +173,15 @@ public class CompraSesion implements Serializable{
         } catch (Exception e) {
         }
     }
-    
-    public void eliminarCompra(Compra c){
+
+    public void eliminarCompra(Compra c) {
         try {
             compraFacadeLocal.remove(c);
             compras = compraFacadeLocal.findAll();
         } catch (Exception e) {
         }
     }
-    
+
     public Compra getCompra() {
         return compra;
     }
@@ -212,5 +277,21 @@ public class CompraSesion implements Serializable{
     public void setAcumuladorCostoTotal(float acumuladorCostoTotal) {
         this.acumuladorCostoTotal = acumuladorCostoTotal;
     }
-    
+
+    public List<Producto> getProductosSolicitados() {
+        return productosSolicitados;
+    }
+
+    public void setProductosSolicitados(List<Producto> productosSolicitados) {
+        this.productosSolicitados = productosSolicitados;
+    }
+
+    public List<Producto> getProductosTemporales() {
+        return productosTemporales;
+    }
+
+    public void setProductosTemporales(List<Producto> productosTemporales) {
+        this.productosTemporales = productosTemporales;
+    }
+
 }

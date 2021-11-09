@@ -6,6 +6,7 @@
 package com.barber.EJB;
 
 import com.barber.model.Bodega;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -67,5 +68,16 @@ public class BodegaFacade extends AbstractFacade<Bodega> implements BodegaFacade
             return false;
         }    
     } 
+    
+    @Override
+    public List<Bodega> leerTodos() {
+        try {
+            em.getEntityManagerFactory().getCache().evictAll();
+            Query qt = em.createQuery("SELECT b FROM Bodega b");
+            return qt.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
     
 }

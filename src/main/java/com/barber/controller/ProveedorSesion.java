@@ -36,7 +36,7 @@ public class ProveedorSesion implements Serializable{
     
     @PostConstruct
     public void init(){
-        proveedores = proveedorFacadeLocal.findAll();
+        proveedores = proveedorFacadeLocal.leerTodos();
         proveedor = new Proveedor();
     }
     

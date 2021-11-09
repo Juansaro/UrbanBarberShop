@@ -7,6 +7,7 @@ package com.barber.EJB;
 
 import com.barber.model.DetalleCompra;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -42,6 +43,17 @@ public class DetalleCompraFacade extends AbstractFacade<DetalleCompra> implement
             qr.setParameter(5, costoTotal);
             qr.executeUpdate();
         } catch (Exception e) {
+        }
+    }
+    
+    @Override
+    public List<DetalleCompra> leerTodos() {
+        try {
+            em.getEntityManagerFactory().getCache().evictAll();
+            Query qt = em.createQuery("SELECT c FROM DetalleCompra c");
+            return qt.getResultList();
+        } catch (Exception e) {
+            return null;
         }
     }
     

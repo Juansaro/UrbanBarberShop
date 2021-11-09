@@ -32,5 +32,7 @@ public interface CompraFacadeLocal {
     int count();
 
     public boolean registrarCompra(Date fechaIn, int proveedorIn);
+
+    public List<Compra> leerTodos();
     
 }

@@ -17,23 +17,23 @@
                         <hr class="bg-white"/>
                         <h:form>
                             <h:outputLabel class="card-text font-weight-bold text-white" value="Nombre del producto:" for="nombreProducto" />
-                            <h:inputText class="form-control" id="nombreProducto" value="#{productoSesion.pro.nombreProducto}" html5:placeholder="Escribe el nombre" />
+                            <h:inputText class="form-control" id="nombreProducto" value="#{productoView.pro.nombreProducto}" html5:placeholder="Escribe el nombre" />
                             <h:outputLabel class="card-text font-weight-bold text-white" value="Descripción:" for="descripcion"/>
-                            <h:inputText class="form-control" id="descripcion" value="#{productoSesion.pro.descripcion}" html5:placeholder="Descripción" />
+                            <h:inputText class="form-control" id="descripcion" value="#{productoView.pro.descripcion}" html5:placeholder="Descripción" />
                             <h:outputLabel class="card-text font-weight-bold text-white" value="Precio" for="precio" />
-                            <h:inputText class="form-control" id="precio" value="#{productoSesion.pro.precio}" html5:placeholder="precio"/>
+                            <h:inputText class="form-control" id="precio" value="#{productoView.pro.precio}" html5:placeholder="precio"/>
                             <h:outputLabel class="card-text font-weight-bold text-white" value="Cantidad" for="cantidad" />
-                            <h:inputText class="form-control" id="cantidad" value="#{productoSesion.pro.cantidad}" html5:placeholder="cantidad"/>
+                            <h:inputText class="form-control" id="cantidad" value="#{productoView.pro.cantidad}" html5:placeholder="cantidad"/>
                             <h:outputLabel class="card-text font-weight-bold text-white" value="Elige la bodega:" for="bodegaIdBodega" />
-                            <h:selectOneMenu class="form-control" id="bodegaIdBodega" value="#{productoSesion.bodega.idBodega}" required="true">
-                                <f:selectItems value="#{productoSesion.bodegas}" var="bod" itemLabel="#{bod.nombre}" itemValue="#{bod.idBodega}"/>
+                            <h:selectOneMenu class="form-control" id="bodegaIdBodega" value="#{productoView.bodega.idBodega}" required="true">
+                                <f:selectItems value="#{productoView.bodegas}" var="bod" itemLabel="#{bod.nombre}" itemValue="#{bod.idBodega}"/>
                             </h:selectOneMenu>
                             <h:outputLabel class="card-text font-weight-bold text-white" value="Elige el proveedor:" for="idProveedor" />
-                            <h:selectOneMenu class="form-control" id="idProveedor" value="#{productoSesion.proveedor.numeroProveedor}" required="true">
-                                <f:selectItems value="#{productoSesion.proveedores}" var="prov" itemLabel="#{prov.correo}" itemValue="#{prov.numeroProveedor}"/>
+                            <h:selectOneMenu class="form-control" id="idProveedor" value="#{productoView.proveedor.numeroProveedor}" required="true">
+                                <f:selectItems value="#{productoView.proveedores}" var="prov" itemLabel="#{prov.correo}" itemValue="#{prov.numeroProveedor}"/>
                             </h:selectOneMenu>
                             <br/>
-                            <h:commandLink action="#{productoSesion.registrarProducto()}" class="btn btn-success btn-lg btn-block text-white rounded-pill" value="Guardar" />
+                            <h:commandLink action="#{productoView.registrarProducto()}" class="btn btn-success btn-lg btn-block text-white rounded-pill" value="Guardar" />
                             <br />
                         </h:form>
                     </div>
