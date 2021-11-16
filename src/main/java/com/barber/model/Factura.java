@@ -6,9 +6,7 @@
 package com.barber.model;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,11 +17,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -48,8 +44,6 @@ public class Factura implements Serializable {
     @NotNull
     @Column(name = "costo")
     private float costo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "facturaIdFactura", fetch = FetchType.LAZY)
-    private Collection<Calificacion> calificacionCollection;
     @JoinColumn(name = "cita_id_cita", referencedColumnName = "id_cita")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Cita citaIdCita;
@@ -82,15 +76,6 @@ public class Factura implements Serializable {
         this.costo = costo;
     }
 
-    @XmlTransient
-    public Collection<Calificacion> getCalificacionCollection() {
-        return calificacionCollection;
-    }
-
-    public void setCalificacionCollection(Collection<Calificacion> calificacionCollection) {
-        this.calificacionCollection = calificacionCollection;
-    }
-
     public Cita getCitaIdCita() {
         return citaIdCita;
     }
@@ -121,7 +106,7 @@ public class Factura implements Serializable {
 
     @Override
     public String toString() {
-        return "" +idFactura;
+        return "com.barber.model.Factura[ idFactura=" + idFactura + " ]";
     }
     
 }

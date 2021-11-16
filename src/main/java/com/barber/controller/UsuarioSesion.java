@@ -77,6 +77,8 @@ public class UsuarioSesion implements Serializable {
     @Inject
     private RolRequest r;
 
+    private UsuarioSesion validador = new UsuarioSesion();
+
     //Lista local
     private List<Usuario> usuarios;
     //Usar esta estructura para las FK (Listar)
@@ -116,6 +118,7 @@ public class UsuarioSesion implements Serializable {
         //usuLog = new Usuario();
         //Limpiar un formulario
         usuario = new Usuario();
+        //validador.validarUsuarioSesion();
     }
 
     //Login
@@ -129,7 +132,7 @@ public class UsuarioSesion implements Serializable {
                         case "Recepcionista":
                             FacesContext fc = FacesContext.getCurrentInstance();
                             //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Bienvenido!", "Bienvenido!"));
-                            fc.getExternalContext().redirect("/UrbanBarberShop/faces/recepcionista/index.xhtml");
+                            fc.getExternalContext().redirect("recepcionista/index.xhtml");
                             break;
                         case "Cliente":
                             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("correo", usuLog);
@@ -152,14 +155,26 @@ public class UsuarioSesion implements Serializable {
         }
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "El usuario no existe", "El usuario no existe"));
     }
-    
-    public void validarUsuarioSesion() throws IOException {
 
-        if (usuLog == null || usuLog.getCorreo() == null) {
-            FacesContext fc = FacesContext.getCurrentInstance();
-            fc.getExternalContext().invalidateSession();
-            fc.getExternalContext().redirect("../index.xhtml");
+    public void validarUsuarioSesion() {
+        try {
+            if (usuLog == null || usuLog.getCorreo() == null) {
+                FacesContext fc = FacesContext.getCurrentInstance();
+                FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+                FacesContext.getCurrentInstance().getExternalContext().redirect("../index.xhtml");
+            }
+        } catch (IOException e) {
         }
+
+    }
+
+    //Cerrar sesion
+    public void cerrarSesion() throws IOException {
+        //Se destruye la información almacenada en el FacesContext (Dentro del método validarUsuario())
+        usuLog = null;
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        FacesContext.getCurrentInstance().getExternalContext().redirect("../index.xhtml");
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Has cerrado sesión", "Has cerrado sesión"));
     }
 
     //Registrar usuario
@@ -183,15 +198,6 @@ public class UsuarioSesion implements Serializable {
         }
     }
 
-    //Cerrar sesion
-    public void cerrarSesion() throws IOException {
-        //Se destruye la información almacenada en el FacesContext (Dentro del método validarUsuario())
-        usuLog = null;
-        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Has cerrado sesión", "Has cerrado sesión"));
-        FacesContext.getCurrentInstance().getExternalContext().redirect("../index.xhtml");
-    }
-    
     //Carga inicial de datos de usuario
     public void cargarInicialDatos() {
         if (archivoCarga != null) {
@@ -214,11 +220,11 @@ public class UsuarioSesion implements Serializable {
                     CSVReader reader = new CSVReaderBuilder(new FileReader("C:\\cdi\\administrador\\archivos\\" + archivoCarga.getSubmittedFileName())).withCSVParser(conPuntoyComa).build();
                     String[] nextline;
                     while ((nextline = reader.readNext()) != null) {
-                        
+
                         Usuario usuObj = usuarioFacadeLocal.validarSiExiste(nextline[3]);
                         if (usuObj == null) {
-                           usuarioFacadeLocal.crearUsuario(nextline[0], nextline[1], nextline[2], nextline[3], Integer.parseInt(nextline[4]), Integer.parseInt(nextline[5]), Integer.parseInt(nextline[6]), nextline[7], Integer.parseInt(nextline[8]), nextline[9]);
-                        } else {             
+                            usuarioFacadeLocal.crearUsuario(nextline[0], nextline[1], nextline[2], nextline[3], Integer.parseInt(nextline[4]), Integer.parseInt(nextline[5]), Integer.parseInt(nextline[6]), nextline[7], Integer.parseInt(nextline[8]), nextline[9]);
+                        } else {
                             usuarioFacadeLocal.edit(usuObj);
                         }
                     }
@@ -254,7 +260,6 @@ public class UsuarioSesion implements Serializable {
 
     }
 
-
     //Recupera datos del usuario al cual se va a editar
     public void guardarTemporal(Usuario u) {
         usuTemporal = u;
@@ -282,7 +287,7 @@ public class UsuarioSesion implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de edición", "Error de edición"));
         }
     }
-    
+
     public void editarCliente() {
         try {
             //usuTemporal sirve para el ciclo de vida de SOLO la edición
@@ -293,20 +298,13 @@ public class UsuarioSesion implements Serializable {
             this.usuLog.setTipoTelefonoNumeroTipoTelefono(tipoTelefono);
             //El parámetro que usea para editar es usuTemporal
             usuarioFacadeLocal.edit(usuLog);
-            
+
             usuarios = usuarioFacadeLocal.findAll();
             //Mensaje
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario modificado", "Usuario modificado"));
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de edición", "Error de edición"));
         }
-    }
-
-    //Preparar página para eliminar
-    public String prepararEliminar() {
-        usuario = new Usuario();
-
-        return "/.xhtml";
     }
 
     //Eliminar
@@ -336,8 +334,8 @@ public class UsuarioSesion implements Serializable {
         }
 
     }
-    
-    public void avisoServicios(){
+
+    public void avisoServicios() {
         try {
             correos = usuarioFacadeLocal.leerCorreosClientes();
 

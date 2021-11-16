@@ -55,6 +55,9 @@ public class Compra implements Serializable {
     @JoinColumn(name = "numero_proveedor", referencedColumnName = "numero_proveedor")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Proveedor numeroProveedor;
+    @JoinColumn(name = "recepcionista", referencedColumnName = "id_usuario")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Usuario recepcionista;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "numeroCompra", fetch = FetchType.LAZY)
     private Collection<DetalleCompra> detalleCompraCollection;
 
@@ -92,6 +95,14 @@ public class Compra implements Serializable {
 
     public void setNumeroProveedor(Proveedor numeroProveedor) {
         this.numeroProveedor = numeroProveedor;
+    }
+
+    public Usuario getRecepcionista() {
+        return recepcionista;
+    }
+
+    public void setRecepcionista(Usuario recepcionista) {
+        this.recepcionista = recepcionista;
     }
 
     @XmlTransient

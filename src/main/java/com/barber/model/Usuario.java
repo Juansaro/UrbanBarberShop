@@ -84,10 +84,10 @@ public class Usuario implements Serializable {
     @Size(max = 255)
     @Column(name = "usu_foto")
     private String usuFoto;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdUsuario", fetch = FetchType.LAZY)
-    private Collection<DespachoProducto> despachoProductoCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioIdUsuario", fetch = FetchType.LAZY)
-    private Collection<Pedido> pedidoCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recepcionista", fetch = FetchType.LAZY)
+    private Collection<Compra> compraCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recepcionista", fetch = FetchType.LAZY)
+    private Collection<Despacho> despachoCollection;
     @JoinColumn(name = "ciudad_numero_ciudad", referencedColumnName = "numero_ciudad")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Ciudad ciudadNumeroCiudad;
@@ -187,21 +187,21 @@ public class Usuario implements Serializable {
     }
 
     @XmlTransient
-    public Collection<DespachoProducto> getDespachoProductoCollection() {
-        return despachoProductoCollection;
+    public Collection<Compra> getCompraCollection() {
+        return compraCollection;
     }
 
-    public void setDespachoProductoCollection(Collection<DespachoProducto> despachoProductoCollection) {
-        this.despachoProductoCollection = despachoProductoCollection;
+    public void setCompraCollection(Collection<Compra> compraCollection) {
+        this.compraCollection = compraCollection;
     }
 
     @XmlTransient
-    public Collection<Pedido> getPedidoCollection() {
-        return pedidoCollection;
+    public Collection<Despacho> getDespachoCollection() {
+        return despachoCollection;
     }
 
-    public void setPedidoCollection(Collection<Pedido> pedidoCollection) {
-        this.pedidoCollection = pedidoCollection;
+    public void setDespachoCollection(Collection<Despacho> despachoCollection) {
+        this.despachoCollection = despachoCollection;
     }
 
     public Ciudad getCiudadNumeroCiudad() {

@@ -11,6 +11,7 @@ import com.barber.EJB.ProveedorFacadeLocal;
 import com.barber.model.Bodega;
 import com.barber.model.Producto;
 import com.barber.model.Proveedor;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -34,19 +35,14 @@ public class ProductoView implements Serializable{
     private ProductoFacadeLocal productoFacadeLocal;
     @EJB
     private BodegaFacadeLocal bodegaFacadeLocal;
-    @EJB
-    private ProveedorFacadeLocal proveedorFacadeLocal;
     
     private Producto producto;
     
     @Inject
     private Bodega bodega;
-    @Inject
-    private Proveedor proveedor;
     
     private List<Producto> productos;
     private List<Bodega> bodegas;
-    private List<Proveedor> proveedores;
     
     private Producto pro = new Producto();
     private Producto proTemporal = new Producto();
@@ -56,7 +52,6 @@ public class ProductoView implements Serializable{
     private void init(){
         productos = productoFacadeLocal.leerTodos();
         bodegas = bodegaFacadeLocal.leerTodos();
-        proveedores = proveedorFacadeLocal.leerTodos();
         producto = new Producto();
     }
     
@@ -64,12 +59,11 @@ public class ProductoView implements Serializable{
     public void registrarProducto(){
         try {
             pro.setBodegaIdBodega(bodega);
-            pro.setProveedorNumeroProveedor(proveedor);
             productoFacadeLocal.create(pro);
             productos = productoFacadeLocal.findAll();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Producto registrado", "Producto registrado"));
             FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/recepcionista/consultarProducto.xhtml");
-        } catch (Exception e) {
+        } catch (IOException e) {
         }
     }
     
@@ -82,7 +76,6 @@ public class ProductoView implements Serializable{
     public void editarProducto() {
         try {
             this.proTemporal.setBodegaIdBodega(bodega);
-            this.proTemporal.setProveedorNumeroProveedor(proveedor);
             productoFacadeLocal.edit(proTemporal);
             productos = productoFacadeLocal.findAll();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Producto editado", "Producto editado"));
@@ -100,7 +93,6 @@ public class ProductoView implements Serializable{
             productos = productoFacadeLocal.findAll();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Producto eliminado", "Producto eliminado"));
         }catch(Exception e){
-            e.printStackTrace();
         }
     }
     
@@ -160,22 +152,6 @@ public class ProductoView implements Serializable{
 
     public void setBodTemporal(Bodega bodTemporal) {
         this.bodTemporal = bodTemporal;
-    }
-
-    public Proveedor getProveedor() {
-        return proveedor;
-    }
-
-    public void setProveedor(Proveedor proveedor) {
-        this.proveedor = proveedor;
-    }
-
-    public List<Proveedor> getProveedores() {
-        return proveedores;
-    }
-
-    public void setProveedores(List<Proveedor> proveedores) {
-        this.proveedores = proveedores;
     }
     
 }

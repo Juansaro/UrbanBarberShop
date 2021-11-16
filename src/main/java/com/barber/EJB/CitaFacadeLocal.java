@@ -47,9 +47,11 @@ public interface CitaFacadeLocal {
     public boolean validarFechaCita(Date CitaIn);
 
     public boolean removerServicioCita(int fk_cita);
+    
+    public void registrarCitaServicio(int fk_idCita, Servicio fk_idServicio);
+
+    public List<Cita> leerCitas();
 
     public List<Cita> leerClientes(Usuario usu_barbero);
-
-    public void registrarCitaServicio(int fk_idCita, Servicio fk_idServicio);
 
 }

@@ -124,7 +124,7 @@ public class Bodega implements Serializable {
 
     @Override
     public String toString() {
-        return nombre;
+        return "com.barber.model.Bodega[ idBodega=" + idBodega + " ]";
     }
     
 }

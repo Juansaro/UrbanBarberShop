@@ -5,113 +5,98 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:html5="http://xmlns.jcp.org/jsf/passthrough">
+      xmlns:html5="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:composition>
+        <p:growl id="growl" life="3000"/>
         <div class="card container mt-3 mb-3" style="max-width: 55rem;" id="carta">
             <div class="row">
                 <div class="col">
                     <div class="card-body">
-                        <h5 class="card-title font-weight-bold text-white">Lista de pedidos</h5>
+                        <h5 class="card-title font-weight-bold text-white lang" key="l">Despacho</h5>
                         <br/>
-                        <h:form id="frmPrincipal">
+                        <h:form >
                             <p:dataTable id="tabla" emptyMessage="Ningun despacho registrado" value="#{despachoSesion.despachoProductos}" 
-                                         var="item" paginator="true"  rows="15" rowSelectMode="add" paginatorPosition="bottom"
+                                         var="item" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
                                          >
 
-                                <p:column headerText="Numero despacho" >
-                                    <h:outputText value="#{item.numeroDespachoProducto}"  /> 
+                                <p:column headerText="Número del despacho" filterBy="#{item.idDespacho}" filterMatchMode="contains" >
+                                    <h:outputText value="#{item.idDespacho}"  /> 
                                 </p:column>
 
-                                <p:column headerText="fecha de solicitud" filterBy="#{item.fechaSolicitud}" filterMatchMode="contains" >
-                                    <h:outputText value="#{item.fechaSolicitud}">
-                                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                                    </h:outputText>
+                                <p:column headerText="fecha" >
+                                    <h:outputText value="#{item.fechaSolicitud}"  /> 
                                 </p:column>
-
-                                <p:column headerText="Cantidad solicitada" >
-                                    <h:outputText value="#{item.cantidadSolicitada}"  /> 
+                                
+                                <p:column headerText="Recepcionista" >
+                                    <h:outputText value="#{item.recepcionista.nombre} #{item.recepcionista.apellido}"  /> 
                                 </p:column>
-
-                                <p:column headerText="Costo total" >
-                                    <h:outputText value="#{item.costoTotal}"  /> 
-                                </p:column>
-
-                                <p:column headerText="Cliente" filterBy="#{item.usuarioIdUsuario}" filterMatchMode="contains" >
-                                    <h:outputText value="#{item.usuarioIdUsuario}"  /> 
-                                </p:column>
-
-                                <p:column headerText="Producto" filterBy="#{item.productoIdProducto}" filterMatchMode="Proveedor" >
-                                    <h:outputText value="#{item.productoIdProducto}"  /> 
-                                </p:column> 
 
                                 <p:column headerText=" " exportable="false" >
 
                                     <h:commandButton class="btn btn-warning rounded-pill"
                                                      html5:data-toggle="modal"
-                                                     html5:data-target="#exampleModalAct"
-                                                     action="#{despachoSesion.guardarTemporal(item)}" 
-                                                     value="Editar" >
+                                                     html5:data-target="#informacion" 
+                                                     action="#{despachoSesion.consultarDetallesRegistrados(item)}" 
+                                                     value="Consultar" >
                                         <f:ajax render=":formActualizar"> </f:ajax>
                                     </h:commandButton>
-
                                 </p:column>
 
                                 <p:column headerText=" " exportable="false" >
-                                    <h:commandLink class="btn btn-danger rounded-pill" action="#{despachoSesion.eliminarDespachoProducto(item)}" value="Eliminar"/>
-                                </p:column>
-                            </p:dataTable> 
+
+                                    <h:commandLink class="btn btn-danger rounded-pill" action="#{bodegaSesion.eliminarBodega(item)}" value="Eliminar"/>
+                                </p:column>  
+                            </p:dataTable>
                         </h:form>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="exampleModalAct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+       
+        <div class="modal fade" id="informacion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Actualizar</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Selecciona un producto</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <h:form id="formActualizar">
                         <div class="modal-body">
+                            <div class="row">                                
+                                <c:forEach items="#{despachoSesion.detallesSolicitados}" var="d" varStatus="act">
+                                    <div class="col-lg-5">
+                                        <h:commandLink
+                                            html5:data-toggle="modal"
+                                            html5:data-target="#exampleModalComprar" 
+                                            html5:data-dismiss="modal"
+                                            action ="#{despachoSesion.guardarProductoTemporal(prod)}">
+                                            <div class="card text-dark">
+                                                <div class="card-header border-0">
+                                                    Producto despachado
+                                                    <h3 class="card-title">#{d.productoIdProducto.nombreProducto}</h3>
+                                                </div>
+                                                <div class="card-body">
+                                                    Descripcion
+                                                    <h4 class="card-title">#{d.productoIdProducto.descripcion}</h4>
+                                                    Costo unitario
+                                                    <h4 class="card-title">#{d.productoIdProducto.precio}</h4>
+                                                    Cantidad solitada
+                                                    <h4 class="card-title">#{d.cantidadSolicitada}</h4>
+                                                    Costo total del detalle de despacho
+                                                    <h4 class="card-title">#{d.costoTotal}</h4>
+                                                    <!--No olvidar colocar foto aquí-->
+                                                </div>
+                                            </div>
+                                            <f:ajax render=":frmDetalle"> </f:ajax>
+                                        </h:commandLink>
+                                    </div>
+                                </c:forEach>
+                            </div>
 
-                            <h:outputLabel class="card-text font-weight-bold text-white" value="Fecha de despacho:" for="fechaSolicitud" />
-
-                            <p:calendar id="fechaSolicitud" value="#{despachoSesion.desTemporal.fechaSolicitud}" pattern="MM/dd/yyyy HH:mm:ss"/>
-
-                            <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
-                                <h:outputText value="Datetime:"/>
-                                <h:outputText value="#{calendarView.date10}">
-                                    <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss"/>
-                                </h:outputText>
-                            </p:dialog>
-
-                            <h:outputLabel class="card-text font-weight-bold text-white" value="Cantidad solicitada:" for="cantidadSolicitada" />
-
-                            <h:inputText class="form-control" id="cantidadSolicitada" value="#{despachoSesion.desTemporal.cantidadSolicitada}" html5:placeholder="Escribe la cantidad."/>
-
-                            <h:outputLabel class="card-text font-weight-bold text-white" value="Usuario:" for="usuarioIdUsuario" />
-
-                            <h:selectOneMenu class="form-control" id="usuarioIdUsuario" value="#{despachoSesion.usuario.idUsuario}" >
-                                <f:selectItems value="#{despachoSesion.usuarios}" var="usu" itemLabel="#{usu.correo}" itemValue="#{usu.idUsuario}"/>
-                            </h:selectOneMenu>
-
-                            <h:outputLabel class="card-text font-weight-bold text-white" value="Producto:" for="productoIdProducto" />
-
-                            <h:selectOneMenu class="form-control" id="productoIdProducto" value="#{despachoSesion.producto.idProducto}" >
-                                <f:selectItems value="#{productoSesion.productos}" var="pro" itemLabel="#{pro.nombreProducto}" itemValue="#{pro.idProducto}"/>
-                            </h:selectOneMenu>
-                            <h:outputLabel class="card-text font-weight-bold text-white" value="Costo total:" for="costoTotal" />
-
-                            <h:inputText class="form-control" id="costoTotal" value="#{despachoSesion.desTemporal.costoTotal}" html5:placeholder="Costo total."/>
-
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <h:commandLink class="btn btn-primary" action="#{despachoSesion.editarDespacho()}" value="Modificar"/>
                         </div>
                     </h:form>
                 </div>

@@ -29,5 +29,7 @@ public interface CalificacionFacadeLocal {
     List<Calificacion> findRange(int[] range);
 
     int count();
+
+    public List<Calificacion> leerTdos();
     
 }

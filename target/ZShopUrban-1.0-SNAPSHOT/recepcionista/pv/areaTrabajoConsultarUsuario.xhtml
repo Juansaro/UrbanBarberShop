@@ -74,8 +74,8 @@
                                     <h:outputText value="#{u.numeroTelefono}"  /> 
                                 </p:column>
                                 
-                                <p:column headerText="Ciudad" filterBy="#{u.tipoRolNumeroRol}" filterMatchMode="contains" >
-                                    <h:outputText value="#{u.tipoRolNumeroRol}"  /> 
+                                <p:column headerText="Rol" filterBy="#{u.tipoRolNumeroRol}" filterMatchMode="contains" >
+                                    <h:outputText value="#{u.tipoRolNumeroRol.descripcion}"  /> 
                                 </p:column>
                                 
                                 <p:column headerText="Ciudad" filterBy="#{u.ciudadNumeroCiudad}" filterMatchMode="contains" >
@@ -86,9 +86,6 @@
                                     <h:outputText value="#{u.tipoIdentificacionIdTipoIdentificacion}"  /> 
                                 </p:column>
 
-                                <p:column headerText="Tipo de telefono" filterBy="#{u.tipoTelefonoNumeroTipoTelefono}" filterMatchMode="contains" >
-                                    <h:outputText value="#{u.tipoTelefonoNumeroTipoTelefono}"  /> 
-                                </p:column>
 
                                 <p:column headerText=" " exportable="false" >
 

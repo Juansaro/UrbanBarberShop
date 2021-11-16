@@ -60,8 +60,6 @@ public class Cita implements Serializable {
     @NotNull
     @Column(name = "costo")
     private float costo;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "registro_actual")
     @Temporal(TemporalType.TIMESTAMP)
     private Date registroActual;
@@ -70,6 +68,8 @@ public class Cita implements Serializable {
         @JoinColumn(name = "servicio_id_servicio", referencedColumnName = "id_servicio")})
     @ManyToMany(fetch = FetchType.LAZY)
     private Collection<Servicio> servicioCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "citaTerminada", fetch = FetchType.LAZY)
+    private Collection<Calificacion> calificacionCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "citaIdCita", fetch = FetchType.LAZY)
     private Collection<Factura> facturaCollection;
     @JoinColumn(name = "estado_asignacion_id_estado_asignacion", referencedColumnName = "id_estado_asignacion")
@@ -89,11 +89,10 @@ public class Cita implements Serializable {
         this.idCita = idCita;
     }
 
-    public Cita(Integer idCita, Date fechaCita, float costo, Date registroActual) {
+    public Cita(Integer idCita, Date fechaCita, float costo) {
         this.idCita = idCita;
         this.fechaCita = fechaCita;
         this.costo = costo;
-        this.registroActual = registroActual;
     }
 
     public Integer getIdCita() {
@@ -135,6 +134,15 @@ public class Cita implements Serializable {
 
     public void setServicioCollection(Collection<Servicio> servicioCollection) {
         this.servicioCollection = servicioCollection;
+    }
+
+    @XmlTransient
+    public Collection<Calificacion> getCalificacionCollection() {
+        return calificacionCollection;
+    }
+
+    public void setCalificacionCollection(Collection<Calificacion> calificacionCollection) {
+        this.calificacionCollection = calificacionCollection;
     }
 
     @XmlTransient

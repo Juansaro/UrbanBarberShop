@@ -73,13 +73,8 @@ public class Producto implements Serializable {
     @JoinColumn(name = "bodega_id_bodega", referencedColumnName = "id_bodega")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Bodega bodegaIdBodega;
-    @JoinColumn(name = "proveedor_numero_proveedor", referencedColumnName = "numero_proveedor")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Proveedor proveedorNumeroProveedor;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productoIdProducto", fetch = FetchType.LAZY)
-    private Collection<DespachoProducto> despachoProductoCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productoIdProducto", fetch = FetchType.LAZY)
-    private Collection<DetallePedido> detallePedidoCollection;
+    private Collection<DetalleDespacho> detalleDespachoCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productoIdProducto", fetch = FetchType.LAZY)
     private Collection<DetalleCompra> detalleCompraCollection;
 
@@ -154,30 +149,13 @@ public class Producto implements Serializable {
         this.bodegaIdBodega = bodegaIdBodega;
     }
 
-    public Proveedor getProveedorNumeroProveedor() {
-        return proveedorNumeroProveedor;
-    }
-
-    public void setProveedorNumeroProveedor(Proveedor proveedorNumeroProveedor) {
-        this.proveedorNumeroProveedor = proveedorNumeroProveedor;
-    }
-
     @XmlTransient
-    public Collection<DespachoProducto> getDespachoProductoCollection() {
-        return despachoProductoCollection;
+    public Collection<DetalleDespacho> getDetalleDespachoCollection() {
+        return detalleDespachoCollection;
     }
 
-    public void setDespachoProductoCollection(Collection<DespachoProducto> despachoProductoCollection) {
-        this.despachoProductoCollection = despachoProductoCollection;
-    }
-
-    @XmlTransient
-    public Collection<DetallePedido> getDetallePedidoCollection() {
-        return detallePedidoCollection;
-    }
-
-    public void setDetallePedidoCollection(Collection<DetallePedido> detallePedidoCollection) {
-        this.detallePedidoCollection = detallePedidoCollection;
+    public void setDetalleDespachoCollection(Collection<DetalleDespacho> detalleDespachoCollection) {
+        this.detalleDespachoCollection = detalleDespachoCollection;
     }
 
     @XmlTransient
@@ -211,7 +189,7 @@ public class Producto implements Serializable {
 
     @Override
     public String toString() {
-        return descripcion;
+        return "com.barber.model.Producto[ idProducto=" + idProducto + " ]";
     }
     
 }

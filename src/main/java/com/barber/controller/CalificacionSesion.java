@@ -6,8 +6,10 @@
 package com.barber.controller;
 
 import com.barber.EJB.CalificacionFacadeLocal;
+import com.barber.EJB.CitaFacadeLocal;
 import com.barber.EJB.FacturaFacadeLocal;
 import com.barber.model.Calificacion;
+import com.barber.model.Cita;
 import com.barber.model.Factura;
 import java.io.Serializable;
 import java.util.List;
@@ -30,30 +32,30 @@ public class CalificacionSesion implements Serializable{
     @EJB
     private CalificacionFacadeLocal calificacionFacadeLocal;
     @EJB
-    private FacturaFacadeLocal facturaFacadeLocal;
+    private CitaFacadeLocal citaFacadeLocal;
     
     private Calificacion calificacion;
     
     @Inject
-    private Factura factura;
+    private Cita cita;
     
     private List<Calificacion> calificaciones;
-    private List<Factura> facturas;
+    private List<Cita> citas;
     
     private Calificacion cal = new Calificacion();
     private Calificacion calTemporal = new Calificacion();
     
     @PostConstruct
     private void init(){
-        calificaciones = calificacionFacadeLocal.findAll();
-        facturas = facturaFacadeLocal.findAll();
+        calificaciones = calificacionFacadeLocal.leerTdos();
+        citas = citaFacadeLocal.leerCitas();
         calificacion = new Calificacion();
     }
     
     //Registrar
     public String registrarCalificacion(){
         try {
-            cal.setFacturaIdFactura(factura);
+            cal.setCitaTerminada(cita);
             calificacionFacadeLocal.create(cal);
             calificaciones = calificacionFacadeLocal.findAll();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Calificación registrada", "Calificación registrada"));
@@ -106,28 +108,12 @@ public class CalificacionSesion implements Serializable{
         this.calificacion = calificacion;
     }
 
-    public Factura getFactura() {
-        return factura;
-    }
-
-    public void setFactura(Factura factura) {
-        this.factura = factura;
-    }
-
     public List<Calificacion> getCalificaciones() {
         return calificaciones;
     }
 
     public void setCalificaciones(List<Calificacion> calificaciones) {
         this.calificaciones = calificaciones;
-    }
-
-    public List<Factura> getFacturas() {
-        return facturas;
-    }
-
-    public void setFacturas(List<Factura> facturas) {
-        this.facturas = facturas;
     }
 
     public Calificacion getCal() {
@@ -145,7 +131,22 @@ public class CalificacionSesion implements Serializable{
     public void setCalTemporal(Calificacion calTemporal) {
         this.calTemporal = calTemporal;
     }
-    
+
+    public Cita getCita() {
+        return cita;
+    }
+
+    public void setCita(Cita cita) {
+        this.cita = cita;
+    }
+
+    public List<Cita> getCitas() {
+        return citas;
+    }
+
+    public void setCitas(List<Cita> citas) {
+        this.citas = citas;
+    }
    
 }
 

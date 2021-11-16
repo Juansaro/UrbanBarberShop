@@ -28,10 +28,6 @@
                             <h:selectOneMenu class="form-control" id="bodegaIdBodega" value="#{productoView.bodega.idBodega}" required="true">
                                 <f:selectItems value="#{productoView.bodegas}" var="bod" itemLabel="#{bod.nombre}" itemValue="#{bod.idBodega}"/>
                             </h:selectOneMenu>
-                            <h:outputLabel class="card-text font-weight-bold text-white" value="Elige el proveedor:" for="idProveedor" />
-                            <h:selectOneMenu class="form-control" id="idProveedor" value="#{productoView.proveedor.numeroProveedor}" required="true">
-                                <f:selectItems value="#{productoView.proveedores}" var="prov" itemLabel="#{prov.correo}" itemValue="#{prov.numeroProveedor}"/>
-                            </h:selectOneMenu>
                             <br/>
                             <h:commandLink action="#{productoView.registrarProducto()}" class="btn btn-success btn-lg btn-block text-white rounded-pill" value="Guardar" />
                             <br />

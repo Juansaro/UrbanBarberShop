@@ -50,9 +50,9 @@ public class Calificacion implements Serializable {
     @Size(max = 300)
     @Column(name = "comentario")
     private String comentario;
-    @JoinColumn(name = "factura_id_factura", referencedColumnName = "id_factura")
+    @JoinColumn(name = "cita_terminada", referencedColumnName = "id_cita")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Factura facturaIdFactura;
+    private Cita citaTerminada;
 
     public Calificacion() {
     }
@@ -90,12 +90,12 @@ public class Calificacion implements Serializable {
         this.comentario = comentario;
     }
 
-    public Factura getFacturaIdFactura() {
-        return facturaIdFactura;
+    public Cita getCitaTerminada() {
+        return citaTerminada;
     }
 
-    public void setFacturaIdFactura(Factura facturaIdFactura) {
-        this.facturaIdFactura = facturaIdFactura;
+    public void setCitaTerminada(Cita citaTerminada) {
+        this.citaTerminada = citaTerminada;
     }
 
     @Override

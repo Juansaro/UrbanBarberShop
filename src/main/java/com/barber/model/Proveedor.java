@@ -68,8 +68,6 @@ public class Proveedor implements Serializable {
     private String direccion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "numeroProveedor", fetch = FetchType.LAZY)
     private Collection<Compra> compraCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proveedorNumeroProveedor", fetch = FetchType.LAZY)
-    private Collection<Producto> productoCollection;
 
     public Proveedor() {
     }
@@ -135,15 +133,6 @@ public class Proveedor implements Serializable {
         this.compraCollection = compraCollection;
     }
 
-    @XmlTransient
-    public Collection<Producto> getProductoCollection() {
-        return productoCollection;
-    }
-
-    public void setProductoCollection(Collection<Producto> productoCollection) {
-        this.productoCollection = productoCollection;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -166,7 +155,7 @@ public class Proveedor implements Serializable {
 
     @Override
     public String toString() {
-        return correo;
+        return "com.barber.model.Proveedor[ numeroProveedor=" + numeroProveedor + " ]";
     }
     
 }

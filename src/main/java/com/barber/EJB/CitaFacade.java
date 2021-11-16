@@ -142,6 +142,17 @@ public class CitaFacade extends AbstractFacade<Cita> implements CitaFacadeLocal 
             return null;
         }
     }
+    
+    @Override
+    public List<Cita> leerCitas() {
+        try {
+            em.getEntityManagerFactory().getCache().evictAll();
+            Query qt = em.createQuery("SELECT c FROM Cita c");
+            return qt.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
     @Override
     public List<Usuario> leerBarberos(TipoRol r) {
