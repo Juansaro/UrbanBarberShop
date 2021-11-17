@@ -6,17 +6,17 @@
 package com.barber.model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -34,7 +34,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Servicio.findByIdServicio", query = "SELECT s FROM Servicio s WHERE s.idServicio = :idServicio"),
     @NamedQuery(name = "Servicio.findByNombre", query = "SELECT s FROM Servicio s WHERE s.nombre = :nombre"),
     @NamedQuery(name = "Servicio.findByDescripcion", query = "SELECT s FROM Servicio s WHERE s.descripcion = :descripcion"),
-    @NamedQuery(name = "Servicio.findByCosto", query = "SELECT s FROM Servicio s WHERE s.costo = :costo")})
+    @NamedQuery(name = "Servicio.findByCosto", query = "SELECT s FROM Servicio s WHERE s.costo = :costo"),
+    @NamedQuery(name = "Servicio.findByServicioFoto", query = "SELECT s FROM Servicio s WHERE s.servicioFoto = :servicioFoto")})
 public class Servicio implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -52,8 +53,11 @@ public class Servicio implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "costo")
     private Float costo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "servicioIdServicio")
-    private List<Cita> citaList;
+    @Size(max = 255)
+    @Column(name = "servicio_foto")
+    private String servicioFoto;
+    @ManyToMany(mappedBy = "servicioCollection", fetch = FetchType.LAZY)
+    private Collection<Cita> citaCollection;
 
     public Servicio() {
     }
@@ -94,13 +98,21 @@ public class Servicio implements Serializable {
         this.costo = costo;
     }
 
-    @XmlTransient
-    public List<Cita> getCitaList() {
-        return citaList;
+    public String getServicioFoto() {
+        return servicioFoto;
     }
 
-    public void setCitaList(List<Cita> citaList) {
-        this.citaList = citaList;
+    public void setServicioFoto(String servicioFoto) {
+        this.servicioFoto = servicioFoto;
+    }
+
+    @XmlTransient
+    public Collection<Cita> getCitaCollection() {
+        return citaCollection;
+    }
+
+    public void setCitaCollection(Collection<Cita> citaCollection) {
+        this.citaCollection = citaCollection;
     }
 
     @Override
@@ -125,7 +137,7 @@ public class Servicio implements Serializable {
 
     @Override
     public String toString() {
-        return "com.barber.model.Servicio[ idServicio=" + idServicio + " ]";
+        return nombre;
     }
     
 }

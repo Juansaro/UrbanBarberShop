@@ -29,5 +29,9 @@ public interface CiudadFacadeLocal {
     List<Ciudad> findRange(int[] range);
 
     int count();
+
+    public Ciudad validarSiExiste(String nombreIn);
+
+    public boolean crearCiudad (String ciu_nombre);
     
 }

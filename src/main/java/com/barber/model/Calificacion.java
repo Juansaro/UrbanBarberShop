@@ -9,6 +9,7 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -40,21 +42,28 @@ public class Calificacion implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_calificacion")
     private Integer idCalificacion;
-    @Size(max = 45)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "puntaje")
     private String puntaje;
     @Size(max = 300)
     @Column(name = "comentario")
     private String comentario;
-    @JoinColumn(name = "factura_id_factura", referencedColumnName = "id_factura")
-    @ManyToOne(optional = false)
-    private Factura facturaIdFactura;
+    @JoinColumn(name = "cita_terminada", referencedColumnName = "id_cita")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Cita citaTerminada;
 
     public Calificacion() {
     }
 
     public Calificacion(Integer idCalificacion) {
         this.idCalificacion = idCalificacion;
+    }
+
+    public Calificacion(Integer idCalificacion, String puntaje) {
+        this.idCalificacion = idCalificacion;
+        this.puntaje = puntaje;
     }
 
     public Integer getIdCalificacion() {
@@ -81,12 +90,12 @@ public class Calificacion implements Serializable {
         this.comentario = comentario;
     }
 
-    public Factura getFacturaIdFactura() {
-        return facturaIdFactura;
+    public Cita getCitaTerminada() {
+        return citaTerminada;
     }
 
-    public void setFacturaIdFactura(Factura facturaIdFactura) {
-        this.facturaIdFactura = facturaIdFactura;
+    public void setCitaTerminada(Cita citaTerminada) {
+        this.citaTerminada = citaTerminada;
     }
 
     @Override

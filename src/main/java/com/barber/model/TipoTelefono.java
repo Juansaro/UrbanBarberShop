@@ -6,11 +6,12 @@
 package com.barber.model;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -41,17 +43,24 @@ public class TipoTelefono implements Serializable {
     @Basic(optional = false)
     @Column(name = "numero_tipo_telefono")
     private Integer numeroTipoTelefono;
-    @Size(max = 45)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "descripcion")
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoTelefonoNumeroTipoTelefono")
-    private List<Usuario> usuarioList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoTelefonoNumeroTipoTelefono", fetch = FetchType.LAZY)
+    private Collection<Usuario> usuarioCollection;
 
     public TipoTelefono() {
     }
 
     public TipoTelefono(Integer numeroTipoTelefono) {
         this.numeroTipoTelefono = numeroTipoTelefono;
+    }
+
+    public TipoTelefono(Integer numeroTipoTelefono, String descripcion) {
+        this.numeroTipoTelefono = numeroTipoTelefono;
+        this.descripcion = descripcion;
     }
 
     public Integer getNumeroTipoTelefono() {
@@ -71,12 +80,12 @@ public class TipoTelefono implements Serializable {
     }
 
     @XmlTransient
-    public List<Usuario> getUsuarioList() {
-        return usuarioList;
+    public Collection<Usuario> getUsuarioCollection() {
+        return usuarioCollection;
     }
 
-    public void setUsuarioList(List<Usuario> usuarioList) {
-        this.usuarioList = usuarioList;
+    public void setUsuarioCollection(Collection<Usuario> usuarioCollection) {
+        this.usuarioCollection = usuarioCollection;
     }
 
     @Override
@@ -101,7 +110,7 @@ public class TipoTelefono implements Serializable {
 
     @Override
     public String toString() {
-        return descripcion;
+        return "com.barber.model.TipoTelefono[ numeroTipoTelefono=" + numeroTipoTelefono + " ]";
     }
     
 }

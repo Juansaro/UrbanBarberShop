@@ -5,6 +5,7 @@
  */
 package com.barber.EJB;
 
+import com.barber.model.TipoRol;
 import com.barber.model.Usuario;
 import java.util.List;
 import javax.ejb.Local;
@@ -39,5 +40,15 @@ public interface UsuarioFacadeLocal {
     public List<Usuario> leerTodos();
     
     public Usuario encontrarUsuarioCorreo(String correo);
-    
+
+    public Usuario listarBarbero();
+
+    public Usuario validarSiExiste(String correoIn);
+
+    public List<String> leerCorreosClientes();
+
+    public boolean crearUsuario(String usu_nombre, String usu_apellido, String usu_contrasena, String usu_correo, int fk_ciudad, int fk_rol, int fk_identificacion, String usu_identificacion, int fk_telefono, String usu_telefono);
+
+    public List<Usuario> leerBarberos();
+
 }

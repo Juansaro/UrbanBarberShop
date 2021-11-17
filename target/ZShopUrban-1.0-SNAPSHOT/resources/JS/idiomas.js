@@ -15,3 +15,6 @@ $.getJSON('JS/contenidoidiomasVentas.json', function(json){
         })//Cierra each
     })//Cierra click
 })//Cierra json
+
+// id = "hola"
+// key = "hola"

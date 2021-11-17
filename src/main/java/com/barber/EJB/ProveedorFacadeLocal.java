@@ -29,5 +29,7 @@ public interface ProveedorFacadeLocal {
     List<Proveedor> findRange(int[] range);
 
     int count();
+
+    public List<Proveedor> leerTodos();
     
 }

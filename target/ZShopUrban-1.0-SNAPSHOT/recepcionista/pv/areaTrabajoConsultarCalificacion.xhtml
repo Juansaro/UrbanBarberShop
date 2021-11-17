@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition>
+        <div class="card container mt-3 mb-3" style="max-width: 55rem;" id="carta">
+            <div class="row">
+                <div class="col">
+                    <div class="card-body">
+                        <h5 class="card-title font-weight-bold text-white">Consultar calificaciones</h5>
+                        <hr class="bg-white"/>
+                        <h:form id="frmPrincipal">
+                            <p:growl id="growl" life="3000"/>
+                            <p:dataTable id="tabla" emptyMessage="Ninguna calificacion registrada" value="#{calificacionSesion.calificaciones}" 
+                                         var="c" paginator="true"  rows="15" rowSelectMode="add" paginatorPosition="bottom"
+                                         >
+
+                                <p:column headerText="Puntaje" filterBy="#{c.puntaje}" filterMatchMode="contains" >
+                                    <h:outputText value="#{c.puntaje}">
+                                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Comentario" >
+                                    <h:outputText value="#{c.comentario}"  /> 
+                                </p:column>
+
+                                <p:column headerText="Numero factura" >
+                                    <h:outputText value="#{c.facturaIdFactura}"  /> 
+                                </p:column>
+
+                                <p:column headerText=" " exportable="false" >
+                                    <h:commandLink class="btn btn-danger rounded-pill" action="#{calificacionSesion.eliminarCalificacion(c)}" value="Eliminar"/>
+                                </p:column>
+
+                            </p:dataTable>
+
+                        </h:form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:composition>
+</html>
+

@@ -36,20 +36,19 @@ public class ProveedorSesion implements Serializable{
     
     @PostConstruct
     public void init(){
-        proveedores = proveedorFacadeLocal.findAll();
+        proveedores = proveedorFacadeLocal.leerTodos();
         proveedor = new Proveedor();
     }
     
     //Registrar proveedor
-    public String registrarProveedor(){
+    public void registrarProveedor(){
         try {
             proveedorFacadeLocal.create(pro);
             proveedores = proveedorFacadeLocal.findAll();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Proveedor registrado", "Proveedor registrado"));
-            return "/RecepProveedorConsultar";
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/recepcionista/consultarProveedor.xhtml");
         } catch (Exception e) {
         }
-        return null;
     }
     
     //Preparar página para 
@@ -65,16 +64,15 @@ public class ProveedorSesion implements Serializable{
     }
 
     //Editar proveedor (En el modal)
-    public String editarProveedor() {
+    public void editarProveedor() {
         try {
             proveedorFacadeLocal.edit(proTemporal);
             this.proveedor = new Proveedor();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Proveedor editado", "Proveedor editado"));
-            return "/RecepProveedorConsultar.xhtml";
         } catch (Exception e) {
             
         }
-        return null;
+
     }
     
     //Eliminar
