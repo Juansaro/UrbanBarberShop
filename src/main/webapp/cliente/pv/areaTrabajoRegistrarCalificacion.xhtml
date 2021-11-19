@@ -14,40 +14,44 @@
                 <div class="col">
                     <div class="card-body">
                         <h5 class="card-title font-weight-bold text-white">Consultar Fidelización</h5>
-                        Selecciona una cita
                         <br/>
                         <h:form id="frmPrincipal">
-                            <p:dataTable id="tabla" emptyMessage="Ninguna calificación registrada" value="#{calificacionSesion.calificaciones}" 
+                            <p:dataTable id="tabla" emptyMessage="Ninguna calificación registrada" value="#{citaSesion.leerCitasFidelizacion()}" 
                                          var="c" paginator="true"  rows="15" rowSelectMode="add" paginatorPosition="bottom"
                                          >
 
-                                <p:column headerText="Calificación" filterBy="#{c.idCalificacion}" filterMatchMode="contains" >
-                                    <h:outputText value="#{c.idCalificacion}"  /> 
+                                <p:column headerText="Numero de cita" >
+                                    <h:outputText value="#{c.idCita}"  /> 
                                 </p:column>
 
-                                <p:column headerText="Puntaje" filterBy="#{c.puntaje}" filterMatchMode="contains" >
-                                    <h:outputText value="#{c.puntaje}"/>
+                                <p:column headerText="Fecha de la cita" filterBy="#{c.fechaCita}" filterMatchMode="contains" >
+                                    <h:outputText value="#{c.fechaCita}"  /> 
                                 </p:column>
 
-                                <p:column headerText="Comentario" filterBy="#{c.comentario}" filterMatchMode="contains" >
-                                    <h:outputText value="#{c.comentario}"  /> 
+                                <p:column headerText="Estado de asignacion" filterBy="#{c.estadoAsignacionIdEstadoAsignacion}" filterMatchMode="contains" >
+                                    <h:outputText value="#{c.estadoAsignacionIdEstadoAsignacion}"  /> 
                                 </p:column>
+
+                                <p:column headerText="Cliente" filterBy="#{c.idCliente}" filterMatchMode="contains" >
+                                    <h:outputText value="#{c.idCliente}"  /> 
+                                </p:column>
+
+                                <p:column headerText="numero barbero" filterBy="#{c.idBarbero}" filterMatchMode="contains" >
+                                    <h:outputText value="#{c.idBarbero}"  /> 
+                                </p:column>                                
 
                                 <p:column headerText=" " exportable="false" >
 
-                                    <h:commandButton class="btn btn-warning rounded-pill"
+                                    <h:commandButton class="btn btn-success rounded-pill"
                                                      html5:data-toggle="modal"
-                                                     html5:data-target="#exampleModalAct" 
-                                                     action="#{calificacionSesion.guardarTemporal(c)}" 
-                                                     value="Editar" >
+                                                     html5:data-target="#exampleModalAct"
+                                                     action="#{calificacionSesion.guardarCitaTemporal(c)}" 
+                                                     value="Calificacion" >
                                         <f:ajax render=":formActualizar"> </f:ajax>
                                     </h:commandButton>
 
                                 </p:column>
 
-                                <p:column headerText=" " exportable="false" >
-                                    <h:commandLink class="btn btn-danger rounded-pill" action="#{calificacionSesion.eliminarCalificacion(c)}" value="Eliminar"/>
-                                </p:column>
                             </p:dataTable> 
                         </h:form>
                     </div>
@@ -59,27 +63,34 @@
             <div class="modal-dialog text-dark">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Actualizar bodega</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Registrar calificación</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <h:form id="formActualizar">
                         <div class="modal-body">
-                            <h:outputLabel class="card-text font-weight-bold" value="Nombre" for="nombre"/>
-
-                            <h:inputText value="#{bodegaSesion.bodTemporal.nombre}" class="form-control" id="nombre" html5:placeholder="Esbribe el nombre." />
+                            <h:outputLabel class="card-text font-weight-bold" value="Puntaje:" for="puntaje" />
+                            <br/>
+                            <p:rating id="puntaje" value="#{calificacionSesion.cal.puntaje}"/>
+                            <br/>
+                            <h:outputLabel class="card-text font-weight-bold" value="Comentario:" for="comentario" />
+                            <br/>
+                            <h:inputText class="form-control" id="comentario" value="#{calificacionSesion.cal.comentario}" html5:placeholder="Escribe un comentario" />
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <h:commandButton action="#{bodegaSesion.editarBodega()}" class="btn btn-primary" value="Editar">
-                            </h:commandButton>
+                            <h:commandLink 
+                                class="btn btn-success" 
+                                action="#{calificacionSesion.registrarCalificacion()}" 
+                                value="Calificar"
+                                />
                         </div>
                     </h:form>
                 </div>
             </div>
         </div>
-        
+
     </ui:composition>
 </html>
 

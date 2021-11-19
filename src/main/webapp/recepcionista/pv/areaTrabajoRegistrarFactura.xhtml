@@ -16,7 +16,7 @@
                         <h5 class="card-title font-weight-bold text-white">Asignar agenda</h5>
                         <hr class="bg-white"/>
                         <h:form id="frmPrincipal">
-                            <p:dataTable id="tabla" emptyMessage="Ningun pedido confirmado registrado" value="#{citaSesion.citas}" 
+                            <p:dataTable id="tabla" emptyMessage="Ninguna cita encontrada" value="#{citaSesion.leerCitasCompletadas()}" 
                                          var="item" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
                                          >
 

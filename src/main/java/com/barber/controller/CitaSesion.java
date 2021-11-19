@@ -68,6 +68,8 @@ public class CitaSesion implements Serializable {
     @Inject
     private EstadoAsignacion asignacionAgendada;
     @Inject
+    private EstadoAsignacion asignacionCompletada;
+    @Inject
     private Servicio servicio;
     @Inject
     private Usuario usuario;
@@ -96,9 +98,11 @@ public class CitaSesion implements Serializable {
         cit = new Cita();
         asignacionTemporal = new EstadoAsignacion();
         asignacionAgendada = new EstadoAsignacion();
+        asignacionCompletada = new EstadoAsignacion();
         citTemporal = new Cita();
         asignacionTemporal.setIdEstadoAsignacion(1);
         asignacionAgendada.setIdEstadoAsignacion(2);
+        asignacionCompletada.setIdEstadoAsignacion(4);
         citas = citaFacadeLocal.findAll();
         estadoAsignaciones = estadoAsignacionFacadeLocal.findAll();
         servicios = servicioFacadeLocal.findAll();
@@ -237,12 +241,12 @@ public class CitaSesion implements Serializable {
                         citaIn.getIdCliente().getCorreo(),
                         citaIn.getFechaCita()
                 );                
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cita agendada", "Cita agendada"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cita terminada", "Cita terminada"));
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error al completar", "Error de cancelación"));
             }
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de cancelación", "Error de cancelación"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error al completar", "Error al completar"));
         }
     }
 
@@ -275,7 +279,7 @@ public class CitaSesion implements Serializable {
                         citaIn.getIdCliente().getCorreo(),
                         citaIn.getFechaCita()
                 );
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cita terminada", "Cita terminada"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cita agendada", "Cita agendada"));
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de confirmación", "Error de confirmación"));
             }
@@ -357,11 +361,15 @@ public class CitaSesion implements Serializable {
     public List<Usuario> leerBarberos() {
         return citaFacadeLocal.leerBarberos(r_bar.getRolBarbero());
     }
-
+    //vista cliente
+    public List<Cita> leerCitasFidelizacion() {
+        return citaFacadeLocal.leerCitasFidelizacion(usu.getUsuLog(), asignacionCompletada);
+    }
+    //vista barbero
     public List<Cita> leerTodos() {
         return citaFacadeLocal.leerTodos(usu.getUsuLog());
     }
-
+    //vista barbero
     public List<Cita> leerClientes() {
         return citaFacadeLocal.leerClientes(usu.getUsuLog(), asignacionTemporal);
     }
@@ -370,8 +378,8 @@ public class CitaSesion implements Serializable {
         return citaFacadeLocal.leerClientes(usu.getUsuLog(), asignacionAgendada);
     }
 
-    public List<Cita> leerCitas() {
-        return citaFacadeLocal.generarFactura(getCita().getIdCita());
+    public List<Cita> leerCitasCompletadas() {
+        return citaFacadeLocal.leerCitaCompletada(asignacionCompletada);
     }
 
     public Cita getCita() {

@@ -35,8 +35,6 @@ public interface CitaFacadeLocal {
 
     int count();
 
-    public List<Cita> generarFactura(int idCitaIn);
-
     public boolean crearCita(Cita citaIn, int fk_servicio, int estado_asignacion_id_estado_asignacion, Usuario usuario_id_usuario);
 
     public List<Cita> leerTodos(Usuario usu_cita);
@@ -60,5 +58,9 @@ public interface CitaFacadeLocal {
     public List<Cita> leerCitas(EstadoAsignacion estadoIn);
 
     public boolean completarCita(int fk_idCita);
+
+    public List<Cita> leerCitaCompletada(EstadoAsignacion estadoIn);
+
+    public List<Cita> leerCitasFidelizacion(Usuario clienteIn, EstadoAsignacion estadoIn);
 
 }

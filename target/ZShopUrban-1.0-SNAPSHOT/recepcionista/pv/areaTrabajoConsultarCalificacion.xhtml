@@ -28,10 +28,6 @@
                                     <h:outputText value="#{c.comentario}"  /> 
                                 </p:column>
 
-                                <p:column headerText="Numero factura" >
-                                    <h:outputText value="#{c.facturaIdFactura}"  /> 
-                                </p:column>
-
                                 <p:column headerText=" " exportable="false" >
                                     <h:commandLink class="btn btn-danger rounded-pill" action="#{calificacionSesion.eliminarCalificacion(c)}" value="Eliminar"/>
                                 </p:column>

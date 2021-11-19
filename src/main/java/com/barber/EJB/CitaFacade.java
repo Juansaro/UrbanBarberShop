@@ -39,14 +39,25 @@ public class CitaFacade extends AbstractFacade<Cita> implements CitaFacadeLocal 
     }
 
     @Override
-    public List<Cita> generarFactura(int idCitaIn) {
+    public List<Cita> leerCitaCompletada(EstadoAsignacion estadoIn) {
         try {
-            Query q = em.createNativeQuery("{CALL GENERAR_FACTURA(?);}");
-            q.setParameter(1, idCitaIn);
-            //Object no se sabe que devuelve
-            //Object obj = q.getSingleResult();
-
-            return q.getResultList();
+            em.getEntityManagerFactory().getCache().evictAll();
+            Query qt = em.createQuery("SELECT c FROM Cita c WHERE c.estadoAsignacionIdEstadoAsignacion = :e");
+            qt.setParameter("e", estadoIn);
+            return qt.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+    @Override
+    public List<Cita> leerCitasFidelizacion(Usuario clienteIn, EstadoAsignacion estadoIn) {
+        try {
+            em.getEntityManagerFactory().getCache().evictAll();
+            Query qt = em.createQuery("SELECT c FROM Cita c WHERE c.idCliente = :usu_cliente AND c.estadoAsignacionIdEstadoAsignacion = :e");
+            qt.setParameter("usu_cliente", clienteIn);
+            qt.setParameter("e", estadoIn);
+            return qt.getResultList();
         } catch (Exception e) {
             return null;
         }

@@ -60,26 +60,26 @@ public class CalificacionSesion implements Serializable{
         citaTemporal = new Cita();
     }
     
+    public void guardarCitaTemporal(Cita c){
+        citaTemporal = c;
+    }
+    
     //Registrar
-    public String registrarCalificacion(){
+    public void registrarCalificacion(){
         try {
-            cal.setCitaTerminada(cita);
+            cal.setCitaTerminada(citaTemporal);
             calificacionFacadeLocal.create(cal);
-            calificaciones = calificacionFacadeLocal.findAll();
+            citaTemporal = new Cita();
+            calificaciones = calificacionFacadeLocal.leerTdos();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Calificación registrada", "Calificación registrada"));
-            return "/ClienteFidelizacionConsultar.xhtml";
         } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de registro", "Error de registro"));
         }
-        return null;
     }
     
     //Guardar temporal
     public void guardarTemporal(Calificacion c){
         calTemporal = c;
-    }
-    
-    public void guardarTemporal(Cita c){
-        citaTemporal = c;
     }
     
     //Editar calificación
