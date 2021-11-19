@@ -14,7 +14,6 @@
                 <div class="col">
                     <div class="card-body">
                         <h5 class="card-title font-weight-bold text-white">Consultar Fidelización</h5>
-                        Selecciona una cita
                         <br/>
                         <h:form id="frmPrincipal">
                             <p:dataTable id="tabla" emptyMessage="Ninguna calificación registrada" value="#{calificacionSesion.calificaciones}" 
@@ -66,9 +65,13 @@
                     </div>
                     <h:form id="formActualizar">
                         <div class="modal-body">
-                            <h:outputLabel class="card-text font-weight-bold" value="Nombre" for="nombre"/>
-
-                            <h:inputText value="#{bodegaSesion.bodTemporal.nombre}" class="form-control" id="nombre" html5:placeholder="Esbribe el nombre." />
+                            <h:outputLabel class="card-text font-weight-bold" value="Puntaje" for="puntaje" />
+                            <br/>
+                            <p:rating id="puntaje" value="#{calificacionSesion.cal.puntaje}"/>
+                            <br/>
+                            <h:outputLabel class="card-text font-weight-bold" value="Comentario" for="comentario" />
+                            <br/>
+                            <h:inputText class="form-control" id="comentario" value="#{calificacionSesion.cal.comentario}" html5:placeholder="Escribe un comentario" />
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>

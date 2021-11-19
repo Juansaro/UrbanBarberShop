@@ -7,11 +7,9 @@ package com.barber.controller;
 
 import com.barber.EJB.CalificacionFacadeLocal;
 import com.barber.EJB.CitaFacadeLocal;
-import com.barber.EJB.FacturaFacadeLocal;
 import com.barber.model.Calificacion;
 import com.barber.model.Cita;
 import com.barber.model.EstadoAsignacion;
-import com.barber.model.Factura;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -28,88 +26,91 @@ import javax.inject.Named;
  */
 @Named(value = "calificacionSesion")
 @SessionScoped
-public class CalificacionSesion implements Serializable{
-    
+public class CalificacionSesion implements Serializable {
+
     @EJB
     private CalificacionFacadeLocal calificacionFacadeLocal;
     @EJB
     private CitaFacadeLocal citaFacadeLocal;
-    
+
     private Calificacion calificacion;
-    
+
     @Inject
     private Cita cita;
     @Inject
     private EstadoAsignacion asignacionTemporal;
-    
+    @Inject
+    private EstadoAsignacion asignacionCompletado;
+
     private Cita citaTemporal;
-    
+
     private List<Calificacion> calificaciones;
     private List<Cita> citas;
-    
+
     private Calificacion cal = new Calificacion();
     private Calificacion calTemporal = new Calificacion();
-    
+
     @PostConstruct
-    private void init(){
+    private void init() {
         calificaciones = calificacionFacadeLocal.leerTdos();
+        asignacionCompletado = new EstadoAsignacion();
         asignacionTemporal = new EstadoAsignacion();
         asignacionTemporal.setIdEstadoAsignacion(2);
+        asignacionCompletado.setIdEstadoAsignacion(5);
         citas = citaFacadeLocal.leerCitas(asignacionTemporal);
         calificacion = new Calificacion();
         citaTemporal = new Cita();
     }
-    
-    public void guardarCitaTemporal(Cita c){
+
+    public void guardarCitaTemporal(Cita c) {
         citaTemporal = c;
     }
-    
+
     //Registrar
-    public void registrarCalificacion(){
+    public void registrarCalificacion() {
         try {
-            cal.setCitaTerminada(citaTemporal);
-            calificacionFacadeLocal.create(cal);
-            citaTemporal = new Cita();
-            calificaciones = calificacionFacadeLocal.leerTdos();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Calificación registrada", "Calificación registrada"));
+            if (citaFacadeLocal.calificarCita(citaTemporal.getIdCita())) {
+                cal.setCitaTerminada(citaTemporal);
+                calificacionFacadeLocal.create(cal);
+                cal = new Calificacion();
+                citaTemporal = new Cita();
+                calificaciones = calificacionFacadeLocal.leerTdos();
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Calificación registrada", "Calificación registrada"));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de registro", "Error de registro"));
+            }
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de registro", "Error de registro"));
         }
     }
-    
+
     //Guardar temporal
-    public void guardarTemporal(Calificacion c){
+    public void guardarTemporal(Calificacion c) {
         calTemporal = c;
     }
-    
+
     //Editar calificación
-    public String editarCalificacion(){
+    public void editarCalificacion() {
         try {
             calificacionFacadeLocal.edit(calTemporal);
-            this.calificacion = new Calificacion();
+            calTemporal = new Calificacion();
+            calificaciones = calificacionFacadeLocal.leerTdos();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Calificación editada", "Calificación editada"));
-            return "/ClienteFidelizacionConsultar.xhtml";
         } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Calificación editada", "Calificación editada"));
         }
-        return null;
-    }
-    
-    //preparar eliminar
-    public String prepararEliminar(){
-        calificaciones = calificacionFacadeLocal.findAll();
-        return "/ClienteFidelizacionConsultar.xhtml";
     }
     
     //eliminar
-    public void eliminarCalificacion(Calificacion c){
+    public void eliminarCalificacion(Calificacion c) {
         try {
             calificacionFacadeLocal.remove(c);
-            calificacion = new Calificacion();
+            calificaciones = calificacionFacadeLocal.leerTdos();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Se eliminó la calificación", "Se eliminó la calificación"));
-            prepararEliminar();
         } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error de eliminación", "Error de eliminación"));
         }
-    }    
+    }
 
     public Calificacion getCalificacion() {
         return calificacion;
@@ -158,6 +159,5 @@ public class CalificacionSesion implements Serializable{
     public void setCitas(List<Cita> citas) {
         this.citas = citas;
     }
-   
-}
 
+}

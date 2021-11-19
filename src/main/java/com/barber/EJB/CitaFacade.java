@@ -238,6 +238,18 @@ public class CitaFacade extends AbstractFacade<Cita> implements CitaFacadeLocal 
         }
         return null;
     }
+    
+    @Override
+    public boolean calificarCita(int fk_idCita) {
+        try {
+            Query q = em.createNativeQuery("UPDATE cita SET estado_asignacion_id_estado_asignacion = 5 WHERE (id_cita = ?)");
+            q.setParameter(1, fk_idCita);
+            q.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
     /*
     @Override
