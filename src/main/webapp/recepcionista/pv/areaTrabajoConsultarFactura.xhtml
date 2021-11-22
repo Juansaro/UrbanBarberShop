@@ -8,11 +8,11 @@
       xmlns:p="http://primefaces.org/ui">
     <ui:composition>
 
-        <div class="card container mt-3 mb-3" style="max-width: 55rem;" id="carta">
+        <div class="card container mt-3 mb-3" style="max-width: 80rem;" id="carta">
             <div class="row">
                 <div class="col">
                     <div class="card-body">
-                        <h5 class="card-title font-weight-bold text-white">Consultar factura</h5>
+                        <h5 class="card-title font-weight-bold text-white">Consultar facturas</h5>
                         <hr class="bg-white"/>
                         <p:growl id="growl" life="3000"/>
                         <h:form styleClass="jsfcrud_list_form">         
@@ -20,31 +20,24 @@
                                          var="f" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
                                          >
 
-                                <p:column headerText="id_factura:" filterBy="#{f.idFactura}" filterMatchMode="contains" >
-                                    <h:outputText value="#{f.idFactura}"  /> 
-                                </p:column>
-
-
-                                <p:column headerText="Costo:" filterBy="#{f.costo}" filterMatchMode="contains" >
-                                    <h:outputText value="#{f.costo}"  /> 
-                                </p:column>
-
-                                <p:column headerText="fecha de la cita:" filterBy="#{f.citaIdCita.fechaCita}" filterMatchMode="contains" >
+                                <p:column headerText="Fecha de la cita" filterBy="#{f.citaIdCita.fechaCita}" filterMatchMode="contains" >
                                     <h:outputText value="#{f.citaIdCita.fechaCita}"  >
                                         <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss"/>
                                     </h:outputText>
+                                </p:column> 
+
+                                <p:column headerText="Barbero" filterBy="#{f.citaIdCita.idBarbero.nombre}" filterMatchMode="contains" >
+                                    <h:outputText value="#{f.citaIdCita.idBarbero.nombre} #{f.citaIdCita.idBarbero.apellido}"  /> 
                                 </p:column>
 
-                                <p:column headerText=" " exportable="false" >
+                                <p:column headerText="Servicios"> 
+                                    <ui:repeat value="#{f.citaIdCita.servicioCollection}" var="servicios">
+                                        <h:outputText value="#{servicios.toString()}" /><br/>
+                                    </ui:repeat>
+                                </p:column>
 
-                                    <h:commandButton class="btn btn-warning rounded-pill"
-                                                     html5:data-toggle="modal"
-                                                     html5:data-target="#exampleModalAct"
-                                                     action="#{facturaSesion.guardarTemporal(f)}"
-                                                     value="Editar" >
-                                        <f:ajax render=":formActualizar"> </f:ajax>
-                                    </h:commandButton>
-                                    
+                                <p:column headerText="Costo" filterBy="#{f.costo}" filterMatchMode="contains" >
+                                    <h:outputText value="#{f.costo}"  /> 
                                 </p:column>
 
                                 <p:column headerText=" " exportable="false" >
@@ -56,36 +49,6 @@
                             </p:dataTable>
                         </h:form>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="exampleModalAct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Actualizar</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <h:form id="formActualizar">
-                        <div class="modal-body">
-
-                            <h:outputLabel class="card-text font-weight-bold text-white" value="Cita:" for="citaIdCita" />
-                            <h:selectOneMenu class="form-control" id="citaIdCita" value="#{facturaSesion.cita.idCita}">
-                                <f:selectItems value="#{citaSesion.citas}" var="cit" itemLabel="#{cit.fechaCita}" itemValue="#{cit.idCita}"/>
-                            </h:selectOneMenu>
-
-                            <h:outputLabel class="card-text font-weight-bold text-white" value="Costo:" for="costo" />
-                            <h:inputText class="form-control" id="costo" value="#{facturaSesion.facTemporal.costo}" html5:placeholder="Escribe el costo" />
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <h:commandLink class="btn btn-primary" action="#{facturaSesion.editarFactura()}" value="Modificar"/>
-                        </div>
-                    </h:form>
                 </div>
             </div>
         </div>

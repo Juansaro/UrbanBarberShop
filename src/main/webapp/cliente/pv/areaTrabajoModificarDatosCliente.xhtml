@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col">
                     <div class="card-body">
-                        <h5 class="card-title font-weight-bold text-white">Agendar cita</h5>
+                        <h5 class="card-title font-weight-bold text-white">Consultar / modificar tus datos</h5>
                         <hr class="bg-white"/>
                         <h:form styleClass="jsfcrud_list_form">
                             <p:growl id="growl" life="3000"/>
@@ -29,7 +29,7 @@
                             <h:outputLabel value="Contrasena:" for="contrasena" />
                             <h:inputText id="contrasena" value="#{usuarioSesion.usuLog.contrasena}" required="true" html5:placeholder="contraseña" class="form-control"/>
 
-                            <h:outputLabel value="Tipo identificacion:" for="tipoIdentificacionIdTipoIdentificacion" />
+                            <h:outputLabel value="Ciudad" for="tipoIdentificacionIdTipoIdentificacion" />
                             <h:selectOneMenu class="form-control" id="tipoIdentificacionIdTipoIdentificacion" value="#{usuarioSesion.ciudad.numeroCiudad}" required="true" >
                                 <f:selectItems value="#{usuarioSesion.ciudades}" var="ciu" itemLabel="#{ciu.nombreCiudad}" itemValue="#{ciu.numeroCiudad}"/>
                             </h:selectOneMenu>

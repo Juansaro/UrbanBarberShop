@@ -11,18 +11,18 @@
             <div class="row">
                 <div class="col">
                     <div class="card-body">
-                        <h5 class="card-title font-weight-bold text-white">Consultar factura</h5>
+                        <h5 class="card-title font-weight-bold text-white">Consultar facturas</h5>
                         <hr class="bg-white"/>
-
-                        <p>Reporte habitaciones:</p>
                         <p:dataTable id="tabla" emptyMessage="Ninguna factura registrada" value="#{facturaSesion.facturas}" 
                                      var="f" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
                                      >
 
-                            <p:column headerText="Factura" filterBy="#{f.idFactura}" filterMatchMode="contains" >
-                                <h:outputText value="#{f.idFactura}"  /> 
-                            </p:column>
-
+                            <p:column headerText="Fecha de la cita" filterBy="#{f.citaIdCita.fechaCita}" filterMatchMode="contains" >
+                                <h:outputText value="#{f.citaIdCita.fechaCita}"  >
+                                    <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss"/>
+                                </h:outputText>
+                            </p:column> 
+                            
                             <p:column headerText="Barbero" filterBy="#{f.citaIdCita.idBarbero.nombre}" filterMatchMode="contains" >
                                 <h:outputText value="#{f.citaIdCita.idBarbero.nombre} #{f.citaIdCita.idBarbero.apellido}"  /> 
                             </p:column>
@@ -37,18 +37,14 @@
                                 <h:outputText value="#{f.costo}"  /> 
                             </p:column>
 
-                            <p:column headerText="Cita" filterBy="#{f.citaIdCita.fechaCita}" filterMatchMode="contains" >
-                                <h:outputText value="#{f.citaIdCita.fechaCita}"  /> 
-                            </p:column> 
-                            
                             <p:column headerText="" >
                                 <h:commandButton class="btn btn-warning rounded-pill"
-                                                     html5:data-toggle="modal"
-                                                     html5:data-target="#reporte" 
-                                                     action="#{facturaSesion.guardarTemporal(f)}" 
-                                                     value="Editar" >
-                                        <f:ajax render=":formActualizar"> </f:ajax>
-                                    </h:commandButton>
+                                                 html5:data-toggle="modal"
+                                                 html5:data-target="#reporte" 
+                                                 action="#{facturaSesion.guardarTemporal(f)}" 
+                                                 value="Reporte de factura" >
+                                    <f:ajax render=":formActualizar"> </f:ajax>
+                                </h:commandButton>
                             </p:column> 
 
                         </p:dataTable>
@@ -56,19 +52,26 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="modal fade" id="reporte" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog text-dark">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Registrar bodega</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Tu factura esta lista para ser descargada</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 
                         </button>
                     </div>
                     <h:form id="formActualizar">
                         <div class="modal-body">
-                            <h:commandButton action="#{facturaSesion.generarArchivoFactura('pdf')}"  class=" m-2 btn btn-sm btn-dark" value=".pdf"></h:commandButton>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col text-center">
+                                        <h:commandButton action="#{facturaSesion.generarArchivoFactura('pdf')}"  class="btn btn-dark btn-lg" value="Descargar factura en .pdf"></h:commandButton>
+                                    </div>
+                                </div>
+                            </div>
+                            
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>

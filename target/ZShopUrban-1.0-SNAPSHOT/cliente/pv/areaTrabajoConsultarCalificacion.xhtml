@@ -9,7 +9,7 @@
     <ui:composition>
 
         <p:growl id="growl" life="3000"/>
-        <div class="card container mt-3 mb-3" style="max-width: 55rem;" id="carta">
+        <div class="card container mt-3 mb-3"  id="carta">
             <div class="row">
                 <div class="col">
                     <div class="card-body">
@@ -19,16 +19,28 @@
                             <p:dataTable id="tabla" emptyMessage="Ninguna calificación registrada" value="#{calificacionSesion.calificaciones}" 
                                          var="c" paginator="true"  rows="15" rowSelectMode="add" paginatorPosition="bottom"
                                          >
-
-                                <p:column headerText="Calificación" filterBy="#{c.idCalificacion}" filterMatchMode="contains" >
-                                    <h:outputText value="#{c.idCalificacion}"  /> 
+                                
+                                <p:column headerText="Fecha" filterBy="#{c.citaTerminada.fechaCita}" filterMatchMode="contains" >
+                                    <h:outputText value="#{c.citaTerminada.fechaCita}"  >
+                                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss"/>
+                                    </h:outputText>
+                                </p:column>
+                                
+                                <p:column headerText="Puntaje" >
+                                    <p:rating readonly="true" value="#{c.puntaje}"/>
+                                </p:column>
+                                
+                                <p:column headerText="Servicios"> 
+                                    <ui:repeat value="#{c.citaTerminada.servicioCollection}" var="servicios">
+                                        <h:outputText value="#{servicios.toString()}" /><br/>
+                                    </ui:repeat>
+                                </p:column>
+                                
+                                <p:column headerText="Barbero" filterBy="#{c.citaTerminada.idBarbero.nombre} #{c.citaTerminada.idBarbero.apellido}" filterMatchMode="contains"  >
+                                    <h:outputText value="#{c.citaTerminada.idBarbero.nombre} #{c.citaTerminada.idBarbero.apellido}"/>
                                 </p:column>
 
-                                <p:column headerText="Puntaje" filterBy="#{c.puntaje}" filterMatchMode="contains" >
-                                    <h:outputText value="#{c.puntaje}"/>
-                                </p:column>
-
-                                <p:column headerText="Comentario" filterBy="#{c.comentario}" filterMatchMode="contains" >
+                                <p:column headerText="Comentario" >
                                     <h:outputText value="#{c.comentario}"  /> 
                                 </p:column>
 
@@ -44,9 +56,6 @@
 
                                 </p:column>
 
-                                <p:column headerText=" " exportable="false" >
-                                    <h:commandLink class="btn btn-danger rounded-pill" action="#{calificacionSesion.eliminarCalificacion(c)}" value="Eliminar"/>
-                                </p:column>
                             </p:dataTable> 
                         </h:form>
                     </div>
@@ -58,7 +67,7 @@
             <div class="modal-dialog text-dark">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Actualizar bodega</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Actualizar calificación</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -67,15 +76,15 @@
                         <div class="modal-body">
                             <h:outputLabel class="card-text font-weight-bold" value="Puntaje" for="puntaje" />
                             <br/>
-                            <p:rating id="puntaje" value="#{calificacionSesion.cal.puntaje}"/>
+                            <p:rating id="puntaje" value="#{calificacionSesion.calTemporal.puntaje}"/>
                             <br/>
                             <h:outputLabel class="card-text font-weight-bold" value="Comentario" for="comentario" />
                             <br/>
-                            <h:inputText class="form-control" id="comentario" value="#{calificacionSesion.cal.comentario}" html5:placeholder="Escribe un comentario" />
+                            <h:inputText class="form-control" id="comentario" value="#{calificacionSesion.calTemporal.comentario}" html5:placeholder="Escribe un comentario" />
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <h:commandButton action="#{bodegaSesion.editarBodega()}" class="btn btn-primary" value="Editar">
+                            <h:commandButton action="#{calificacionSesion.editarCalificacion()}" class="btn btn-primary" value="Editar">
                             </h:commandButton>
                         </div>
                     </h:form>

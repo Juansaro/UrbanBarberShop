@@ -285,16 +285,12 @@ public class UsuarioSesion implements Serializable {
 
     public void editarCliente() {
         try {
-            //usuTemporal sirve para el ciclo de vida de SOLO la edición
-            //Estructura FK'S
-            this.usuLog.setCiudadNumeroCiudad(ciudad);
-            this.usuLog.setTipoRolNumeroRol(tipoRol);
-            this.usuLog.setTipoIdentificacionIdTipoIdentificacion(tipoIdentificacion);
-            this.usuLog.setTipoTelefonoNumeroTipoTelefono(tipoTelefono);
+            usuLog.setCiudadNumeroCiudad(ciudad);
+            usuLog.setTipoIdentificacionIdTipoIdentificacion(tipoIdentificacion);
+            usuLog.setTipoTelefonoNumeroTipoTelefono(tipoTelefono);
             //El parámetro que usea para editar es usuTemporal
             usuarioFacadeLocal.edit(usuLog);
-
-            usuarios = usuarioFacadeLocal.findAll();
+            ciudad = new Ciudad();
             //Mensaje
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario modificado", "Usuario modificado"));
         } catch (Exception e) {

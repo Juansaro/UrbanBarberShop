@@ -19,11 +19,7 @@
                             <p:dataTable id="tabla" emptyMessage="Ninguna cita encontrada" value="#{citaSesion.leerCitasCompletadas()}" 
                                          var="item" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
                                          >
-
-                                <p:column headerText="Numero de cita" >
-                                    <h:outputText value="#{item.idCita}"  /> 
-                                </p:column>
-
+                                
                                 <p:column headerText="Fecha de la cita" filterBy="#{item.fechaCita}" filterMatchMode="contains" >
                                     <h:outputText value="#{item.fechaCita}"  >
                                         <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss"/>

@@ -9,7 +9,7 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:composition>
         <p:growl id="growl" life="3000"/>
-        <div class="card container mt-3 mb-3" style="max-width: 55rem;" id="carta">
+        <div class="card container mt-3 mb-3" style="max-width: 70rem;" id="carta">
             <div class="row">
                 <div class="col">
                     <div class="card-body">
@@ -20,11 +20,7 @@
                                          var="item" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
                                          >
 
-                                <p:column headerText="Número del despacho" filterBy="#{item.idDespacho}" filterMatchMode="contains" >
-                                    <h:outputText value="#{item.idDespacho}"  /> 
-                                </p:column>
-
-                                <p:column headerText="fecha" >
+                                <p:column headerText="Fecha despacho" >
                                     <h:outputText value="#{item.fechaSolicitud}"  >
                                         <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss"/>
                                     </h:outputText>
@@ -35,18 +31,16 @@
                                 </p:column>
 
                                 <p:column headerText=" " exportable="false" >
-
-                                    <h:commandButton class="btn btn-warning rounded-pill"
+                                    <h:commandButton class="btn btn-dark rounded-pill"
                                                      html5:data-toggle="modal"
                                                      html5:data-target="#informacion" 
                                                      action="#{despachoSesion.consultarDetallesRegistrados(item)}" 
-                                                     value="Consultar" >
+                                                     value="Consultar productos" >
                                         <f:ajax render=":formActualizar"> </f:ajax>
                                     </h:commandButton>
                                 </p:column>
 
                                 <p:column headerText=" " exportable="false" >
-
                                     <h:commandLink class="btn btn-danger rounded-pill" action="#{bodegaSesion.eliminarBodega(item)}" value="Eliminar"/>
                                 </p:column>  
                             </p:dataTable>

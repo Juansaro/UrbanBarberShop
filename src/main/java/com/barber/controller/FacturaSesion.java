@@ -8,6 +8,8 @@ package com.barber.controller;
 import com.barber.EJB.CitaFacadeLocal;
 import com.barber.EJB.FacturaFacadeLocal;
 import com.barber.model.Cita;
+import static com.barber.model.Cita_.estadoAsignacionIdEstadoAsignacion;
+import com.barber.model.EstadoAsignacion;
 import com.barber.model.Factura;
 import java.io.File;
 import java.io.IOException;
@@ -60,6 +62,8 @@ public class FacturaSesion implements Serializable{
     private Factura factura;
     @Inject
     private Cita cita;
+    @Inject
+    private EstadoAsignacion estadoFacturado;
     
     private List<Factura> facturas;
     private List<Cita> citas;
@@ -69,6 +73,8 @@ public class FacturaSesion implements Serializable{
     
     @PostConstruct
     public void init(){
+        estadoFacturado = new EstadoAsignacion();
+        estadoFacturado.setIdEstadoAsignacion(6);
         citas = citaFacadeLocal.findAll();
         facturas = facturaFacadeLocal.findAll();
         factura = new Factura();
@@ -77,10 +83,11 @@ public class FacturaSesion implements Serializable{
     //Registrar Factura
     public void registrarFactura(Cita c){
         try {
-            c.setEstadoAsignacionIdEstadoAsignacion(estadoAsignacionIdEstadoAsignacion);
+            c.setEstadoAsignacionIdEstadoAsignacion(estadoFacturado);
             fac.setCitaIdCita(c);
             fac.setCosto(c.getCosto());
             facturaFacadeLocal.create(fac);
+            citaFacadeLocal.edit(c);
             
             facturas = facturaFacadeLocal.findAll();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Factura registrada", "Factura registrada"));
