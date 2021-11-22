@@ -29,8 +29,10 @@
                                     <h:outputText value="#{f.costo}"  /> 
                                 </p:column>
 
-                                <p:column headerText="fecha de la cita:" filterBy="#{f.citaIdCita}" filterMatchMode="contains" >
-                                    <h:outputText value="#{f.citaIdCita}"  /> 
+                                <p:column headerText="fecha de la cita:" filterBy="#{f.citaIdCita.fechaCita}" filterMatchMode="contains" >
+                                    <h:outputText value="#{f.citaIdCita.fechaCita}"  >
+                                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss"/>
+                                    </h:outputText>
                                 </p:column>
 
                                 <p:column headerText=" " exportable="false" >

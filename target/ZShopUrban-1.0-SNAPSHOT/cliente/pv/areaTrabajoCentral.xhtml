@@ -3,17 +3,35 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition>
         <p:growl id="growl" life="3000"/>
         <div class="container text-dark">
             <div class="row pt-4 text-white">
                 <div class="col">
                     <div class="card " id="carta" style="width: 18rem;">
-                        <img src="..." class="card-img-top" alt="..."/>
+                        <h:form enctype="multipart/form-data">
+
+                            <h:graphicImage
+                                height="128px"
+                                width="128px"
+                                class="rounded mx-auto d-block"
+                                id="fotoPerfil"
+                                value="/ImgServlet/#{usuarioSesion.usuLog.usuFoto}">
+                            </h:graphicImage>
+
+                            <h:inputFile value="#{usuarioSesion.archivoFoto}" class="btn btn-info" >
+                                <!--Llamado asíncronico-->
+                                <f:ajax listener="#{usuarioSesion.cargarFotoPerfil()}"></f:ajax>
+                            </h:inputFile>
+
+                            <button style="display: none" type="reset" id="resetform" class="btn btn-dark">Reset</button>
+
+                        </h:form>
                         <div class="card-body">
                             <h5 class="card-title">¡Bienvenido!</h5>
-                            <p class="card-text">${nombre}</p>
+                            <p class="card-text">${nombre} ${apellido}</p>
                             <a href="#" class="btn btn-success">Consultar datos</a>
                         </div>
                     </div>

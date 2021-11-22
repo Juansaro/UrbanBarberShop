@@ -25,7 +25,9 @@
                                 </p:column>
 
                                 <p:column headerText="Fecha de la cita" filterBy="#{item.fechaCita}" filterMatchMode="contains" >
-                                    <h:outputText value="#{item.fechaCita}"  /> 
+                                    <h:outputText value="#{item.fechaCita}"  >
+                                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss"/>
+                                    </h:outputText>
                                 </p:column>
 
                                 <p:column headerText="Estado de asignacion" filterBy="#{item.estadoAsignacionIdEstadoAsignacion}" filterMatchMode="contains" >

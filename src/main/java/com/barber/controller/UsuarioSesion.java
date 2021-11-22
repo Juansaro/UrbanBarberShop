@@ -154,7 +154,7 @@ public class UsuarioSesion implements Serializable {
         }
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "El usuario no existe", "El usuario no existe"));
     }
-    
+
     public void validarUsuarioSesion() throws IOException {
         if (usuLog == null || usuLog.getCorreo() == null) {
             FacesContext fc = FacesContext.getCurrentInstance();
@@ -192,7 +192,7 @@ public class UsuarioSesion implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Has cerrado sesión", "Has cerrado sesión"));
         FacesContext.getCurrentInstance().getExternalContext().redirect("../index.xhtml");
     }
-    
+
     //Carga inicial de datos de usuario
     public void cargarInicialDatos() {
         if (archivoCarga != null) {
@@ -215,11 +215,11 @@ public class UsuarioSesion implements Serializable {
                     CSVReader reader = new CSVReaderBuilder(new FileReader("C:\\cdi\\administrador\\archivos\\" + archivoCarga.getSubmittedFileName())).withCSVParser(conPuntoyComa).build();
                     String[] nextline;
                     while ((nextline = reader.readNext()) != null) {
-                        
+
                         Usuario usuObj = usuarioFacadeLocal.validarSiExiste(nextline[3]);
                         if (usuObj == null) {
-                           usuarioFacadeLocal.crearUsuario(nextline[0], nextline[1], nextline[2], nextline[3], Integer.parseInt(nextline[4]), Integer.parseInt(nextline[5]), Integer.parseInt(nextline[6]), nextline[7], Integer.parseInt(nextline[8]), nextline[9]);
-                        } else {             
+                            usuarioFacadeLocal.crearUsuario(nextline[0], nextline[1], nextline[2], nextline[3], Integer.parseInt(nextline[4]), Integer.parseInt(nextline[5]), Integer.parseInt(nextline[6]), nextline[7], Integer.parseInt(nextline[8]), nextline[9]);
+                        } else {
                             usuarioFacadeLocal.edit(usuObj);
                         }
                     }
@@ -255,7 +255,6 @@ public class UsuarioSesion implements Serializable {
 
     }
 
-
     //Recupera datos del usuario al cual se va a editar
     public void guardarTemporal(Usuario u) {
         usuTemporal = u;
@@ -283,7 +282,7 @@ public class UsuarioSesion implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de edición", "Error de edición"));
         }
     }
-    
+
     public void editarCliente() {
         try {
             //usuTemporal sirve para el ciclo de vida de SOLO la edición
@@ -294,20 +293,13 @@ public class UsuarioSesion implements Serializable {
             this.usuLog.setTipoTelefonoNumeroTipoTelefono(tipoTelefono);
             //El parámetro que usea para editar es usuTemporal
             usuarioFacadeLocal.edit(usuLog);
-            
+
             usuarios = usuarioFacadeLocal.findAll();
             //Mensaje
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario modificado", "Usuario modificado"));
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de edición", "Error de edición"));
         }
-    }
-
-    //Preparar página para eliminar
-    public String prepararEliminar() {
-        usuario = new Usuario();
-
-        return "/.xhtml";
     }
 
     //Eliminar
@@ -337,8 +329,8 @@ public class UsuarioSesion implements Serializable {
         }
 
     }
-    
-    public void avisoServicios(){
+
+    public void avisoServicios() {
         try {
             correos = usuarioFacadeLocal.leerCorreosClientes();
 
@@ -376,8 +368,9 @@ public class UsuarioSesion implements Serializable {
                     usuarioFacadeLocal.edit(usuLog);
                     //Resetear
                     PrimeFaces.current().executeScript("document.getElementById('resetform').click()");
+                    redireccionIndex(usuLog);
                 } catch (Exception e) {
-                    System.out.println("error");
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de carga", "Error de carga"));
                 }
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "El formato no esta permitido", "El formato no esta permitido"));
@@ -386,7 +379,26 @@ public class UsuarioSesion implements Serializable {
             //Mensaje
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de carga", "Error de carga"));
         }
-        System.out.println("Llegó");
+    }
+
+    private void redireccionIndex(Usuario usuIn) {
+        try {
+            switch (usuLog.getTipoRolNumeroRol().toString()) {
+            case "Recepcionista":
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/recepcionista/index.xhtml");
+                break;
+            case "Cliente":
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/cliente/index.xhtml");
+                break;
+            case "Barbero":
+                FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/barbero/index.xhtml");
+                break;
+            default:
+                break;
+        }
+        } catch (IOException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de redirección", "Error de carga"));
+        }
     }
 
     //Getters y Setters

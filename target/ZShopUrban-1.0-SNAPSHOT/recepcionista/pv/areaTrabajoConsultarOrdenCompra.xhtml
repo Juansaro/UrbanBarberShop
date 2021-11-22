@@ -25,7 +25,9 @@
                                 </p:column>
 
                                 <p:column headerText="fecha" >
-                                    <h:outputText value="#{item.fechaSolicitud}"  /> 
+                                    <h:outputText value="#{item.fechaSolicitud}"  >
+                                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss"/>
+                                    </h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Recepcionista" >
