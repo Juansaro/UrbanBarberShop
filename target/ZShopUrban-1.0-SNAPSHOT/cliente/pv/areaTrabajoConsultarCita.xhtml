@@ -11,12 +11,12 @@
             <div class="row">
                 <div class="col">
                     <div class="card-body">
-                        <h5 class="card-title font-weight-bold text-white">Lista de citas:</h5>
+                        <h5 class="card-title font-weight-bold text-white">Estado de citas:</h5>
                         <br/>
 
                         <h:form id="frmPrincipal">
                             <p:growl id="growl" life="3000"/>
-                            <p:dataTable id="tabla" emptyMessage="Ninguna cita registrada" value="#{citaSesion.leerTodos()}" 
+                            <p:dataTable id="tabla" emptyMessage="Ninguna cita registrada" value="#{citaSesion.leerCitasEspera()}" 
                                          var="item" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
                                          >
                                 
@@ -40,10 +40,13 @@
                                     </ui:repeat>
                                 </p:column>
 
+                                <p:column headerText="Costo">
+                                    <h:outputText value="#{item.costo}"/>
+                                </p:column>
 
                                 <p:column headerText=" " exportable="false" >
 
-                                    <h:commandLink class="btn btn-danger rounded-pill" action="#{citaSesion.eliminarCita(item)}" value="Eliminar"/>
+                                    <h:commandLink class="btn btn-danger rounded-pill" action="#{citaSesion.eliminarCitaCliente(item)}" value="Cancelar"/>
 
                                 </p:column>  
 

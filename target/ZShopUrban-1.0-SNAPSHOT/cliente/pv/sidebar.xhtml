@@ -17,8 +17,6 @@
                             </h:link>
                         </li>
                         <a href="#pageSubmenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="calendar"></ion-icon>Citas</a>
-                        <!--Primero un <a> del título del elemento padre y luego el <ul> con los elementos hijos-->
-                        <!--Se debe enlazar el href del padre con el <ul> (ID)-->
                         <ul class="collapse list-unstyled" id="pageSubmenu1">
                             <li>
                                 <h:link outcome="agendarCita">
@@ -27,7 +25,12 @@
                             </li>
                             <li>
                                 <h:link outcome="consultarCita">
-                                    <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Ver estado de citas</b>
+                                    <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Citas en espera</b>
+                                </h:link>
+                            </li>
+                            <li>
+                                <h:link outcome="consultarCitasAgendadas">
+                                    <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Citas agendadas</b>
                                 </h:link>
                             </li>
                         </ul>
@@ -35,8 +38,25 @@
                     <!--Elemento-->
 
                     <li>
-                        <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="create"></ion-icon>Servicios</a>
+                        <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="create"></ion-icon>Fidelización</a>
                         <ul class="collapse list-unstyled" id="pageSubmenu2">
+                            <li>
+                                <h:link outcome="registrarCalificacion">
+                                    <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Registrar calificación</b>
+                                </h:link>
+                            </li>
+                            <li>
+                                <h:link outcome="consultarCalificacion">
+                                    <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar calificación</b>
+                                </h:link>
+                            </li>
+                        </ul>
+                    </li>
+                    <!--Elemento-->
+
+                    <li>
+                        <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="create"></ion-icon>Servicios</a>
+                        <ul class="collapse list-unstyled" id="pageSubmenu3">
                             <li>
                                 <h:link outcome="consultarServicio">
                                     <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar servicios</b>
@@ -46,17 +66,11 @@
                     </li>
                     <!--Elemento-->
                     <li>
-                        <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="receipt"></ion-icon>Facturas</a>
-                        <ul class="collapse list-unstyled" id="pageSubmenu3">
+                        <a href="#pageSubmenu4" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="receipt"></ion-icon>Facturas</a>
+                        <ul class="collapse list-unstyled" id="pageSubmenu4">
                             <li>
                                 <h:link outcome="consultarFactura">
                                     <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar facturas</b>
-                                </h:link>
-                                <h:link outcome="registrarCalificacion">
-                                    <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Registrar calificación</b>
-                                </h:link>
-                                <h:link outcome="consultarCalificacion">
-                                    <b class="list-group-item list-group-item-action text-white bg-dark pl-5" id="opciones">Consultar calificación</b>
                                 </h:link>
                             </li>
                         </ul>
@@ -65,7 +79,7 @@
                     <li>
                         <li>
                             <h:link outcome="modificarDatosCliente">
-                                    <b class="list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="home"></ion-icon>Modificar datos usuario</b>
+                                <b class="list-group-item list-group-item-action text-white bg-dark" id="opciones"><ion-icon class="pr-2" name="home"></ion-icon>Modificar datos usuario</b>
                             </h:link>
                         </li>
                     </li>

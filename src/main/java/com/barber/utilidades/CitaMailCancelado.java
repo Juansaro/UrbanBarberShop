@@ -44,7 +44,7 @@ public class CitaMailCancelado {
             MimeMessage mensage = new MimeMessage(session);
             mensage.setFrom(new InternetAddress(usuario));
             mensage.addRecipient(Message.RecipientType.TO, new InternetAddress(correoPara));
-            mensage.setSubject("Hola " +nombre + " Tu cita ha cido cancelada por nuestro recepcionista.");
+            mensage.setSubject("Hola " +nombre + " Tu cita ha cido cancelada.");
             mensage.setContent("<center> "
                     + "<img src='https://thumbs.dreamstime.com/b/protecci%C3%B3n-de-la-clave-de-la-seguridad-de-la-contrase%C3%B1a-de-los-datos-de-usuario-79323179.jpg' width='200px' height='200px' >"
                     + "</center>"

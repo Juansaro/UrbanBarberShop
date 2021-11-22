@@ -41,6 +41,8 @@ public class CalificacionSesion implements Serializable {
     private EstadoAsignacion asignacionTemporal;
     @Inject
     private EstadoAsignacion asignacionCompletado;
+    @Inject
+    private UsuarioSesion usuSesion;
 
     private Cita citaTemporal;
 
@@ -110,6 +112,10 @@ public class CalificacionSesion implements Serializable {
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error de eliminación", "Error de eliminación"));
         }
+    }
+    
+    public List<Calificacion> leerCalificacionCliente(){
+        return calificacionFacadeLocal.leerCalificacionesCliente(usuSesion.getUsuLog());
     }
 
     public Calificacion getCalificacion() {

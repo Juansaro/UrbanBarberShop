@@ -16,7 +16,7 @@
                         <h5 class="card-title font-weight-bold text-white">Consultar Fidelización</h5>
                         <br/>
                         <h:form id="frmPrincipal">
-                            <p:dataTable id="tabla" emptyMessage="Ninguna calificación registrada" value="#{calificacionSesion.calificaciones}" 
+                            <p:dataTable id="tabla" emptyMessage="Ninguna calificación registrada" value="#{calificacionSesion.leerCalificacionCliente()}" 
                                          var="c" paginator="true"  rows="15" rowSelectMode="add" paginatorPosition="bottom"
                                          >
                                 

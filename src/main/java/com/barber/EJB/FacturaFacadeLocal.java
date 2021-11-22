@@ -6,6 +6,7 @@
 package com.barber.EJB;
 
 import com.barber.model.Factura;
+import com.barber.model.Usuario;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -29,5 +30,7 @@ public interface FacturaFacadeLocal {
     List<Factura> findRange(int[] range);
 
     int count();
+
+    public List<Factura> leerFacturasCliente(Usuario clienteIn);
     
 }

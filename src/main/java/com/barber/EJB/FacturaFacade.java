@@ -7,6 +7,7 @@ package com.barber.EJB;
 
 import com.barber.model.Cita;
 import com.barber.model.Factura;
+import com.barber.model.Usuario;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -32,14 +33,16 @@ public class FacturaFacade extends AbstractFacade<Factura> implements FacturaFac
         super(Factura.class);
     }
     
-    //@Override
-    public List encontrarUsuarioCorreo(int idCita){
-        em.createNamedStoredProcedureQuery("");
-        
-        
-        
-        return null;
-        
+    @Override
+    public List<Factura> leerFacturasCliente(Usuario clienteIn) {
+        try {
+            em.getEntityManagerFactory().getCache().evictAll();
+            Query qt = em.createQuery("SELECT f FROM Factura f WHERE f.citaIdCita.idCliente = :usu_cliente");
+            qt.setParameter("usu_cliente", clienteIn);
+            return qt.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
     }
     
 }

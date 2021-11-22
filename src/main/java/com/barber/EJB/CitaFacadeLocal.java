@@ -65,4 +65,8 @@ public interface CitaFacadeLocal {
 
     public boolean calificarCita(int fk_idCita);
 
+    public List<Cita> leerCitasAgendado(Usuario clienteIn, EstadoAsignacion estadoAgenda);
+
+    public List<Cita> leerCitasEspera(Usuario clienteIn, EstadoAsignacion estadoEspera);
+
 }

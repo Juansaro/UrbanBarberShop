@@ -6,6 +6,7 @@
 package com.barber.EJB;
 
 import com.barber.model.Calificacion;
+import com.barber.model.Usuario;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -31,5 +32,7 @@ public interface CalificacionFacadeLocal {
     int count();
 
     public List<Calificacion> leerTdos();
+
+    public List<Calificacion> leerCalificacionesCliente(Usuario clienteIn);
     
 }

@@ -8,22 +8,18 @@
       xmlns:html5="http://xmlns.jcp.org/jsf/passthrough">
     <ui:composition>
         <p:growl id="growl" life="3000"/>
-        <div class="card container mt-3 mb-3" style="max-width: 55rem;" id="carta">
+        <div class="card container mt-3 mb-3" style="max-width: 70rem;" id="carta">
             <div class="row">
                 <div class="col">
                     <div class="card-body">
-                        <h5 class="card-title font-weight-bold text-white">Asignar agenda</h5>
+                        <h5 class="card-title font-weight-bold text-white">Citas pendientes</h5>
                         <hr class="bg-white"/>
                         <h:form id="frmPrincipal">
                             <p:growl id="growl" life="3000"/>
                             <p:dataTable id="tabla" emptyMessage="Ninguna cita en espera" value="#{citaSesion.leerClientes()}" 
                                          var="item" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
                                          >
-
-                                <p:column headerText="Numero de cita" >
-                                    <h:outputText value="#{item.idCita}"  /> 
-                                </p:column>
-
+                                
                                 <p:column headerText="Fecha de la cita" filterBy="#{item.fechaCita}" filterMatchMode="contains" >
                                     <h:outputText value="#{item.fechaCita}"  >
                                         <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss"/>

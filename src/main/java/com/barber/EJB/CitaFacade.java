@@ -62,6 +62,32 @@ public class CitaFacade extends AbstractFacade<Cita> implements CitaFacadeLocal 
             return null;
         }
     }
+    
+    @Override
+    public List<Cita> leerCitasAgendado(Usuario clienteIn, EstadoAsignacion estadoAgenda) {
+        try {
+            em.getEntityManagerFactory().getCache().evictAll();
+            Query qt = em.createQuery("SELECT c FROM Cita c WHERE c.idCliente = :usu_cliente AND c.estadoAsignacionIdEstadoAsignacion = :agenda");
+            qt.setParameter("usu_cliente", clienteIn);
+            qt.setParameter("agenda", estadoAgenda);
+            return qt.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+    @Override
+    public List<Cita> leerCitasEspera(Usuario clienteIn, EstadoAsignacion estadoEspera) {
+        try {
+            em.getEntityManagerFactory().getCache().evictAll();
+            Query qt = em.createQuery("SELECT c FROM Cita c WHERE c.idCliente = :usu_cliente AND c.estadoAsignacionIdEstadoAsignacion = :espera");
+            qt.setParameter("usu_cliente", clienteIn);
+            qt.setParameter("espera", estadoEspera);
+            return qt.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
     @Override
     public boolean removerServicioCita(int fk_cita) {

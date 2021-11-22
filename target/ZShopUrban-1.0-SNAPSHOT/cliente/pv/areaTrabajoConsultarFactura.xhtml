@@ -13,7 +13,7 @@
                     <div class="card-body">
                         <h5 class="card-title font-weight-bold text-white">Consultar facturas</h5>
                         <hr class="bg-white"/>
-                        <p:dataTable id="tabla" emptyMessage="Ninguna factura registrada" value="#{facturaSesion.facturas}" 
+                        <p:dataTable id="tabla" emptyMessage="Ninguna factura registrada" value="#{facturaSesion.leerFacturasCliente()}" 
                                      var="f" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
                                      >
 

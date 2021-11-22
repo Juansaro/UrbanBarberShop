@@ -290,7 +290,7 @@
                             <br/>
                             <h:outputLabel value="Contrasena:" for="contrasena" />
                             <br/>
-                            <h:inputText id="contrasena" value="#{usuarioSesion.usuReg.contrasena}" required="true" html5:placeholder="contraseña" class="form-control"/>
+                            <h:inputSecret id="contrasena" value="#{usuarioSesion.usuReg.contrasena}" required="true" html5:placeholder="contraseña" class="form-control"/>
                             <br/>
                             <h:outputLabel value="Ciudad:" for="tipoIdentificacionIdTipoIdentificacion" />
                             <h:selectOneMenu class="form-control" id="tipoIdentificacionIdTipoIdentificacion" value="#{usuarioSesion.ciudad.numeroCiudad}" required="true" >

@@ -64,6 +64,8 @@ public class FacturaSesion implements Serializable{
     private Cita cita;
     @Inject
     private EstadoAsignacion estadoFacturado;
+    @Inject
+    private UsuarioSesion usu;
     
     private List<Factura> facturas;
     private List<Cita> citas;
@@ -206,6 +208,9 @@ public class FacturaSesion implements Serializable{
 
     }
 
+    public List<Factura> leerFacturasCliente(){
+        return facturaFacadeLocal.leerFacturasCliente(usu.getUsuLog());
+    }
 
     public Factura getFactura() {
         return factura;

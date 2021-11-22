@@ -15,7 +15,9 @@ import com.barber.model.Servicio;
 import com.barber.model.Usuario;
 import com.barber.utilidades.CitaMail;
 import com.barber.utilidades.CitaMailAgendado;
+import com.barber.utilidades.CitaMailBarbero;
 import com.barber.utilidades.CitaMailCancelado;
+import com.barber.utilidades.CitaMailCanceladoBarbero;
 import com.barber.utilidades.CitaMailCompletado;
 import com.barber.utilidades.CitaMailEspera;
 import java.io.IOException;
@@ -64,7 +66,7 @@ public class CitaSesion implements Serializable {
     @Inject
     private EstadoAsignacion estadoAsignacion;
     @Inject
-    private EstadoAsignacion asignacionTemporal;
+    private EstadoAsignacion asignacionEspera;
     @Inject
     private EstadoAsignacion asignacionAgendada;
     @Inject
@@ -96,11 +98,11 @@ public class CitaSesion implements Serializable {
     @PostConstruct
     public void init() {
         cit = new Cita();
-        asignacionTemporal = new EstadoAsignacion();
+        asignacionEspera = new EstadoAsignacion();
         asignacionAgendada = new EstadoAsignacion();
         asignacionCompletada = new EstadoAsignacion();
         citTemporal = new Cita();
-        asignacionTemporal.setIdEstadoAsignacion(1);
+        asignacionEspera.setIdEstadoAsignacion(1);
         asignacionAgendada.setIdEstadoAsignacion(2);
         asignacionCompletada.setIdEstadoAsignacion(4);
         citas = citaFacadeLocal.findAll();
@@ -166,7 +168,6 @@ public class CitaSesion implements Serializable {
                     if (listaServiciosEspera.isEmpty()) {
                         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "No tienes ningun servicio seleccionado", "No tienes ningun servicio seleccionado"));
                     } else {
-                        //List<Servicio> servicios = new List<Servicio>;
                         this.cit.setEstadoAsignacionIdEstadoAsignacion(est.citaEspera());
                         //Se establece el usuario logeado con la inyección de dependencias desde el UsuarioSesion -> usuLog
                         this.cit.setIdCliente(usu.getUsuLog());
@@ -181,21 +182,25 @@ public class CitaSesion implements Serializable {
                             servicios = listaServiciosEspera;
                             citaFacadeLocal.registrarCitaServicio(cit.getIdCita(), servicios.get(contador));
                             contador++;
-                            //System.out.println(listaServiciosEspera.get(0) + " " + listaServiciosAgendados.get(1));
-                            //cit.setServicioCollection(listaServiciosEspera);
-                            //citaFacadeLocal.registrarCitaServicio(cit.getIdCita(), listaServiciosEspera.get(1).getIdServicio());
                         }
-
                         //Me permite leer SOLO las citas del cliente logeado
                         citas = citaFacadeLocal.leerTodos(usu.getUsuLog());
                         //Se envian los parámetros del nombre y correo desde el usuLog (Inutil hasta poder mandar la lista de las listas asignadas **)
                         CitaMail.correoCita(
                                 usu.getUsuLog().getNombre(),
                                 usu.getUsuLog().getApellido(),
-                                //cit.getServicioIdServicio().getNombre(),//No funciona así toca con un filtro en la colección de 
                                 usu.getUsuLog().getCorreo(),
                                 cit.getFechaCita()
                         );
+                        /*
+                        CitaMailBarbero.correoCita(
+                                usuario.getNombre(),
+                                usuario.getApellido(),
+                                usu.getUsuLog().getNombre(),
+                                usu.getUsuLog().getApellido(),
+                                usuario.getCorreo(),
+                                cit.getFechaCita()
+                        );*/
                         //Limpieza del arrayList temporal
                         listaServiciosEspera.clear();
                         listaUltimaFecha.clear();
@@ -204,6 +209,8 @@ public class CitaSesion implements Serializable {
                         contador = 0;
                         //Limpieza servicios
                         serTemporal = new Servicio();
+                        usuario = new Usuario();
+                        leerCitasEspera();
                         //Redirección
                         FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/cliente/consultarCita.xhtml");
                         //Mensaje
@@ -213,12 +220,14 @@ public class CitaSesion implements Serializable {
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Ingresaste una fecha anterior u otra mayor a una semana.", "Ingresaste una fecha anterior u otra mayor a una semana."));
                     listaServiciosEspera.clear();
                     listaUltimaFecha.clear();
+                    usuario = new Usuario();
                     this.cit_costototal = 0;
                 }
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Acabaste de agendar una cita, espera media hora.", "Acabaste de agendar una cita, espera media hora."));
                 listaServiciosEspera.clear();
                 listaUltimaFecha.clear();
+                usuario = new Usuario();
                 this.cit_costototal = 0;
             }
         } catch (IOException e) {
@@ -307,14 +316,29 @@ public class CitaSesion implements Serializable {
     }
 
     //Eliminar
-    public void eliminarCita(Cita c) {
+    public void eliminarCitaCliente(Cita c) {
         try {
-            this.citaFacadeLocal.remove(c);
-            this.citaFacadeLocal.removerServicioCita(c.getIdCita());
-            citas = citaFacadeLocal.findAll();
+            citaFacadeLocal.removerServicioCita(c.getIdCita());
+            CitaMailCancelado.correoCita(
+                    c.getIdCliente().getNombre(),
+                    c.getIdCliente().getApellido(),
+                    c.getIdCliente().getCorreo(),
+                    c.getFechaCita()
+            );
+            CitaMailCanceladoBarbero.correoCita(
+                    c.getIdBarbero().getNombre(),
+                    c.getIdBarbero().getApellido(),
+                    c.getIdCliente().getNombre(),
+                    c.getIdCliente().getApellido(),
+                    c.getIdBarbero().getCorreo(),
+                    c.getFechaCita()
+            );
+            citaFacadeLocal.remove(c);
+            leerCitasEspera();
+            leerCitasAgendado();
             FacesContext.getCurrentInstance()
                     .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cita eliminada", "Cita eliminada")
-                    );
+            );
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de eliminación", "Error de eliminación"));
         }
@@ -371,7 +395,7 @@ public class CitaSesion implements Serializable {
     }
     //vista barbero
     public List<Cita> leerClientes() {
-        return citaFacadeLocal.leerClientes(usu.getUsuLog(), asignacionTemporal);
+        return citaFacadeLocal.leerClientes(usu.getUsuLog(), asignacionEspera);
     }
 
     public List<Cita> leerCitasConfirmadas() {
@@ -380,6 +404,14 @@ public class CitaSesion implements Serializable {
 
     public List<Cita> leerCitasCompletadas() {
         return citaFacadeLocal.leerCitaCompletada(asignacionCompletada);
+    }
+    
+    public List<Cita> leerCitasAgendado() {
+        return citaFacadeLocal.leerCitasAgendado(usu.getUsuLog(), asignacionAgendada);
+    }
+    
+    public List<Cita> leerCitasEspera() {
+        return citaFacadeLocal.leerCitasEspera(usu.getUsuLog(), asignacionEspera);
     }
 
     public Cita getCita() {

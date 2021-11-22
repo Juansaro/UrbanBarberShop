@@ -6,6 +6,7 @@
 package com.barber.EJB;
 
 import com.barber.model.Calificacion;
+import com.barber.model.Usuario;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -40,4 +41,17 @@ public class CalificacionFacade extends AbstractFacade<Calificacion> implements 
             return null;
         }
     }
+    
+    @Override
+    public List<Calificacion> leerCalificacionesCliente(Usuario clienteIn) {
+        try {
+            em.getEntityManagerFactory().getCache().evictAll();
+            Query qt = em.createQuery("SELECT c FROM Calificacion c WHERE c.citaTerminada.idCliente = :usu_cliente");
+            qt.setParameter("usu_cliente", clienteIn);
+            return qt.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
 }

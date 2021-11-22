@@ -49,6 +49,7 @@ C:\Users\juan\Documents\NetBeansProjects\prueba\UrbanBarberShop-prueba\UrbanBarb
 C:\Users\juan\Documents\NetBeansProjects\prueba\UrbanBarberShop-prueba\UrbanBarberShop\src\main\java\com\barber\EJB\FacturaFacade.java
 C:\Users\juan\Documents\NetBeansProjects\prueba\UrbanBarberShop-prueba\UrbanBarberShop\src\main\java\com\barber\controller\ServicioView.java
 C:\Users\juan\Documents\NetBeansProjects\prueba\UrbanBarberShop-prueba\UrbanBarberShop\src\main\java\com\barber\EJB\TipoTelefonoFacade.java
+C:\Users\juan\Documents\NetBeansProjects\prueba\UrbanBarberShop-prueba\UrbanBarberShop\src\main\java\com\barber\utilidades\CitaMailBarbero.java
 C:\Users\juan\Documents\NetBeansProjects\prueba\UrbanBarberShop-prueba\UrbanBarberShop\src\main\java\com\barber\EJB\DetalleDespachoFacade.java
 C:\Users\juan\Documents\NetBeansProjects\prueba\UrbanBarberShop-prueba\UrbanBarberShop\src\main\java\com\barber\EJB\TipoRolFacade.java
 C:\Users\juan\Documents\NetBeansProjects\prueba\UrbanBarberShop-prueba\UrbanBarberShop\src\main\java\com\barber\EJB\ServicioFacadeLocal.java
@@ -73,6 +74,7 @@ C:\Users\juan\Documents\NetBeansProjects\prueba\UrbanBarberShop-prueba\UrbanBarb
 C:\Users\juan\Documents\NetBeansProjects\prueba\UrbanBarberShop-prueba\UrbanBarberShop\src\main\java\com\barber\EJB\CitaFacadeLocal.java
 C:\Users\juan\Documents\NetBeansProjects\prueba\UrbanBarberShop-prueba\UrbanBarberShop\src\main\java\com\barber\utilidades\ImgServletServicio.java
 C:\Users\juan\Documents\NetBeansProjects\prueba\UrbanBarberShop-prueba\UrbanBarberShop\src\main\java\com\barber\EJB\TipoIdentificacionFacade.java
+C:\Users\juan\Documents\NetBeansProjects\prueba\UrbanBarberShop-prueba\UrbanBarberShop\src\main\java\com\barber\utilidades\CitaMailCanceladoBarbero.java
 C:\Users\juan\Documents\NetBeansProjects\prueba\UrbanBarberShop-prueba\UrbanBarberShop\src\main\java\com\barber\EJB\TipoIdentificacionFacadeLocal.java
 C:\Users\juan\Documents\NetBeansProjects\prueba\UrbanBarberShop-prueba\UrbanBarberShop\src\main\java\com\barber\EJB\UsuarioFacadeLocal.java
 C:\Users\juan\Documents\NetBeansProjects\prueba\UrbanBarberShop-prueba\UrbanBarberShop\src\main\java\com\barber\controller\DetalleCompraSesion.java

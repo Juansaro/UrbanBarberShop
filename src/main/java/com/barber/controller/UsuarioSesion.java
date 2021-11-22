@@ -166,19 +166,23 @@ public class UsuarioSesion implements Serializable {
     //Registrar usuario
     public void registrarUsuario() {
         try {
-            //Usar esta estructura para las FK
-            this.usuReg.setCiudadNumeroCiudad(ciudad);
-            //Asignación del CLIENTE por inyeccion de despendencia
-            this.usuReg.setTipoRolNumeroRol(r.asignacionRolCliente());
-            this.usuReg.setTipoIdentificacionIdTipoIdentificacion(tipoIdentificacion);
-            this.usuReg.setTipoTelefonoNumeroTipoTelefono(tipoTelefono);
-            //Principal
-            usuarioFacadeLocal.create(usuReg);
-            //Limpiar formulario de registro
-            usuReg = new Usuario();
-            //Encontrar datos
-            usuarios = usuarioFacadeLocal.findAll();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario registrado", "Usuario registrado"));
+            usuTemporal = usuarioFacadeLocal.encontrarUsuarioCorreo(usuReg.getCorreo());
+            if (usuTemporal == null) {
+                //Usar esta estructura para las FK
+                this.usuReg.setCiudadNumeroCiudad(ciudad);
+                //Asignación del CLIENTE por inyeccion de despendencia
+                this.usuReg.setTipoRolNumeroRol(r.asignacionRolCliente());
+                this.usuReg.setTipoIdentificacionIdTipoIdentificacion(tipoIdentificacion);
+                this.usuReg.setTipoTelefonoNumeroTipoTelefono(tipoTelefono);
+                //Principal
+                usuarioFacadeLocal.create(usuReg);
+                //Limpiar formulario de registro
+                usuReg = new Usuario();
+                usuTemporal = new Usuario();
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario registrado", "Usuario registrado"));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Lo sentimos ya está registrado ese correo", "Lo sentimos pero está registrado ese correo"));
+            }
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al registrar usuario", "Error al registrar usuario"));
         }
@@ -380,18 +384,18 @@ public class UsuarioSesion implements Serializable {
     private void redireccionIndex(Usuario usuIn) {
         try {
             switch (usuLog.getTipoRolNumeroRol().toString()) {
-            case "Recepcionista":
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/recepcionista/index.xhtml");
-                break;
-            case "Cliente":
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/cliente/index.xhtml");
-                break;
-            case "Barbero":
-                FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/barbero/index.xhtml");
-                break;
-            default:
-                break;
-        }
+                case "Recepcionista":
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/recepcionista/index.xhtml");
+                    break;
+                case "Cliente":
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/cliente/index.xhtml");
+                    break;
+                case "Barbero":
+                    FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/barbero/index.xhtml");
+                    break;
+                default:
+                    break;
+            }
         } catch (IOException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de redirección", "Error de carga"));
         }
