@@ -130,18 +130,18 @@ public class UsuarioSesion implements Serializable {
                     switch (usuLog.getTipoRolNumeroRol().toString()) {
                         case "Recepcionista":
                             FacesContext fc = FacesContext.getCurrentInstance();
-                            //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Bienvenido!", "Bienvenido!"));
                             fc.getExternalContext().redirect("/UrbanBarberShop/faces/recepcionista/index.xhtml");
-                            break;
+                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Bienvenido!", "Bienvenido!"));
+                            ;
                         case "Cliente":
                             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("correo", usuLog);
-                            //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Bienvenido!", "Bienvenido!"));
                             FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/cliente/index.xhtml");
+                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Bienvenido!", "Bienvenido!"));
                             break;
                         case "Barbero":
                             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("correo", usuLog);
-                            //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Bienvenido!", "Bienvenido!"));
                             FacesContext.getCurrentInstance().getExternalContext().redirect("/UrbanBarberShop/faces/barbero/index.xhtml");
+                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Bienvenido!", "Bienvenido!"));
                             break;
                         default:
                             break;

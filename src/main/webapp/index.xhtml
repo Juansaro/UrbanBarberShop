@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:html5="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Urban barber shop</title>
-        <h:outputStylesheet name="css/jsfcrud.css"/>
         <meta charset="utf-8"></meta>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"></meta>
         <meta name="description" content=""></meta>
@@ -20,7 +20,7 @@
         <h:outputStylesheet library="CSS" name="blog.css"></h:outputStylesheet>
     </h:head>
     <h:body>
-
+        <p:growl id="growl" life="3000"/>
         <div class="container">
             <header class="blog-header py-3">
                 <div class="row flex-nowrap justify-content-between align-items-center">
@@ -35,22 +35,13 @@
                         <a class="blog-header-logo text-white" href="#">Urban Barber Shop</a>
                     </div>
                     <div class="col-4 d-flex justify-content-end align-items-center">
-                        <a class="text-muted" href="#" aria-label="Search">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor"
-                                 stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img"
-                                 viewBox="0 0 24 24" focusable="false">
-                                <title>Search</title>
-                                <h:outputStylesheet name="css/jsfcrud.css"/>
-                                <circle cx="10.5" cy="10.5" r="7.5" />
-                                <path d="M21 21l-5.2-5.2" />
-                            </svg>
-                        </a>
+                        
 
-                        <h:link >
+                    
                             <div class="lang btn btn-sm btn-outline-danger" style="cursor: pointer;" 
                                  key="registrarse"><a  data-toggle="modal" data-target="#exampleModal1" href="#">Registrarse</a>
                             </div>
-                        </h:link>
+               
                         <br />
 
                     </div>
