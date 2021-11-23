@@ -54,4 +54,16 @@ public class CalificacionFacade extends AbstractFacade<Calificacion> implements 
         }
     }
     
+    @Override
+    public List<Calificacion> leerCalificacionesBarbero(Usuario barberoIn) {
+        try {
+            em.getEntityManagerFactory().getCache().evictAll();
+            Query qt = em.createQuery("SELECT c FROM Calificacion c WHERE c.citaTerminada.idBarbero = :usu_barbero");
+            qt.setParameter("usu_barbero", barberoIn);
+            return qt.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
 }

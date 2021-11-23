@@ -34,5 +34,7 @@ public interface CalificacionFacadeLocal {
     public List<Calificacion> leerTdos();
 
     public List<Calificacion> leerCalificacionesCliente(Usuario clienteIn);
+
+    public List<Calificacion> leerCalificacionesBarbero(Usuario barberoIn);
     
 }

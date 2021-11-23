@@ -72,6 +72,8 @@ public class CitaSesion implements Serializable {
     @Inject
     private EstadoAsignacion asignacionCompletada;
     @Inject
+    private EstadoAsignacion asignacionFacurado;
+    @Inject
     private Servicio servicio;
     @Inject
     private Usuario usuario;
@@ -101,10 +103,12 @@ public class CitaSesion implements Serializable {
         asignacionEspera = new EstadoAsignacion();
         asignacionAgendada = new EstadoAsignacion();
         asignacionCompletada = new EstadoAsignacion();
+        asignacionFacurado = new EstadoAsignacion();
         citTemporal = new Cita();
         asignacionEspera.setIdEstadoAsignacion(1);
         asignacionAgendada.setIdEstadoAsignacion(2);
         asignacionCompletada.setIdEstadoAsignacion(4);
+        asignacionFacurado.setIdEstadoAsignacion(6);
         citas = citaFacadeLocal.findAll();
         estadoAsignaciones = estadoAsignacionFacadeLocal.findAll();
         servicios = servicioFacadeLocal.findAll();
@@ -387,7 +391,7 @@ public class CitaSesion implements Serializable {
     }
     //vista cliente
     public List<Cita> leerCitasFidelizacion() {
-        return citaFacadeLocal.leerCitasFidelizacion(usu.getUsuLog(), asignacionCompletada);
+        return citaFacadeLocal.leerCitasFidelizacion(usu.getUsuLog(), asignacionFacurado);
     }
     //vista barbero
     public List<Cita> leerTodos() {

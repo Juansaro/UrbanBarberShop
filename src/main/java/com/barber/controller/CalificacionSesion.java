@@ -117,6 +117,10 @@ public class CalificacionSesion implements Serializable {
     public List<Calificacion> leerCalificacionCliente(){
         return calificacionFacadeLocal.leerCalificacionesCliente(usuSesion.getUsuLog());
     }
+    
+    public List<Calificacion> leerCalificacionBarbero(){
+        return calificacionFacadeLocal.leerCalificacionesBarbero(usuSesion.getUsuLog());
+    }
 
     public Calificacion getCalificacion() {
         return calificacion;
