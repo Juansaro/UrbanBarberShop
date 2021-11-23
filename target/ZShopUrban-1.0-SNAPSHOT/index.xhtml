@@ -25,23 +25,31 @@
             <header class="blog-header py-3">
                 <div class="row flex-nowrap justify-content-between align-items-center">
                     <div class="col-4 pt-1">
-                        <h:link >
-                            <div class="lang btn btn-sm btn-outline-success" style="cursor: pointer;" key="iniciarSesion"><a  data-toggle="modal" data-target="#exampleModal2" href="#">Iniciar sesion</a>
-                            </div>
-                        </h:link>
+
+                        <button 
+                            type="button" 
+                            class="btn btn-dark"
+                            data-toggle="modal" 
+                            data-target="#exampleModal2"
+                            >
+                            Iniciar sesión
+                        </button>
 
                     </div>
                     <div class="col-4 text-center">
                         <a class="blog-header-logo text-white" href="#">Urban Barber Shop</a>
                     </div>
                     <div class="col-4 d-flex justify-content-end align-items-center">
-                        
 
-                    
-                            <div class="lang btn btn-sm btn-outline-danger" style="cursor: pointer;" 
-                                 key="registrarse"><a  data-toggle="modal" data-target="#exampleModal1" href="#">Registrarse</a>
-                            </div>
-               
+                        <button 
+                            type="button" 
+                            class="btn btn-success"
+                            data-toggle="modal" 
+                            data-target="#exampleModal1"
+                            >
+                            Registrarse
+                        </button>
+
                         <br />
 
                     </div>
@@ -51,9 +59,9 @@
             <div class="nav-scroller py-1 mb-2">
                 <nav class="nav d-flex justify-content-between">
                     <a class="lang p-2 text-muted" key="inicio" href="index.html"><b>Inicio</b></a>
-                    
-                        <div class="lang p-2 text-danger" key="servicios" href="servicios.html"><b>Servicios</b></div>
-                    
+
+                    <div class="lang p-2 text-danger" key="servicios" href="servicios.html"><b>Servicios</b></div>
+
                     <a class="lang p-2 text-danger" key="agendarTuCita" href="iniciarsesion.html"><b>Agenda tu cita</b></a>
                     <a class="lang p-2 text-danger" key="nuestroEquipo" href="404.html"><b>Nuestro equipo</b></a>
                     <a class="lang p-2 text-danger" key="contacto" href="contacto.html"><b>Contacto</b></a>
@@ -70,6 +78,7 @@
                         </ol>
                         <div class="carousel-inner">
                             <div class="carousel-item active">
+                                
                                 <img src="resources/img/fondoprueba.jpg" class="d-block w-100" alt="..." width="620px" height="550px"></img>
                                 <div class="carousel-caption d-none d-md-block">
                                     <h3 class="lang display-4 font-italic tex" style="color:#ffffff" key="dondeLosHombres...">Donde los
@@ -251,9 +260,13 @@
                         <br/>
                         <h:inputSecret value="#{usuarioSesion.contrasena}" requiredMessage="Se requiere una clave valido !!"  required="true" html5:placeholder="Clave" class="form-control" />
                         <br/>
-                        <h:commandButton action="#{usuarioSesion.validarUsuario()}" class="btn btn-primary btn-block text-white rounded-pill" value="Ingresar">
-                        </h:commandButton>
-                        <br/>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col text-center">
+                                    <h:commandButton action="#{usuarioSesion.validarUsuario()}" class="btn btn-primary btn-lg btn-block mb-3" value="Ingresar"/>
+                                </div>
+                            </div>
+                        </div>
                     </h:form>
                     <h:link >
                         <div class="lang btn btn-sm btn-outline-success" style="cursor: pointer;" key="recu"><a  data-toggle="modal" data-target="#recuperar" href="#">Recuperar clave</a>
@@ -315,7 +328,7 @@
                             <br/>
                             <h:inputText value="#{usuarioSesion.usuReg.numeroTelefono}" required="true" html5:placeholder="Número telefono" class="form-control"/>
                             <br/>
-                            
+
                             <h:commandLink action="#{usuarioSesion.registrarUsuario()}" class="btn btn-primary btn-lg btn-block text-white rounded-pill" value="Registrar.">
                             </h:commandLink>
                         </div>
@@ -329,7 +342,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Registro</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Recuperar clave</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -338,14 +351,23 @@
 
                         <h:inputText value="#{usuarioSesion.correoIn}" required="true" html5:placeholder="Correo Electronico" class="form-control" />
 
-                        <h:commandButton onclick="Swal.fire({
-                                    position: 'top-end',
-                                    icon: 'info',
-                                    title: 'Enviando correo !!!!',
-                                    showConfirmButton: false,
-                                    timer: 3000
-                                })" action="#{usuarioSesion.recuperarClave()}" class="button" value="Recordar !">
-                        </h:commandButton>
+
+                        <div class="container">
+                            <div class="row">
+                                <div class="col text-center">
+                                    <h:commandButton onclick="Swal.fire({
+                                                    position: 'top-end',
+                                                    icon: 'info',
+                                                    title: 'Enviando correo !!!!',
+                                                    showConfirmButton: false,
+                                                    timer: 3000
+                                                })" action="#{usuarioSesion.recuperarClave()}" class="btn btn-dark btn-lg m-3" value="Recordar!">
+                                    </h:commandButton>
+                                </div>
+                            </div>
+                        </div>
+
+
 
                     </h:form>
                 </div>

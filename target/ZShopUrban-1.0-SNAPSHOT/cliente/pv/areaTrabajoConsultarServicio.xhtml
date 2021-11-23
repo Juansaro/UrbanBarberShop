@@ -13,12 +13,18 @@
                         <hr class="bg-white"/>
                         <h:form id="frmPrincipal">
 
-                            <p:dataTable id="tabla" emptyMessage="Ninguna servicio registrado" value="#{servicioSesion.servicios}" 
+                            <p:dataTable id="tabla" emptyMessage="Ninguna servicio registrado" value="#{servicioView.servicios}" 
                                          var="s" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
                                          >
-
-                                <p:column headerText="id servicio" filterBy="#{s.idServicio}" filterMatchMode="Servicio" >
-                                    <h:outputText value="#{s.idServicio}"  /> 
+                                
+                                <p:column headerText="">
+                                    <p:graphicImage 
+                                        height="100px"
+                                        width="100px"
+                                        class="rounded mx-auto d-block"
+                                        id="fotoPerfil"
+                                        value="/ImgServletServicio/#{s.servicioFoto}"
+                                        />
                                 </p:column>
 
                                 <p:column headerText="Nombre" filterBy="#{s.nombre}" filterMatchMode="Nombre" >

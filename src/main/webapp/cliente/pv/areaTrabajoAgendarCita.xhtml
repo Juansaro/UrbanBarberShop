@@ -11,7 +11,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-4">
-                    <div class="card container mt-3 mb-3" style="max-width: 20rem;" id="carta">
+                    <div class="card container mt-3 mb-3" style="max-width: 30rem;" id="carta">
                         <div class="card-body">
                             <h5 class="card-title font-weight-bold text-white">Agendar cita</h5>
                             <hr class="bg-white"/>
@@ -62,12 +62,18 @@
                                              var="s" paginator="true"  rows="10" rowSelectMode="add" paginatorPosition="bottom"
                                              >
 
-                                    <p:column headerText="Nombre">
-                                        <h:outputText value="#{s.nombre}"  /> 
+                                    <p:column headerText="">
+                                        <p:graphicImage 
+                                            height="70px"
+                                            width="70px"
+                                            class="rounded mx-auto d-block"
+                                            id="fotoPerfil"
+                                            value="/ImgServletServicio/#{s.servicioFoto}"
+                                            />
                                     </p:column>
 
-                                    <p:column headerText="Descripción" >
-                                        <h:outputText value="#{s.descripcion}"  /> 
+                                    <p:column headerText="Servicio">
+                                        <h:outputText value="#{s.nombre}"  /> 
                                     </p:column>
 
                                     <p:column headerText="Costo" >
@@ -95,7 +101,7 @@
         </div>
 
         <div class="modal fade" id="servicios" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog" style="max-width: 60rem;">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Actualizar</h5>
@@ -104,27 +110,48 @@
                         </button>
                     </div>
                     <h:form id="formActualizar">
-                        <div class="modal-body">
+                        <div class="modal-body" >
                             <div class="row">                                
                                 <c:forEach items="#{citaSesion.listaServiciosAgendados}" var="ser" varStatus="act">
-                                    <div class="col-lg-4">
-                                        <h:commandLink
-                                            html5:data-toggle="modal"
-                                            html5:data-target="#exampleModalComprar" 
-                                            action="#{citaSesion.cargaServiciosSolicitados(ser)}">
-                                            <div class="card text-dark">
-                                                <div class="card-header border-0">
-                                                    <h3 class="card-title">#{ser.nombre}</h3>
-                                                </div>
-                                                <div class="card-header border-0">
-                                                    <h3 class="card-title">#{ser.descripcion}</h3>
-                                                </div>
-                                                <div class="card-body">
-                                                    <!--No olvidar colocar foto aquí-->
-                                                    <h6>$#{ser.costo}</h6>
+                                    <div class="col-lg-6">
+
+                                        <div class="card text-dark m-2 shadow-lg">
+
+                                            <p:graphicImage 
+                                                height="200px"
+                                                width="200px"
+                                                class="rounded mx-auto d-block"
+                                                id="fotoPerfil"
+                                                value="/ImgServletServicio/#{ser.servicioFoto}"
+                                                />
+
+                                            <div class="card-header border-0">
+                                                <h3 class="card-title">#{ser.nombre}</h3>
+                                            </div>
+                                            <div class="card-header border-0">
+                                                <h5 class="card-title">#{ser.descripcion}</h5>
+                                            </div>
+                                            <div class="card-body">
+
+                                                <h6>$#{ser.costo}</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="col text-center">
+                                                            <h:commandLink
+                                                                html5:data-toggle="modal"
+                                                                html5:data-target="#exampleModalComprar" 
+                                                                class="btn btn-dark btn-lg btn-block"
+                                                                action="#{citaSesion.cargaServiciosSolicitados(ser)}"
+                                                                value="Elegir servicio"/>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </h:commandLink>
+
+
+                                        </div>
                                     </div>
                                 </c:forEach>
                             </div>
